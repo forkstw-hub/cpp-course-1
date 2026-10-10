@@ -1,0 +1,1716 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C++ 程式入門互動教材</title>
+<style>
+:root{
+  --bg:#f6f7fb; --surface:#ffffff; --text:#1d2433; --muted:#5d6678; --line:#dfe3ec;
+  --accent:#2f6bff; --accent-soft:#e6eeff; --good:#12805c; --good-soft:#dff5ec;
+  --bad:#c0362c; --bad-soft:#fde8e6; --warn:#a15c00; --warn-soft:#fff1d6;
+  --code-bg:#f1f3f9; --term-bg:#12161f; --term-text:#e8ecf5; --term-in:#7fd1ff;
+  --on-accent:#fff;--kw:#b4237a; --str:#0b7a4b; --cm:#68708a; --num:#b35900; --pp:#6b4fd0;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#10131b; --surface:#181c27; --text:#e7eaf2; --muted:#9aa3b8; --line:#2b3243;
+    --accent:#6c9bff; --accent-soft:#1d2a4a; --good:#4ed19f; --good-soft:#12342a;
+    --bad:#ff7d72; --bad-soft:#3a1c1a; --warn:#ffc15a; --warn-soft:#3a2d12;
+    --code-bg:#1e2331; --term-bg:#0a0c12; --term-text:#e8ecf5; --term-in:#7fd1ff;
+    --on-accent:#0b1020;--kw:#ff7ac6; --str:#69e0a8; --cm:#9aa4bb; --num:#ffb066; --pp:#a99bff;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10131b; --surface:#181c27; --text:#e7eaf2; --muted:#9aa3b8; --line:#2b3243;
+  --accent:#6c9bff; --accent-soft:#1d2a4a; --good:#4ed19f; --good-soft:#12342a;
+  --bad:#ff7d72; --bad-soft:#3a1c1a; --warn:#ffc15a; --warn-soft:#3a2d12;
+  --code-bg:#1e2331; --term-bg:#0a0c12; --term-text:#e8ecf5; --term-in:#7fd1ff;
+  --on-accent:#0b1020;--kw:#ff7ac6; --str:#69e0a8; --cm:#7e889f; --num:#ffb066; --pp:#a99bff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:"Noto Sans TC","Microsoft JhengHei","PingFang TC",system-ui,sans-serif;font-size:17px;line-height:1.75}
+code,pre,textarea,.mono{font-family:"Cascadia Mono",Consolas,"Courier New",monospace}
+code{background:var(--code-bg);padding:.08em .4em;border-radius:5px;font-size:.92em}
+button{font:inherit;cursor:pointer}
+h1,h2,h3{line-height:1.35}
+
+/* layout */
+.app{display:flex;min-height:100vh}
+.side{width:268px;flex:none;background:var(--surface);border-right:1px solid var(--line);
+  position:sticky;top:0;height:100vh;overflow:auto;padding:18px 14px}
+.brand{font-weight:800;font-size:1.05rem;margin:2px 6px 4px}
+.brand small{display:block;font-weight:500;color:var(--muted);font-size:.8rem}
+.nav{list-style:none;margin:14px 0 0;padding:0}
+.nav button{width:100%;text-align:left;border:0;background:none;color:var(--text);padding:9px 10px;border-radius:10px;
+  display:flex;gap:10px;align-items:flex-start;line-height:1.4}
+.nav button:hover{background:var(--code-bg)}
+.nav button.on{background:var(--accent-soft);color:var(--accent);font-weight:700}
+.nav .no{flex:none;width:26px;height:26px;border-radius:50%;background:var(--code-bg);display:grid;place-items:center;font-size:.8rem;font-weight:700;color:var(--muted)}
+.nav button.on .no{background:var(--accent);color:#fff}
+.nav button.done .no{background:var(--good);color:#fff}
+.nav .src{display:block;font-size:.72rem;color:var(--muted);font-weight:400}
+.sidefoot{margin:16px 6px 0;font-size:.82rem;color:var(--muted)}
+.main{flex:1;min-width:0;padding:28px 24px 80px}
+.wrap{max-width:860px;margin:0 auto}
+.topbar{display:none}
+.lesson{display:none}
+.lesson.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:.0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.lesson>h2{font-size:1.75rem;margin:.2em 0 .1em}
+.lesson .lead{color:var(--muted);margin:0 0 1.2em}
+.tag{display:inline-block;font-size:.78rem;background:var(--accent-soft);color:var(--accent);padding:2px 10px;border-radius:99px;font-weight:700}
+.lesson h3{margin:1.9em 0 .4em;font-size:1.25rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0}
+.note{border-left:4px solid var(--accent);background:var(--accent-soft);padding:10px 16px;border-radius:0 12px 12px 0;margin:14px 0}
+.note.warn{border-color:var(--warn);background:var(--warn-soft)}
+.note.good{border-color:var(--good);background:var(--good-soft)}
+.note b.t{display:block;margin-bottom:2px}
+table.t{display:block;overflow-x:auto;border-collapse:collapse;width:100%;margin:12px 0;background:var(--surface);border-radius:10px;overflow:hidden;font-size:.95rem}
+table.t th,table.t td{border:1px solid var(--line);padding:7px 12px;text-align:left}
+table.t th{background:var(--code-bg)}
+.nextbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:40px;padding-top:20px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--text);padding:8px 16px;border-radius:10px;font-weight:600}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{filter:brightness(1.08);color:var(--on-accent)}
+.btn.done{background:var(--good);border-color:var(--good);color:var(--on-accent)}
+.btn:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* code */
+pre.code{background:var(--code-bg);border:1px solid var(--line);border-radius:12px;padding:12px 16px;overflow:auto;margin:12px 0;font-size:.95rem;line-height:1.6;tab-size:4}
+.hk{color:var(--kw);font-weight:600}.hs{color:var(--str)}.hc{color:var(--cm);font-style:italic}.hn{color:var(--num)}.hp{color:var(--pp)}
+.annot{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:14px;margin:14px 0}
+.annot .src{background:var(--code-bg);border:1px solid var(--line);border-radius:12px;padding:8px 0;font-size:.95rem}
+.annot .ln{padding:2px 16px;cursor:pointer;white-space:pre;border-left:4px solid transparent;font-family:"Cascadia Mono",Consolas,monospace;overflow-x:auto}
+.annot .ln:hover{background:var(--accent-soft)}
+.annot .ln.on{background:var(--accent-soft);border-left-color:var(--accent)}
+.annot .say{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-height:130px;position:sticky;top:12px;align-self:start}
+.annot .say .h{color:var(--muted);font-size:.85rem}
+@media (max-width:760px){.annot{grid-template-columns:1fr}.annot .say{position:static}}
+
+/* playground */
+.pg{background:var(--surface);border:1px solid var(--line);border-radius:16px;margin:18px 0;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.pg-head{display:flex;justify-content:space-between;gap:10px;padding:10px 16px;background:var(--accent-soft);color:var(--accent);font-weight:700;flex-wrap:wrap}
+.pg-head .f{font-weight:500;font-size:.82rem;opacity:.85}
+.pg-task{padding:12px 16px 0}
+.pg-edit{display:flex;margin:12px 16px 0;border:1px solid var(--line);border-radius:10px;background:var(--code-bg);overflow:hidden}
+.pg-edit .gut{padding:10px 8px 10px 10px;text-align:right;color:var(--cm);user-select:none;font-size:.9rem;line-height:1.55;white-space:pre;overflow:hidden;border-right:1px solid var(--line)}
+.pg-edit textarea{flex:1;border:0;background:transparent;color:var(--text);padding:10px 12px;font-size:.9rem;line-height:1.55;resize:vertical;min-height:120px;white-space:pre;overflow:auto;tab-size:4}
+.pg-in{margin:10px 16px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:.9rem;color:var(--muted)}
+.pg-in input{flex:1;min-width:160px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);font-family:inherit;font-size:.95rem}
+.pg-btns{display:flex;gap:8px;padding:12px 16px;flex-wrap:wrap}
+.pg-btns .btn{padding:7px 14px;font-size:.92rem}
+.pg-msgs{padding:0 16px}
+.msg{border-radius:10px;padding:8px 12px;margin:0 0 8px;font-size:.93rem}
+.msg.err{background:var(--bad-soft);color:var(--bad);border:1px solid var(--bad)}
+.msg.warn{background:var(--warn-soft);color:var(--warn)}
+.msg.info{background:var(--accent-soft);color:var(--accent)}
+.msg.ok{background:var(--good-soft);color:var(--good);border:1px solid var(--good)}
+.term{margin:0 16px 14px;background:var(--term-bg);color:var(--term-text);border-radius:10px;padding:12px 14px;min-height:54px;font-size:.92rem;line-height:1.55;white-space:pre-wrap;word-break:break-all}
+.term .in{color:var(--term-in)}
+.term .ph{color:#7a8296}
+.term.mini{margin:8px 0 0;min-height:40px;font-size:.85rem}
+.tests{padding:0 16px 14px}
+.tcase{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;font-size:.9rem}
+.tcase.pass{border-color:var(--good);background:var(--good-soft)}
+.tcase.fail{border-color:var(--bad);background:var(--bad-soft)}
+.tcase pre{margin:4px 0 0;white-space:pre-wrap;font-size:.85rem}
+.stepper{margin:0 16px 14px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.stp-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
+@media (max-width:760px){.stp-grid{grid-template-columns:1fr}}
+.stp-code{background:var(--code-bg);padding:8px 0;font-size:.88rem;overflow:auto;max-height:420px}
+.sl{display:flex;gap:10px;padding:1px 12px 1px 8px;white-space:pre;font-family:"Cascadia Mono",Consolas,monospace;border-left:4px solid transparent}
+.sl i{font-style:normal;color:var(--cm);width:1.6em;text-align:right;flex:none}
+.sl.cur{background:var(--warn-soft);border-left-color:var(--warn)}
+.stp-side{padding:10px 14px;border-left:1px solid var(--line)}
+@media (max-width:760px){.stp-side{border-left:0;border-top:1px solid var(--line)}}
+.stp-note{font-size:.92rem;color:var(--muted);min-height:2.6em}
+.vars{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
+.vbox{min-width:76px;max-width:100%;word-break:break-all;border:2px solid var(--line);border-radius:10px;text-align:center;background:var(--surface);overflow:hidden}
+.vbox .vt{font-size:.7rem;background:var(--code-bg);color:var(--muted)}
+.vbox .vv{font-size:1.2rem;font-weight:700;padding:2px 10px;font-family:"Cascadia Mono",Consolas,monospace}
+.vbox .vn{font-size:.82rem;background:var(--accent-soft);color:var(--accent);font-weight:700;font-family:"Cascadia Mono",Consolas,monospace}
+.vbox.chg{border-color:var(--warn);animation:pop .5s}
+.vbox .vv.q{color:var(--muted)}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.15)}100%{transform:scale(1)}}
+.stp-ctl{display:flex;gap:8px;align-items:center;padding:8px 12px;border-top:1px solid var(--line);flex-wrap:wrap;background:var(--surface)}
+.stp-ctl .btn{padding:4px 12px}
+.stp-ctl .pos{color:var(--muted);font-size:.9rem;margin:0 6px}
+
+/* quiz */
+.quiz{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:16px 0}
+.quiz .q{font-weight:700;margin-bottom:6px}
+.quiz .q:before{content:"❓ "}
+.quiz ol{list-style:none;margin:8px 0;padding:0;display:grid;gap:8px}
+.quiz li{border:1.5px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer;display:flex;gap:10px;align-items:flex-start;background:var(--surface)}
+.quiz li:hover{border-color:var(--accent);background:var(--accent-soft)}
+.quiz li .k{flex:none;font-weight:800;color:var(--muted);font-family:"Cascadia Mono",Consolas,monospace}
+.quiz li.wrong{border-color:var(--bad);background:var(--bad-soft);cursor:default}
+.quiz li.right{border-color:var(--good);background:var(--good-soft);cursor:default}
+.quiz.solved li:not(.right){opacity:.55;cursor:default}
+.quiz .exp{display:none;margin-top:8px;padding:10px 14px;border-radius:10px;background:var(--good-soft);color:var(--text)}
+.quiz.solved .exp{display:block}
+.quiz .fb{min-height:1.4em;font-size:.9rem;color:var(--bad)}
+.quiz pre.code{margin:6px 0}
+.score{font-size:1.1rem;font-weight:800;padding:12px 18px;border-radius:12px;background:var(--accent-soft);color:var(--accent)}
+
+/* widgets */
+.wd{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:18px 0}
+.wd h4{margin:0 0 8px;font-size:1.02rem}
+.wd .row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.wd input[type=number]{width:90px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);font:inherit}
+.wd input[type=range]{flex:1;min-width:120px;accent-color:var(--accent)}
+.bigbox{display:flex;gap:18px;flex-wrap:wrap;margin:12px 0}
+.bb{width:104px;text-align:center;border:3px solid var(--accent);border-radius:14px;overflow:hidden;background:var(--surface)}
+.bb .n{background:var(--accent);color:#fff;font-weight:800;font-family:"Cascadia Mono",Consolas,monospace}
+.bb .v{font-size:1.7rem;font-weight:800;padding:8px;font-family:"Cascadia Mono",Consolas,monospace}
+.bb.tmp{border-color:var(--warn)}.bb.tmp .n{background:var(--warn)}
+.bb.flash{animation:pop .5s}
+.cmds{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.cmds .btn{font-family:"Cascadia Mono",Consolas,monospace}
+.log{font-family:"Cascadia Mono",Consolas,monospace;background:var(--code-bg);border-radius:10px;padding:8px 12px;min-height:44px;font-size:.92rem}
+.lad{display:grid;gap:6px;margin:10px 0}
+.lad .r{border:1.5px solid var(--line);border-radius:10px;padding:6px 12px;display:flex;justify-content:space-between;gap:10px;font-family:"Cascadia Mono",Consolas,monospace;font-size:.92rem}
+.lad .r.hit{border-color:var(--good);background:var(--good-soft);font-weight:700}
+.lad .r.no{border-color:var(--bad);background:var(--bad-soft);color:var(--bad)}
+.lad .r.skip{opacity:.4;border-style:dashed}
+.tfb{padding:6px 16px;border-radius:99px;border:2px solid var(--line);background:var(--surface);color:var(--text);font-weight:800;min-width:90px}
+.tfb.t{border-color:var(--good);background:var(--good-soft);color:var(--good)}
+.tfb.f{border-color:var(--bad);background:var(--bad-soft);color:var(--bad)}
+details.fold{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 16px;margin:10px 0}
+details.fold summary{cursor:pointer;font-weight:700}
+.ok-ico{color:var(--good);font-weight:800}
+
+@media (max-width:900px){
+  .side-close{display:block!important}
+  .app{display:block}
+  .side{position:fixed;left:0;top:0;z-index:20;transform:translateX(-102%);transition:transform .2s;box-shadow:0 0 30px rgba(0,0,0,.25)}
+  .side.open{transform:none}
+  .topbar{display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;background:var(--surface);border-bottom:1px solid var(--line);padding:8px 16px}
+  .main{padding:18px 16px 70px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side" id="side">
+    <div class="brand">C++ 程式入門<small>國三 → 高一 互動教材</small></div>
+    <ul class="nav" id="nav"></ul>
+    <div class="sidefoot"><span id="prog"></span><br>
+      <button class="btn" id="themeBtn" style="margin-top:8px;padding:4px 12px;font-size:.85rem">🌓 切換深淺色</button></div>
+  </aside>
+  <div style="flex:1;min-width:0">
+    <div class="topbar"><button class="btn" id="menuBtn" aria-label="開啟目錄">☰ 目錄</button><b id="topTitle">C++ 程式入門</b></div>
+    <main class="main"><div class="wrap" id="lessons">
+
+<!-- ===================== L0 ===================== -->
+<section class="lesson" id="L0" data-title="開始之前" data-src="先來體驗一下">
+  <span class="tag">第 0 課</span>
+  <h2>歡迎來到程式的世界 👋</h2>
+  <p class="lead">不需要任何基礎。只要你會用滑鼠、會打字，就可以開始。</p>
+
+  <h3>程式是什麼？</h3>
+  <p><b>程式 = 寫給電腦的「一步一步的指令」</b>，就像食譜：</p>
+  <div class="card">
+    <b>🍳 煎蛋食譜</b>：① 熱鍋 → ② 倒油 → ③ 打蛋 → ④ 煎 2 分鐘 → ⑤ 起鍋<br>
+    <b>💻 程式</b>：電腦<u>由上往下</u>，<u>一個步驟一個步驟</u>照著做。
+  </div>
+  <div class="note warn"><b class="t">⚠ 電腦很聽話，但也很「死板」</b>
+    少一個符號、拼錯一個字，它就會直接說「看不懂」。所以你會常常看到<b>紅色的錯誤訊息</b>——這完全正常，每個工程師每天都在遇到！</div>
+
+  <h3>這份教材怎麼用？</h3>
+  <table class="t">
+    <tr><th>按鈕</th><th>功能</th></tr>
+    <tr><td>▶ 執行</td><td>讓電腦照你寫的程式跑一遍，右下黑色視窗會顯示結果</td></tr>
+    <tr><td>👣 逐步看變數</td><td>像慢動作一樣，一次執行一行，看電腦「腦袋」裡的變數怎麼變化</td></tr>
+    <tr><td>✔ 檢查答案</td><td>（挑戰題才有）用好幾組資料測試你的程式，全部正確就過關</td></tr>
+    <tr><td>↺ 還原</td><td>改壞了？一鍵回到最初的樣子</td></tr>
+  </table>
+
+  <h3>🧪 先玩玩看</h3>
+  <p>下面是一個真的可以執行的 C++ 程式。<b>把 Hello 改成你的名字，再按 ▶ 執行</b>。</p>
+  <div class="pg" data-id="hello0"></div>
+
+  <div class="quiz" data-ans="1">
+    <div class="q">剛剛的程式，電腦是怎麼讀的？</div>
+    <ol><li>隨便挑一行先做</li><li>由上往下，一行一行照順序做</li><li>先做最長的那一行</li></ol>
+    <div class="exp">對！程式的執行順序是<b>由上往下</b>。這個觀念在後面會一直用到。</div>
+  </div>
+</section>
+
+<!-- ===================== L1 ===================== -->
+<section class="lesson" id="L1" data-title="程式骨架與輸出 cout" data-src="0907">
+  <span class="tag">第 1 課 · 0907</span>
+  <h2>程式的骨架與 cout 輸出</h2>
+  <p class="lead">學會讓電腦在螢幕上「說話」，並認識每個 C++ 程式都有的固定架構。</p>
+
+  <h3>① 本教材的 C++ 程式都用這個骨架</h3>
+  <p><b>點一點下面每一行</b>，看看它在做什麼：</p>
+  <div class="annot" data-lines='[
+    ["#include &lt;iostream&gt;","<b>借工具箱。</b>iostream = input（輸入）+ output（輸出）+ stream（資料流）。想讓程式能「印字」和「讀鍵盤」，就要先借這個工具箱。<br><small>前面的 <code>#</code> 一定要有！</small>"],
+    ["using namespace std;","<b>告訴電腦：我用標準（std）的說法。</b>有了這行，才能直接寫 <code>cout</code>，不然要寫成很長的 <code>std::cout</code>。<br><small>結尾的 <code>;</code>（分號）像中文的句號，表示這句話說完了。</small>"],
+    ["int main()","<b>主程式的入口。</b>電腦一啟動程式，就是從 <code>main</code> 這裡開始往下做。<br>整個程式只能有一個 main。"],
+    ["{","<b>左大括號：</b>主程式的範圍從這裡開始。"],
+    ["    cout<<\"關西高中\"<<endl;","<b>印出一行字。</b><code>cout</code> 是「螢幕」，<code>&lt;&lt;</code> 像箭頭，把右邊的東西<u>丟</u>給螢幕。<br>雙引號 <code>\" \"</code> 裡的文字，會<b>原封不動</b>印出來。<br><code>endl</code> = end line，意思是「換行」。"],
+    ["    cout<<\"高一乙\"<<endl;","又印一行，印完換行。程式<b>由上往下</b>，所以第二行會出現在第一行下面。"],
+    ["    cout<<\"王小明\";","最後一行不用換行，所以不加 <code>endl</code>。"],
+    ["    return 0;","<b>結束程式。</b>回報給電腦：「0 = 一切順利」。"],
+    ["}","<b>右大括號：</b>主程式的範圍到這裡結束。大括號一定要<u>成對</u>。"]
+  ]'></div>
+
+  <h3>② 動手改改看</h3>
+  <div class="pg" data-id="hello1"></div>
+  <div class="note"><b class="t">💡 換行的兩種寫法</b>
+    在畫面上，<code>endl</code> 和雙引號裡的 <code>\n</code> 換行效果一樣：<code>cout&lt;&lt;"你好\n";</code>（endl 另外還會把輸出立刻送出，初學先不用管）。試試把 <code>&lt;&lt;endl</code> 改成 <code>&lt;&lt;"\n"</code>，結果有變嗎？</div>
+
+  <div class="quiz" data-ans="1">
+    <div class="q">下面的程式會印出什麼？</div>
+    <pre class="code">cout&lt;&lt;"A"&lt;&lt;endl;
+cout&lt;&lt;"B";
+cout&lt;&lt;"C";</pre>
+    <ol><li>ABC（全部同一行）</li><li>A 換行 BC</li><li>A 換行 B 換行 C</li><li>A B C（中間有空白）</li></ol>
+    <div class="exp">只有 A 後面有 <code>endl</code>，所以 A 後換行；B 和 C 之間沒有換行，連在一起變成 <b>BC</b>。</div>
+  </div>
+  <div class="quiz" data-ans="2">
+    <div class="q"><code>cout&lt;&lt;"3+4";</code> 會印出什麼？</div>
+    <ol><li>7</li><li>3 + 4 = 7</li><li>3+4</li></ol>
+    <div class="exp">雙引號裡的東西是「文字」，不會計算，直接照印。下一課你會看到沒有雙引號的差別。</div>
+  </div>
+
+  <h3>🏆 挑戰：印出唐詩</h3>
+  <div class="pg" data-id="poem"></div>
+</section>
+
+<!-- ===================== L2 ===================== -->
+<section class="lesson" id="L2" data-title="變數與資料型態" data-src="0907">
+  <span class="tag">第 2 課 · 0907</span>
+  <h2>變數：會記東西的盒子 📦</h2>
+  <p class="lead">電腦要計算，就得先把數字「記」起來。變數就是用來記數字的盒子。</p>
+
+  <h3>什麼是變數？</h3>
+  <div class="card">
+    變數像是<b>貼著名字標籤的盒子</b>：盒子有<u>名字</u>（例如 <code>x</code>）、有<u>種類</u>（只能放某種東西）、裡面放著<u>數值</u>。<br>
+    <div class="bigbox" style="margin-bottom:0"><div class="bb"><div class="n">x</div><div class="v">10</div></div><div class="bb"><div class="n">y</div><div class="v">40</div></div></div>
+    <code>int x=10, y=40;</code> 的意思：做出兩個放整數的盒子，名字叫 x 和 y，分別放進 10 和 40。
+  </div>
+
+  <h3>資料型態：盒子的種類</h3>
+  <table class="t">
+    <tr><th>型態</th><th>放什麼</th><th>例子</th></tr>
+    <tr><td><code>int</code></td><td>整數（沒有小數點）</td><td>10、-3、0</td></tr>
+    <tr><td><code>float</code></td><td>小數（浮點數）</td><td>3.14、-0.5</td></tr>
+    <tr><td><code>char</code></td><td>一個字元</td><td>'A'、'7'（用<b>單引號</b>）</td></tr>
+  </table>
+  <div class="note"><b class="t">📝 取名字的規則</b>
+    只能用英文字母、數字、底線 <code>_</code>；<b>不能用數字開頭</b>；不能和 <code>int</code>、<code>return</code> 這類保留字相同；大小寫視為不同（<code>Sum</code> ≠ <code>sum</code>）。</div>
+
+  <h3>實際操作：算平均</h3>
+  <p>按 <b>👣 逐步看變數</b>，看盒子裡的數字怎麼一步步改變。</p>
+  <div class="pg" data-id="avg0"></div>
+
+  <div class="note warn"><b class="t">⚠ 有雙引號 vs. 沒有雙引號</b>
+    <code>cout&lt;&lt;"avg";</code> 印出的是 <b>avg 這三個字</b>；<code>cout&lt;&lt;avg;</code> 印出的是<b>盒子 avg 裡面的數值</b>。<br>
+    要印出變數的結果，就<b>不能加雙引號</b>。試著在上面的程式把 <code>avg</code> 加上雙引號看看。</div>
+
+  <div class="quiz" data-ans="0">
+    <div class="q">哪一個是<u>不合法</u>的變數名稱？</div>
+    <ol><li><code>2score</code></li><li><code>score2</code></li><li><code>my_score</code></li><li><code>Score</code></li></ol>
+    <div class="exp"><code>2score</code> 以數字開頭，不行！<code>score2</code> 數字在後面就可以。</div>
+  </div>
+  <div class="quiz" data-ans="1">
+    <div class="q"><code>int x=10, y=40, avg; avg=(x+y)/2;</code> 執行完，avg 的值是？</div>
+    <ol><li>10</li><li>25</li><li>50</li><li>20</li></ol>
+    <div class="exp">先算括號：10+40=50，再 ÷2 = 25。括號和數學一樣，先算！</div>
+  </div>
+
+  <h3>🏆 挑戰：長方形面積</h3>
+  <div class="pg" data-id="area_w"></div>
+</section>
+
+<!-- ===================== L3 ===================== -->
+<section class="lesson" id="L3" data-title="輸入 cin 與整數除法" data-src="0914">
+  <span class="tag">第 3 課 · 0914</span>
+  <h2>cin 輸入：讓使用者決定數字</h2>
+  <p class="lead">有了輸入，同一個程式就能算出不同人的答案。</p>
+
+  <h3>cout 是「輸出」，cin 是「輸入」</h3>
+  <table class="t">
+    <tr><th></th><th>方向</th><th>用法</th></tr>
+    <tr><td><code>cout</code></td><td>電腦 → 螢幕（箭頭 <code>&lt;&lt;</code> 指向螢幕那邊）</td><td><code>cout&lt;&lt;n;</code></td></tr>
+    <tr><td><code>cin</code></td><td>鍵盤 → 變數（箭頭 <code>&gt;&gt;</code> 指向變數）</td><td><code>cin&gt;&gt;n;</code></td></tr>
+  </table>
+  <p>下面程式裡 <code>n</code> 本來是 3，但 <code>cin&gt;&gt;n</code> 會用你輸入的值<b>取代</b>它。<br>
+  <small>（因為網頁沒有鍵盤視窗，請把要輸入的資料填在 <b>⌨ 輸入區</b>，多個值用空白隔開。）</small></p>
+  <div class="pg" data-id="cin1"></div>
+  <div class="note good"><b class="t">🔎 觀察</b>在逐步模式中，執行 <code>cin&gt;&gt;n;</code> 前後，n 盒子的值有什麼變化？p 有沒有變？</div>
+
+  <h3>算三科的總分和平均</h3>
+  <div class="pg" data-id="avgbug"></div>
+  <p>咦？259 ÷ 3 應該是 86.333…，為什麼電腦印出 <b>86</b>？</p>
+
+  <h3>🧠 整數 ÷ 整數 = 整數</h3>
+  <div class="card">
+    在 C++ 裡，<b>兩個整數相除，結果也是整數</b>，小數部分會被直接丟掉（<u>無條件捨去</u>）：<br>
+    <code>259 / 3</code> → <b>86</b>　　<code>7 / 2</code> → <b>3</b>　　<code>1 / 2</code> → <b>0</b>　　<code>-7 / 2</code> → <b>-3</b>（往 0 的方向捨去）<br>
+    只要<b>其中一邊是小數</b>，就會算出小數：<code>259 / 3.0</code> → <b>86.3333</b>
+  </div>
+  <div class="quiz" data-ans="1">
+    <div class="q"><code>int a=7, b=2; float r=a/b; cout&lt;&lt;r;</code> 會印出？</div>
+    <ol><li>3.5</li><li>3</li><li>3.0</li><li>錯誤</li></ol>
+    <div class="exp"><code>a/b</code> 是「整數÷整數」，先算出 3，<u>之後</u>才放進 float 盒子。所以 r 是 3（印出來是 3，不是 3.5）。<br>「放進 float」不會讓前面的除法變精確！</div>
+  </div>
+
+  <h3>🏆 挑戰：修好平均</h3>
+  <p>下面的程式平均算得不準。只改<b>一個地方</b>，讓平均變成小數。</p>
+  <div class="pg" data-id="avgfix"></div>
+</section>
+
+<!-- ===================== L4 ===================== -->
+<section class="lesson" id="L4" data-title="指定運算子 = 與除錯" data-src="0914">
+  <span class="tag">第 4 課 · 0914</span>
+  <h2><code>=</code> 不是「等於」，是「放進去」</h2>
+  <p class="lead">這是初學者最容易搞混、也最重要的觀念。</p>
+
+  <div class="card">
+    <b>數學：</b><code>x = x + 1</code> 是一個<u>不可能成立</u>的等式。<br>
+    <b>C++：</b><code>x = x + 1</code> 是一個<u>動作</u>：<b>先算右邊，再把結果放進左邊的盒子</b>。<br>
+    所以 <code>sum = sum + i</code> 的意思是：<b>新的 sum = 舊的 sum + i</b>。
+  </div>
+  <p>逐步執行看看：sum 從 18 變成幾？</p>
+  <div class="pg" data-id="sum1"></div>
+
+  <h3>🤔 這題你能預測嗎？</h3>
+  <pre class="code">int x = 1, y = 0;
+x = y;
+y = x;
+cout&lt;&lt;y;</pre>
+  <div class="quiz" data-ans="1">
+    <div class="q">最後印出的 y 是多少？</div>
+    <ol><li>1</li><li>0</li><li>0 和 1 對調，所以是 1</li></ol>
+    <div class="exp">第 2 行 <code>x=y</code>：x 被改成 0（原來的 1 <b>消失了</b>）。第 3 行 <code>y=x</code>：把 0 放進 y，還是 0。<br>想要「對調」兩個變數，需要更多技巧 → 第 7 課！</div>
+  </div>
+  <div class="quiz" data-ans="2">
+    <div class="q"><code>int a=5; a=a+2; a=a*2;</code> 之後，a 是？</div>
+    <ol><li>7</li><li>10</li><li>14</li><li>12</li></ol>
+    <div class="exp">5 → 先 +2 變 7 → 再 ×2 變 14。每一行都用「前一行的結果」。</div>
+  </div>
+
+  <h3>🐞 除錯練習：看懂錯誤訊息</h3>
+  <p>程式寫錯時，編譯器（翻譯機）會告訴你<b>第幾行</b>出了什麼事。學會看它，你就是程式偵探！</p>
+  <div class="pg" data-id="dbg_semi"></div>
+  <div class="pg" data-id="dbg_decl"></div>
+  <details class="fold"><summary>卡住了？看提示</summary>
+    <p>第 2 個題目有兩個問題：① 宣告變數時，最後一個變數後面<b>不能再接逗號</b>；② 程式用了 <code>sum</code> 和 <code>i</code>，但從來沒有宣告它們。想一想，哪兩個變數該改名？</p></details>
+</section>
+
+<!-- ===================== L5 ===================== -->
+<section class="lesson" id="L5" data-title="算術運算子" data-src="0921">
+  <span class="tag">第 5 課 · 0921</span>
+  <h2>算術運算子：加減乘除餘</h2>
+  <p class="lead">除了 + − × ÷，還有一個超好用的「餘數」。</p>
+
+  <table class="t">
+    <tr><th>符號</th><th>意思</th><th>例子</th></tr>
+    <tr><td><code>+</code> <code>-</code></td><td>加、減</td><td>5+3 → 8</td></tr>
+    <tr><td><code>*</code></td><td>乘（不是 ×）</td><td>5*3 → 15</td></tr>
+    <tr><td><code>/</code></td><td>除（整數除整數會捨去小數）</td><td>9/2 → 4</td></tr>
+    <tr><td><code>%</code></td><td>取餘數（只能用在整數）</td><td>9%2 → 1</td></tr>
+  </table>
+
+  <div class="wd" data-widget="ops">
+    <h4>🔬 運算實驗室：自己改數字，看電腦怎麼算</h4>
+  </div>
+
+  <h3>強制轉型：讓整數變小數</h3>
+  <p>想要 9 ÷ 2 得到 4.5？在變數前面加 <code>(float)</code>，暫時把它當成小數。</p>
+  <div class="pg" data-id="cast"></div>
+  <div class="quiz" data-ans="2">
+    <div class="q">下面三個式子，結果依序是？
+      <pre class="code">cout&lt;&lt; 9/2 &lt;&lt;" ";
+cout&lt;&lt; (float)9/2 &lt;&lt;" ";
+cout&lt;&lt; (float)(9/2);</pre></div>
+    <ol><li>4　4.5　4.5</li><li>4.5　4.5　4.5</li><li>4　4.5　4</li><li>4　4　4</li></ol>
+    <div class="exp">第 3 個是陷阱：<code>(9/2)</code> 先算成 4，<u>才</u>轉成 float，變成 4.0 → 印出 4。轉型要放在除法<b>之前</b>才有用。</div>
+  </div>
+
+  <h3>運算的先後順序</h3>
+  <p>和數學一樣：<b>括號 → 乘 / 除 / 取餘（同級，由左到右）→ 加 / 減</b>。</p>
+  <div class="card mono">x = 3 * 5 % 2 - 1<br>
+    <span style="color:var(--muted)">① 3*5 = 15　② 15%2 = 1　③ 1-1 = 0</span></div>
+  <div class="quiz" data-ans="1">
+    <div class="q"><code>10 % 3</code> 的結果是？</div>
+    <ol><li>3</li><li>1</li><li>0</li><li>3.33</li></ol>
+    <div class="exp">10 ÷ 3 = 3 餘 <b>1</b>。<code>%</code> 要的是「餘數」。</div>
+  </div>
+
+  <h3>🐞 除錯：這段程式有 2 個錯誤</h3>
+  <div class="pg" data-id="ops_ex"></div>
+
+  <h3>圓面積</h3>
+  <p>圓面積 = π × 半徑 × 半徑。注意：不用寫 r²，要寫成 <code>pi*r*r</code>。</p>
+  <div class="pg" data-id="circle"></div>
+
+  <h3>快速加一減一：<code>++</code> 與 <code>--</code></h3>
+  <table class="t">
+    <tr><th>寫法</th><th>等於</th></tr>
+    <tr><td><code>i++</code></td><td><code>i = i + 1</code>　也可寫成 <code>i += 1</code>（單獨一行使用時效果相同）</td></tr>
+    <tr><td><code>j--</code></td><td><code>j = j - 1</code>　也可寫成 <code>j -= 1</code></td></tr>
+    <tr><td><code>x *= 3</code></td><td><code>x = x * 3</code>（<code>/=</code>、<code>%=</code> 同理）</td></tr>
+  </table>
+  <div class="pg" data-id="incdec"></div>
+</section>
+
+<!-- ===================== L6 ===================== -->
+<section class="lesson" id="L6" data-title="比較與邏輯運算" data-src="0921">
+  <span class="tag">第 6 課 · 0921</span>
+  <h2>比較與邏輯：讓電腦回答「對 / 錯」</h2>
+  <p class="lead">電腦能做決定的基礎：判斷一件事「成立」還是「不成立」。</p>
+
+  <h3>比較運算子</h3>
+  <table class="t">
+    <tr><th>符號</th><th>意思</th><th>符號</th><th>意思</th></tr>
+    <tr><td><code>==</code></td><td>等於</td><td><code>!=</code></td><td>不等於</td></tr>
+    <tr><td><code>&gt;</code></td><td>大於</td><td><code>&lt;</code></td><td>小於</td></tr>
+    <tr><td><code>&gt;=</code></td><td>大於或等於</td><td><code>&lt;=</code></td><td>小於或等於</td></tr>
+  </table>
+  <p>比較的結果只有兩種：<b>成立 = 1（真, true）</b>、<b>不成立 = 0（假, false）</b>。</p>
+  <div class="note warn"><b class="t">⚠ 一個 = 和兩個 == 完全不同！</b>
+    <code>x = 5</code>：把 5 <b>放進</b> x（動作）。<code>x == 5</code>：<b>問</b> x 是不是 5（問題）。</div>
+
+  <h3>邏輯運算子：把多個條件組合起來</h3>
+  <div class="wd" data-widget="truth"><h4>🔬 真值表：按按看 A、B</h4></div>
+
+  <h3>經典錯誤：連續比較</h3>
+  <p>數學可以寫 <code>80 ≤ s ≤ 89</code>，但 C++ <b>不是這個意思</b>（可以編譯，答案卻不對）！拖拉滑桿，看看兩種寫法的結果：</p>
+  <div class="wd" data-widget="logic"><h4>🔬 80 分到 89 分之間？</h4></div>
+  <div class="pg" data-id="logic1"></div>
+  <p>把 <code>s</code> 改成 95 再執行：第一行還是 1（成立），顯然錯了！</p>
+
+  <div class="quiz" data-ans="1">
+    <div class="q"><code>(5&gt;3) &amp;&amp; (2&gt;4)</code> 的結果是？</div>
+    <ol><li>1（成立）</li><li>0（不成立）</li></ol>
+    <div class="exp">&amp;&amp; 是「而且」，兩邊都要成立才成立。5&gt;3 成立，但 2&gt;4 不成立，所以整體不成立 = 0。</div>
+  </div>
+  <div class="quiz" data-ans="0">
+    <div class="q">想判斷「x 在 10 到 20 之間」，正確寫法是？</div>
+    <ol><li><code>(x&gt;=10) &amp;&amp; (x&lt;=20)</code></li><li><code>10&lt;=x&lt;=20</code></li><li><code>(x&gt;=10) || (x&lt;=20)</code></li></ol>
+    <div class="exp">要「而且」→ <code>&amp;&amp;</code>。用 <code>||</code>（或者）的話，任何數字都會成立。</div>
+  </div>
+</section>
+
+<!-- ===================== L7 ===================== -->
+<section class="lesson" id="L7" data-title="變數交換" data-src="1005">
+  <span class="tag">第 7 課 · 1005</span>
+  <h2>變數交換：需要一個「空杯子」🥤</h2>
+  <p class="lead">想把左手的可樂和右手的果汁互換，你一定會先把一杯放到桌上。程式也一樣！</p>
+
+  <h3>🧩 拼拼看：自己用指令積木交換 x 和 y</h3>
+  <p>目標：讓 <b>x 變成 33、y 變成 20</b>。按下面的指令積木（由上往下執行），看看盒子的變化。</p>
+  <div class="wd" data-widget="swap"><h4>變數交換積木</h4></div>
+
+  <h3>正確 vs 錯誤的交換</h3>
+  <div class="pg" data-id="swap_ok"></div>
+  <div class="pg" data-id="swap_bad"></div>
+  <div class="note"><b class="t">📌 交換三步驟</b>
+    <code>t = x;</code> 先把 x 的值<b>備份</b>到 t　→　<code>x = y;</code> x 可以安心被蓋掉　→　<code>y = t;</code> 把備份的值放回 y。</div>
+
+  <h3>🏆 挑戰</h3>
+  <div class="pg" data-id="swap_ch"></div>
+</section>
+
+<!-- ===================== L8 ===================== -->
+<section class="lesson" id="L8" data-title="if 與 if…else" data-src="1005">
+  <span class="tag">第 8 課 · 1005</span>
+  <h2>if：讓程式學會「做決定」</h2>
+  <p class="lead">之前的程式都是從頭跑到尾。現在，程式可以依情況走不同的路了。</p>
+
+  <div class="card">
+    <b>🌂 生活中的 if：</b>如果下雨，就帶傘；<b>否則</b>，就戴帽子。<br>
+<pre class="code" style="margin-bottom:0">if ( 條件 ){
+    條件「成立」時才做這裡
+}
+else{
+    條件「不成立」時做這裡
+}</pre>
+  </div>
+
+  <h3>① 只有 if</h3>
+  <p>輸入 75 和 59 各試一次。59 的時候為什麼什麼都沒印？</p>
+  <div class="pg" data-id="if1"></div>
+  <h3>② 加上 else</h3>
+  <div class="pg" data-id="if2"></div>
+  <div class="note"><b class="t">📌 格式提醒</b>if 的條件要放在 <b>小括號</b> 裡；要做的事放在 <b>大括號 { }</b> 裡（只有一行時可省略大括號，但建議保留）。if 後面<b>不要加分號</b>。</div>
+
+  <h3>③ 奇數還是偶數？</h3>
+  <p>用到第 5 課的 <code>%</code>：<b>偶數除以 2 餘 0</b>。</p>
+  <div class="pg" data-id="odd"></div>
+
+  <div class="quiz" data-ans="2">
+    <div class="q"><code>int n=7;</code>，<code>if(n%2==0)</code> 的條件成立嗎？</div>
+    <ol><li>成立，因為 7 是整數</li><li>成立，因為 7%2 是 1</li><li>不成立，因為 7%2 是 1，不等於 0</li></ol>
+    <div class="exp">7 ÷ 2 = 3 餘 1，所以 <code>7%2==0</code> 不成立，會走 else → 奇數。</div>
+  </div>
+
+  <h3>④ 成績補分</h3>
+  <p>老師想把剛好 59 分的人調整成 60 分。<code>score++</code> 就是 <code>score = score + 1</code>。</p>
+  <div class="pg" data-id="adj"></div>
+
+  <h3>🏆 挑戰：3 的倍數</h3>
+  <div class="pg" data-id="mult3"></div>
+</section>
+
+<!-- ===================== L9 ===================== -->
+<section class="lesson" id="L9" data-title="多重條件 else if" data-src="1005">
+  <span class="tag">第 9 課 · 1005</span>
+  <h2>else if：多個選項，一路問下去</h2>
+  <p class="lead">成績分成 A、B、C、D、F 好幾級，要怎麼判斷？</p>
+
+  <p><b>從上往下依序問</b>，遇到第一個「成立」就執行並<u>離開</u>，後面都不用看了：</p>
+  <div class="wd" data-widget="ladder"><h4>🔬 等第判斷器</h4></div>
+
+  <h3>實際程式</h3>
+  <div class="pg" data-id="grade"></div>
+
+  <div class="quiz" data-ans="1">
+    <div class="q">85 分明明 ≥ 70（C）也 ≥ 60（D），為什麼只印出 B？</div>
+    <ol><li>因為 85 比較接近 B</li><li>因為 else if 鏈裡只會執行第一個成立的，之後就跳出了</li><li>因為電腦隨機選</li></ol>
+    <div class="exp">這就是 <code>else</code> 的威力：前面的條件已經成立，後面整串都被略過。</div>
+  </div>
+  <div class="quiz" data-ans="0">
+    <div class="q">如果把條件順序反過來（先問 <code>score&gt;=60</code>，最後才問 <code>score&gt;=90</code>），輸入 95 會得到？</div>
+    <ol><li>D（因為第一個成立的是 ≥60）</li><li>A</li><li>什麼都不印</li></ol>
+    <div class="exp"><b>順序很重要！</b>由嚴格到寬鬆排。95 先遇到 <code>&gt;=60</code> 就成立了，立刻結束。用上面的「等第判斷器」不能改順序，但你可以在下面的挑戰裡試試。</div>
+  </div>
+
+  <h3>🏆 挑戰：49 分以下也要有等第</h3>
+  <p>原本 50 分以下什麼都不會印。把最後的 <code>else if(score&gt;=50)</code> 改成 <code>else</code>，讓所有低於 60 的都是 F。</p>
+  <div class="pg" data-id="grade_ch"></div>
+</section>
+
+<!-- ===================== L10 ===================== -->
+<section class="lesson" id="L10" data-title="綜合：找最大值" data-src="1005">
+  <span class="tag">第 10 課 · 1005</span>
+  <h2>找三個數字中的最大值 👑</h2>
+  <p class="lead">把前面學的全部組合起來：輸入、變數、if、指定。</p>
+
+  <h3>「擂台」演算法</h3>
+  <div class="card">
+    ① 先讓第一個人當<b>擂台主</b>（<code>max = score1</code>）<br>
+    ② 第二個人上台挑戰：<b>比擂台主大</b> → 取代他（<code>if(max&lt;score2) max=score2;</code>）<br>
+    ③ 第三個人也挑戰一次<br>
+    ④ 最後站在台上的就是最大值！
+  </div>
+
+  <h3>🐞 終極除錯挑戰</h3>
+  <p>這份程式藏著 <b>兩種不同的錯誤</b>：一種會被電腦直接擋下來（編譯錯誤），另一種可以執行，但算出<b>錯的答案</b>（邏輯錯誤）。</p>
+  <div class="pg" data-id="max_dbg"></div>
+  <details class="fold"><summary>提示 1</summary>
+    <p>先處理紅色的錯誤。看它說哪一行？那一行 cout 的每個項目中間，是不是都有 <code>&lt;&lt;</code>？</p></details>
+  <details class="fold"><summary>提示 2</summary>
+    <p>修好後，用 70 90 80 執行，最高分竟然是 80？看看橘色警告。<code>if(max=score3)</code> 中的 <code>=</code> 是「放進去」，不是「比較」！而且該比較的是「誰比較大」。</p></details>
+</section>
+
+<!-- ===================== L11 ===================== -->
+<section class="lesson" id="L11" data-title="總複習" data-src="綜合測驗">
+  <span class="tag">第 11 課</span>
+  <h2>總複習測驗 🎓</h2>
+  <p class="lead">八題選擇題，看看你學會多少。<b>第一次就答對</b>才計分哦！</p>
+  <div class="score" id="finalScore">目前答對 0 / 8</div>
+
+  <div class="quiz final" data-ans="2"><div class="q"><code>cout&lt;&lt;"5+3";</code> 印出？</div>
+    <ol><li>8</li><li>5 + 3</li><li>5+3</li></ol><div class="exp">雙引號內是文字，原樣印出。</div></div>
+  <div class="quiz final" data-ans="1"><div class="q"><code>cout&lt;&lt;17/5;</code> 印出？</div>
+    <ol><li>3.4</li><li>3</li><li>2</li><li>4</li></ol><div class="exp">整數 ÷ 整數，捨去小數 → 3。</div></div>
+  <div class="quiz final" data-ans="0"><div class="q"><code>cout&lt;&lt;17%5;</code> 印出？</div>
+    <ol><li>2</li><li>3</li><li>3.4</li></ol><div class="exp">17 = 5×3 + 2，餘數是 2。</div></div>
+  <div class="quiz final" data-ans="3"><div class="q"><code>int x=5; x=x*2; x++; cout&lt;&lt;x;</code> 印出？</div>
+    <ol><li>5</li><li>10</li><li>12</li><li>11</li></ol><div class="exp">5 → ×2 = 10 → ++ 變 11。</div></div>
+  <div class="quiz final" data-ans="1"><div class="q">想判斷 s 是否在 80 到 89 之間，哪個正確？</div>
+    <ol><li><code>80&lt;=s&lt;=89</code></li><li><code>s&gt;=80 &amp;&amp; s&lt;=89</code></li><li><code>s&gt;=80 || s&lt;=89</code></li></ol><div class="exp">C++ 不能連寫，要用 &amp;&amp; 把兩個條件接起來。</div></div>
+  <div class="quiz final" data-ans="2"><div class="q">交換 a 和 b 的正確順序是？</div>
+    <ol><li><code>a=b; b=a;</code></li><li><code>t=a; b=t; a=b;</code></li><li><code>t=a; a=b; b=t;</code></li></ol><div class="exp">先備份 a，再讓 a 變成 b，最後把備份放進 b。</div></div>
+  <div class="quiz final" data-ans="0"><div class="q"><pre class="code">int s=75;
+if(s>=90) cout&lt;&lt;"A";
+else if(s>=80) cout&lt;&lt;"B";
+else if(s>=70) cout&lt;&lt;"C";
+else cout&lt;&lt;"D";</pre>印出？</div>
+    <ol><li>C</li><li>C 和 D</li><li>D</li><li>什麼都沒有</li></ol><div class="exp">75 先通過 ≥70，印出 C，之後略過 else。</div></div>
+  <div class="quiz final" data-ans="2"><div class="q"><code>if(x=3)</code> 這種寫法的問題是？</div>
+    <ol><li>沒有問題</li><li>應該寫成 <code>if(x==3);</code></li><li>用了 <code>=</code>（放進去），應該用 <code>==</code>（比較）</li></ol><div class="exp">這是最常見的 bug 之一。<code>=</code> 會把 x 改成 3，而且條件永遠成立。</div></div>
+
+  <h3>🧰 錯誤訊息速查表</h3>
+  <table class="t">
+    <tr><th>訊息關鍵字</th><th>通常是因為…</th></tr>
+    <tr><td>少了分號 ;</td><td>每個敘述結尾都要 <code>;</code></td></tr>
+    <tr><td>還沒有宣告</td><td>變數沒先用 <code>int x;</code> 做出來，或名字打錯</td></tr>
+    <tr><td>少了 &lt;&lt;</td><td>cout 的每個項目中間都要有 <code>&lt;&lt;</code></td></tr>
+    <tr><td>大括號不成對</td><td><code>{</code> 和 <code>}</code> 數量要相同</td></tr>
+    <tr><td>全形符號</td><td>用了中文輸入法的 ； （ ） ，，程式只認半形</td></tr>
+    <tr><td>(警告) 整數除法</td><td>想要小數結果時，要有一邊是小數</td></tr>
+    <tr><td>(警告) if 裡的 =</td><td>比較要用 <code>==</code></td></tr>
+  </table>
+  <div class="note good"><b class="t">🎉 恭喜你完成整份教材！</b>你已經學會輸出入、變數、運算、判斷式 —— 這些就是所有程式的基本積木。繼續加油！</div>
+</section>
+
+    </div></main>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--                      C++ 迷你直譯引擎                          -->
+<!-- ============================================================ -->
+<script id="engine">
+const Engine=(()=>{
+class CErr extends Error{constructor(line,msg){super(msg);this.line=line;this.kind='compile'}}
+class RErr extends Error{constructor(line,msg){super(msg);this.line=line;this.kind='runtime'}}
+const TYPES=['int','float','double','char','bool','long','short','string'];
+const RESERVED=new Set([...TYPES,'if','else','return','while','for','using','namespace','cout','cin','endl','true','false','main']);
+const TWO=['<<','>>','<=','>=','==','!=','&&','||','++','--','+=','-=','*=','/=','%='];
+const ONE='+-*/%=<>!(){};,';
+const FULL=/[\uFF01-\uFF5E\u3000-\u303F\u201C\u201D\u2018\u2019]/;
+
+function lev(a,b){const m=a.length,n=b.length,d=[];for(let i=0;i<=m;i++){d[i]=[i];}for(let j=1;j<=n;j++)d[0][j]=j;
+  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n]}
+
+function tokenize(src){
+  const toks=[];let i=0,line=1;const n=src.length;
+  while(i<n){
+    const c=src[i];
+    if(c==='\n'){line++;i++;continue}
+    if(/\s/.test(c)){i++;continue}
+    if(c==='/'&&src[i+1]==='/'){while(i<n&&src[i]!=='\n')i++;continue}
+    if(c==='/'&&src[i+1]==='*'){const st=line;i+=2;while(i<n&&!(src[i]==='*'&&src[i+1]==='/')){if(src[i]==='\n')line++;i++}
+      if(i>=n)throw new CErr(st,'/* 註解沒有用 */ 結束');i+=2;continue}
+    if(c==='#'){let j=i;while(j<n&&src[j]!=='\n')j++;toks.push({t:'pp',v:src.slice(i,j).trim(),line,pos:i,end:j});i=j;continue}
+    if(/[A-Za-z_]/.test(c)){let j=i;while(j<n&&/\w/.test(src[j]))j++;toks.push({t:'id',v:src.slice(i,j),line,pos:i,end:j});i=j;continue}
+    if(/\d/.test(c)||(c==='.'&&/\d/.test(src[i+1]||''))){
+      const m=/^(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?/.exec(src.slice(i));const s=m[0];
+      toks.push({t:'num',v:parseFloat(s),f:/[.eE]/.test(s),line,pos:i,end:i+s.length});i+=s.length;continue}
+    if(c==='"'||c==="'"){
+      const q=c;let j=i+1,s='';
+      while(j<n&&src[j]!==q){
+        if(src[j]==='\n')break;
+        if(src[j]==='\\'){const d=src[j+1];if(d===undefined)break;s+=({n:'\n',t:'\t','0':'\0'})[d]??d;j+=2}
+        else{s+=src[j];j++}
+      }
+      if(src[j]!==q)throw new CErr(line,(q==='"'?'字串':'字元')+'的引號沒有成對（結尾少了 '+q+'）');
+      if(q==="'"&&[...s].length!==1)throw new CErr(line,"單引號 ' ' 裡只能放「一個」字元；要放一串文字請改用雙引號 \" \"");
+      toks.push({t:q==='"'?'str':'chr',v:s,line,pos:i,end:j+1});i=j+1;continue}
+    const two=src.substr(i,2);
+    if(TWO.includes(two)){toks.push({t:'op',v:two,line,pos:i,end:i+2});i+=2;continue}
+    if(ONE.includes(c)){toks.push({t:'op',v:c,line,pos:i,end:i+1});i++;continue}
+    if(FULL.test(c))throw new CErr(line,`出現了「全形」符號「${c}」。程式只認「半形」符號，請切換輸入法（英數、半形）後重打。`);
+    throw new CErr(line,`看不懂的符號「${c}」`);
+  }
+  return toks;
+}
+
+function compile(src){
+  const toks=tokenize(src);
+  let p=0;const warns=[];let hasIo=false,usingStd=false,hasMain=false;
+  const scopes=[new Map()];let main=null;
+  const EOF=()=>({t:'eof',v:'結尾',line:toks.length?toks[toks.length-1].line:1});
+  const peek=(k=0)=>toks[p+k]||EOF();
+  const prevLine=()=>p>0?toks[p-1].line:1;
+  const err=(l,m)=>{throw new CErr(l,m)};
+  const isOp=(v,k=0)=>{const t=peek(k);return t.t==='op'&&t.v===v};
+  const expectOp=(v,msg)=>{
+    if(isOp(v))return toks[p++];
+    const t=peek();
+    if(v===';')err(prevLine(),msg||'這一行的結尾少了分號 ;（每個敘述都要用 ; 結束）');
+    err(t.t==='eof'?prevLine():t.line,msg||`這裡應該要有「${v}」，但看到的是「${t.v}」`);
+  };
+  const declared=name=>{for(let i=scopes.length-1;i>=0;i--)if(scopes[i].has(name))return scopes[i].get(name);return null};
+  const suggest=name=>{
+    const c=['endl','cout','cin','return'];scopes.forEach(s=>s.forEach((_,k)=>c.push(k)));
+    return c.find(x=>x!==name&&name.length>=3&&lev(x,name)<=1)};
+  const checkVar=t=>{
+    if(declared(t.v))return;
+    if(t.v==='endl')err(t.line,'endl 只能用在 cout 的 << 後面（例如 cout<<"hi"<<endl;）');
+    const s=suggest(t.v);
+    err(t.line,`「${t.v}」還沒有宣告。變數要先用像 int ${t.v}; 的方式做出來才能用。`+(s?`（你是不是想寫「${s}」？）`:''));
+  };
+  const declare=(t,type)=>{
+    if(RESERVED.has(t.v))err(t.line,`「${t.v}」是 C++ 保留字，不能拿來當變數名稱。`);
+    const top=scopes[scopes.length-1];
+    if(top.has(t.v))err(t.line,`變數「${t.v}」已經宣告過了，不用重複宣告。`);
+    top.set(t.v,type)};
+
+  // ---- expressions ----
+  function assign(){
+    const left=orE();const t=peek();
+    if(t.t==='op'&&['=','+=','-=','*=','/=','%='].includes(t.v)){
+      p++;
+      if(left.k!=='var')err(t.line,`「${t.v}」的左邊必須是變數（例如 x = 5; ），不能是別的東西`);
+      const right=assign();
+      return {k:'assign',op:t.v,name:left.name,right,line:t.line};
+    }
+    return left;
+  }
+  function binLeft(next,ops,kind){
+    let l=next();
+    while(peek().t==='op'&&ops.includes(peek().v)){const t=toks[p++];const r=next();l={k:kind,op:t.v,l,r,line:t.line}}
+    return l;
+  }
+  const orE=()=>binLeft(andE,['||'],'logic');
+  const andE=()=>binLeft(eqE,['&&'],'logic');
+  const eqE=()=>binLeft(relE,['==','!='],'bin');
+  function relE(){
+    let l=addE();
+    while(peek().t==='op'&&['<','>','<=','>='].includes(peek().v)){
+      const t=toks[p++];const r=addE();
+      if(l.k==='bin'&&['<','>','<=','>='].includes(l.op)&&!l.paren)
+        warns.push({line:t.line,msg:'連續比較（例如 80<=s<=89）在 C++ 不會像數學那樣運作：它會先算出 0 或 1，再拿去跟下一個數字比。請改用 && 連接兩個條件。'});
+      l={k:'bin',op:t.v,l,r,line:t.line};
+    }
+    return l;
+  }
+  const addE=()=>binLeft(mulE,['+','-'],'bin');
+  const mulE=()=>binLeft(unary,['*','/','%'],'bin');
+  function unary(){
+    const t=peek();
+    if(t.t==='op'){
+      if(t.v==='!'||t.v==='-'||t.v==='+'){p++;return {k:'un',op:t.v,e:unary(),line:t.line}}
+      if(t.v==='++'||t.v==='--'){p++;const v=peek();
+        if(v.t!=='id')err(t.line,`${t.v} 後面要接變數`);checkVar(v);p++;
+        return {k:'incdec',name:v.v,delta:t.v==='++'?1:-1,post:false,line:t.line}}
+      if(t.v==='('&&peek(1).t==='id'&&TYPES.includes(peek(1).v)&&isOp(')',2)){
+        const type=peek(1).v;p+=3;return {k:'cast',type,e:unary(),line:t.line}}
+    }
+    return postfix();
+  }
+  function postfix(){
+    const n=primary();
+    if(n.k==='var'&&!n.paren&&peek().t==='op'&&(peek().v==='++'||peek().v==='--')){
+      const t=toks[p++];return {k:'incdec',name:n.name,delta:t.v==='++'?1:-1,post:true,line:t.line}}
+    return n;
+  }
+  function primary(){
+    const t=peek();
+    if(t.t==='num'){p++;return {k:'num',v:t.v,f:t.f,line:t.line}}
+    if(t.t==='str'){p++;return {k:'str',v:t.v,line:t.line}}
+    if(t.t==='chr'){p++;return {k:'chr',v:t.v,line:t.line}}
+    if(t.t==='id'){
+      if(t.v==='true'||t.v==='false'){p++;return {k:'bool',v:t.v==='true',line:t.line}}
+      if(TYPES.includes(t.v)||RESERVED.has(t.v))err(t.line,`這裡不該出現「${t.v}」（它是 C++ 的保留字）`);
+      checkVar(t);p++;return {k:'var',name:t.v,line:t.line};
+    }
+    if(t.t==='op'&&t.v==='('){
+      p++;const e=assign();
+      if(!isOp(')'))err(isOp(';')||peek().t==='eof'?prevLine():peek().line,'小括號 ( ) 沒有成對，少了右括號 )');
+      p++;e.paren=true;return e;
+    }
+    if(t.t==='eof')err(prevLine(),'程式在這裡突然結束，後面好像少了東西（是不是少了 } 或 ; ？）');
+    err(t.line,`這裡的「${t.v}」看不懂，或放錯位置了`);
+  }
+
+  // ---- statements ----
+  function readCout(t){
+    if(!hasIo)err(t.line,'要使用 cout，程式最前面要有 #include <iostream>');
+    if(!usingStd)err(t.line,'找不到 cout。是不是漏了 using namespace std; ？');
+    if(isOp('>>'))err(t.line,'cout 要搭配 << ，不是 >>。（cout << 資料 ：資料流向螢幕；cin >> 變數 ：資料流向變數）');
+    if(!isOp('<<'))err(t.line,'cout 後面要接 <<，例如 cout<<"Hello";');
+    const items=[];
+    while(isOp('<<')){
+      p++;
+      if(peek().t==='id'&&peek().v==='endl'){p++;items.push({k:'endl'})}
+      else items.push(assign());
+    }
+    if(!isOp(';')){
+      const n=peek(),last=toks[p-1];
+      if(n.t!=='eof'&&n.line===last.line&&['str','num','chr','id'].includes(n.t))
+        err(n.line,`cout 的各個項目中間要用 << 連接，「${n.t==='str'?'"'+n.v+'"':n.v}」的前面少了 <<`);
+    }
+    expectOp(';');
+    return {k:'cout',items,line:t.line};
+  }
+  function readCin(t){
+    if(!hasIo)err(t.line,'要使用 cin，程式最前面要有 #include <iostream>');
+    if(!usingStd)err(t.line,'找不到 cin。是不是漏了 using namespace std; ？');
+    if(isOp('<<'))err(t.line,'cin 要搭配 >> ，不是 <<。（cin >> 變數：資料從鍵盤流進變數）');
+    if(!isOp('>>'))err(t.line,'cin 後面要接 >>，例如 cin>>x;');
+    const names=[];
+    while(isOp('>>')){p++;const v=peek();
+      if(v.t!=='id'){err(v.line,'cin >> 後面要放「變數」');}
+      checkVar(v);p++;names.push(v.v)}
+    expectOp(';');
+    return {k:'cin',names,line:t.line};
+  }
+  function decl(){
+    const t=toks[p++];const type=t.v;const items=[];
+    do{
+      const nt=peek();
+      if(nt.t!=='id')err(nt.t==='eof'?prevLine():nt.line,
+        items.length?'宣告變數時，逗號 , 後面少了變數名稱（最後一個變數後面不能再接逗號）':`${type} 後面要接變數名稱`);
+      p++;let init=null;
+      if(isOp('=')){p++;init=assign()}
+      declare(nt,type);items.push({name:nt.v,type,init,line:nt.line});
+    }while(isOp(',')&&(p++,true));
+    expectOp(';');
+    return {k:'decl',items,line:t.line};
+  }
+  function ifStmt(){
+    const t=toks[p++];
+    if(!isOp('('))err(t.line,'if 後面的條件要放在小括號 ( ) 裡');
+    p++;const st=p;
+    const cond=assign();
+    if(p===st)err(t.line,'if 的小括號裡面沒有條件');
+    const text=src.slice(toks[st].pos,toks[p-1].end);
+    if(!isOp(')'))err(prevLine(),'if 的條件少了右括號 )');
+    p++;
+    if(cond.k==='assign'&&cond.op==='='&&!cond.paren)
+      warns.push({line:t.line,msg:`if 的條件裡用的是 =（把值放進去），不是 ==（比較）。這會把「${cond.name}」改掉，而不是檢查它。`});
+    scopes.push(new Map());const then=stmt();scopes.pop();let els=null;
+    if(peek().t==='id'&&peek().v==='else'){p++;scopes.push(new Map());els=stmt();scopes.pop()}
+    return {k:'if',cond,text,then,els,line:t.line};
+  }
+  function block(){
+    const open=expectOp('{');scopes.push(new Map());const body=[];
+    while(!isOp('}')){
+      if(peek().t==='eof')err(open.line,'這個 { 找不到對應的 }（大括號必須成對）');
+      body.push(stmt());
+    }
+    p++;scopes.pop();return {k:'block',body,line:open.line};
+  }
+  function stmt(){
+    const t=peek();
+    if(t.t==='op'&&t.v==='{')return block();
+    if(t.t==='op'&&t.v===';'){p++;return {k:'nop',line:t.line}}
+    if(t.t==='pp')err(t.line,'#include 要放在程式最前面，不能放在 main 裡面');
+    if(t.t==='id'){
+      if(TYPES.includes(t.v)&&peek(1).t==='id'||TYPES.includes(t.v)&&peek(1).t==='op'&&peek(1).v===','){return decl()}
+      if(t.v==='if')return ifStmt();
+      if(t.v==='else')err(t.line,'這個 else 前面找不到配對的 if');
+      if(t.v==='while'||t.v==='for')err(t.line,`這個練習器還沒支援 ${t.v}（這是以後會學到的「迴圈」）`);
+      if(t.v==='return'){p++;let e=null;if(!isOp(';'))e=assign();expectOp(';');return {k:'ret',e,line:t.line}}
+      if(t.v==='cout'){p++;return readCout(t)}
+      if(t.v==='cin'){p++;return readCin(t)}
+    }
+    const e=assign();expectOp(';');
+    return {k:'expr',e,line:t.line};
+  }
+
+  while(peek().t!=='eof'){
+    const t=peek();
+    if(t.t==='pp'){
+      if(!/^#\s*include\s*<[\w.]+>$/.test(t.v))err(t.line,'#include 的寫法應該像這樣：#include <iostream>');
+      if(/iostream/.test(t.v))hasIo=true;p++;continue}
+    if(t.t==='id'&&t.v==='using'){
+      p++;const a=peek();
+      if(a.v!=='namespace')err(t.line,`using 後面應該接 namespace，你寫的是「${a.v}」`);
+      p++;const b=peek();
+      if(b.v!=='std')err(t.line,`應該是 using namespace std;，你寫的是「${b.v}」`);
+      p++;expectOp(';');usingStd=true;continue}
+    if(t.t==='id'&&t.v==='int'&&peek(1).v==='main'){
+      p+=2;expectOp('(');expectOp(')');
+      main=block();hasMain=true;continue}
+    let hint='';
+    if(t.v==='include')hint='（#include 前面少了 # 符號）';
+    else if(t.t==='id'&&lev(t.v,'using')<=1)hint='（是不是想寫 using？）';
+    else if(t.t==='id'&&lev(t.v,'namespace')<=2)hint='（namespace 是不是拼錯了？）';
+    err(t.line,`這裡的「${t.v}」看不懂${hint}`);
+  }
+  if(!hasMain)err(1,'找不到主程式 int main() { ... }');
+  return {main,warns,src};
+}
+
+// ---------- format ----------
+function fmtFloat(x){
+  if(Number.isNaN(x))return 'nan';if(!Number.isFinite(x))return x<0?'-inf':'inf';
+  if(x===0)return '0';
+  const e=Number(x.toExponential(5).split('e')[1]);
+  if(e<-4||e>=6){let [m,ex]=x.toExponential(5).split('e');m=m.replace(/\.?0+$/,'');const sg=ex[0]==='-'?'-':'+';ex=ex.replace(/^[+-]/,'').padStart(2,'0');return m+'e'+sg+ex}
+  {const f=x.toFixed(Math.max(0,5-e));return f.includes('.')?f.replace(/\.?0+$/,''):f}
+}
+function fmt(v){
+  if(v.t==='float')return fmtFloat(v.v);
+  if(v.t==='bool')return v.v?'1':'0';
+  return String(v.v);
+}
+
+// ---------- run ----------
+const RET={};
+function run(prog,inputText){
+  const segs=[],trace=[],warns=new Set(),infos=new Set();
+  const inTok=(inputText||'').split(/\s+/).filter(x=>x.length);let ip=0;
+  const scopes=[new Map()];
+  const lookup=n=>{for(let i=scopes.length-1;i>=0;i--)if(scopes[i].has(n))return scopes[i].get(n);return null};
+  const out=s=>{if(s==='')return;const l=segs[segs.length-1];if(l&&l.k==='out')l.s+=s;else segs.push({k:'out',s})};
+  const snap=()=>{const r=[];scopes.forEach(m=>m.forEach((c,name)=>r.push({name,type:c.type,val:c.val?fmt(c.val):null})));return r};
+  let trunc=false;
+  const rec=(line,note)=>{if(trace.length>=400){trunc=true;return}trace.push({line,note:note||'',vars:snap(),out:segs.reduce((n,x)=>n+x.s.length,0)})};
+  const num=(v,line)=>{if(v.t==='string')throw new RErr(line,'文字不能拿來做數學運算');
+    if(v.t==='char')return v.v.codePointAt(0);if(v.t==='bool')return v.v?1:0;return v.v};
+  const isF=v=>v.t==='float';
+  function conv(v,type,line){
+    switch(type){
+      case 'int':case 'long':case 'short':{let n=num(v,line);if(isF(v))n=Math.trunc(n);return {t:'int',v:n|0}}
+      case 'float':return {t:'float',v:Math.fround(num(v,line))};
+      case 'double':return {t:'float',v:num(v,line)};
+      case 'bool':return {t:'bool',v:num(v,line)!==0};
+      case 'char':return v.t==='char'?v:{t:'char',v:String.fromCharCode(num(v,line))};
+      case 'string':if(v.t!=='string')throw new RErr(line,'string 變數只能放文字');return v;
+    }
+  }
+  function readVar(n){
+    const c=lookup(n.name);
+    if(!c.val){warns.add(`變數「${n.name}」還沒有放進任何值就被拿來用了（真正的電腦裡這個值不確定，不能依賴它）。這個練習器先當成 0。`);
+      return conv({t:'int',v:0},c.type,n.line)}
+    return c.val;
+  }
+  function arith(op,a,b,line){
+    if(a.t==='string'&&b.t==='string'&&op==='+')return {t:'string',v:a.v+b.v};
+    const x=num(a,line),y=num(b,line);const fl=isF(a)||isF(b);
+    switch(op){
+      case '+':return fl?{t:'float',v:x+y}:{t:'int',v:(x+y)|0};
+      case '-':return fl?{t:'float',v:x-y}:{t:'int',v:(x-y)|0};
+      case '*':return fl?{t:'float',v:x*y}:{t:'int',v:Math.imul(x,y)};
+      case '/':
+        if(fl)return {t:'float',v:x/y};
+        if(y===0)throw new RErr(line,'整數不能除以 0！電腦會當機（這叫「執行期錯誤」）。');
+        if(x%y!==0)infos.add(`${x} / ${y}：兩邊都是整數，所以小數會被捨去，結果是 ${Math.trunc(x/y)}。若想得到小數，要讓其中一邊變成小數（例如 ${y}.0）。`);
+        return {t:'int',v:Math.trunc(x/y)};
+      case '%':
+        if(fl)throw new RErr(line,'% 只能用在「整數」。');
+        if(y===0)throw new RErr(line,'不能對 0 取餘數！');
+        return {t:'int',v:x%y};
+    }
+  }
+  function ev(n){
+    switch(n.k){
+      case 'num':return {t:n.f?'float':'int',v:n.v};
+      case 'str':return {t:'string',v:n.v};
+      case 'chr':return {t:'char',v:n.v};
+      case 'bool':return {t:'bool',v:n.v};
+      case 'var':return readVar(n);
+      case 'un':{const v=ev(n.e);
+        if(n.op==='!')return {t:'bool',v:num(v,n.line)===0};
+        if(n.op==='-')return isF(v)?{t:'float',v:-v.v}:{t:'int',v:-num(v,n.line)};
+        return isF(v)?v:{t:'int',v:num(v,n.line)}}
+      case 'cast':return conv(ev(n.e),n.type,n.line);
+      case 'logic':{const l=num(ev(n.l),n.line)!==0;
+        if(n.op==='&&')return {t:'bool',v:l&&num(ev(n.r),n.line)!==0};
+        return {t:'bool',v:l||num(ev(n.r),n.line)!==0}}
+      case 'bin':{
+        const a=ev(n.l),b=ev(n.r);
+        if(['+','-','*','/','%'].includes(n.op))return arith(n.op,a,b,n.line);
+        let x,y;if(a.t==='string'&&b.t==='string'){x=a.v;y=b.v}else{x=num(a,n.line);y=num(b,n.line)}
+        const r={'<':x<y,'>':x>y,'<=':x<=y,'>=':x>=y,'==':x===y,'!=':x!==y}[n.op];
+        return {t:'bool',v:r}}
+      case 'assign':{
+        const c=lookup(n.name);let rhs=ev(n.right);
+        if(n.op!=='='){rhs=arith(n.op[0],readVar({name:n.name,line:n.line}),rhs,n.line)}
+        c.val=conv(rhs,c.type,n.line);return c.val}
+      case 'incdec':{
+        const c=lookup(n.name);const old=readVar(n);
+        const nv=conv(isF(old)?{t:'float',v:old.v+n.delta}:{t:'int',v:num(old,n.line)+n.delta},c.type,n.line);
+        c.val=nv;return n.post?old:nv}
+    }
+  }
+  const truthy=v=>num(v,0)!==0;
+  let failed=false;
+  function readTok(c,name,line){
+    if(failed){warns.add(`前面的 cin 已經讀取失敗，後面的變數（例如 ${name}）不會再被更新。`);return '（略過）'}
+    if(ip>=inTok.length)throw new RErr(line,'cin 想讀資料，但「⌨ 輸入區」的資料不夠了。請在輸入區多填幾個值（用空白隔開）。');
+    let tk=inTok[ip++],val,used=tk,rest='';
+    const t=c.type;
+    if(t==='int'||t==='long'||t==='short'||t==='bool'){
+      const m=/^[+-]?\d+/.exec(tk);
+      if(!m){warns.add(`輸入的「${tk}」不是整數，變數 ${name} 讀取失敗（會變成 0），之後的 cin 也都會失敗。`);val=0;used=tk;failed=true}
+      else{val=parseInt(m[0],10);if(val>2147483647||val<-2147483648){warns.add(`輸入的 ${m[0]} 超出 int 能放的範圍（約 ±21 億），讀取失敗。`);val=val>0?2147483647:-2147483648;failed=true}used=m[0];rest=tk.slice(m[0].length);
+        if(rest)warns.add(`變數 ${name} 是整數（${t}），只讀到「${used}」，剩下的「${rest}」會留給下一個 cin。`)}
+      c.val=conv({t:'int',v:val},t,line);
+    }else if(t==='float'||t==='double'){
+      const m=/^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?/.exec(tk);
+      if(!m){warns.add(`輸入的「${tk}」不是數字，變數 ${name} 讀取失敗（會變成 0），之後的 cin 也都會失敗。`);val=0;failed=true}
+      else{val=parseFloat(m[0]);used=m[0];rest=tk.slice(m[0].length)}
+      c.val=conv({t:'float',v:val},t,line);
+    }else if(t==='char'){
+      const ch=[...tk][0];used=ch;rest=tk.slice(ch.length);c.val={t:'char',v:ch};
+    }else{c.val={t:'string',v:tk}}
+    if(rest)inTok.splice(ip,0,rest);
+    return used;
+  }
+  function condNote(text,res){
+    const sub=text.replace(/[A-Za-z_]\w*/g,m=>{const c=lookup(m);return c&&c.val?fmt(c.val):m});
+    return `條件 ${text}`+(sub!==text?`（代入數值：${sub}）`:'')+` → ${res?'✔ 成立':'✘ 不成立'}`;
+  }
+  function exec(s){
+    switch(s.k){
+      case 'block':scopes.push(new Map());try{for(const x of s.body)exec(x)}finally{scopes.pop()}return;
+      case 'nop':return;
+      case 'decl':
+        for(const it of s.items){
+          const c={type:it.type,val:null};
+          if(it.init)c.val=conv(ev(it.init),it.type,it.line);
+          scopes[scopes.length-1].set(it.name,c);
+        }
+        rec(s.line,'宣告變數'+(s.items.every(i=>i.init)?'並放進初始值':'（沒有初始值的盒子是空的 ?）'));return;
+      case 'expr':ev(s.e);rec(s.line);return;
+      case 'cout':
+        for(const it of s.items){if(it.k==='endl')out('\n');else out(fmt(ev(it)))}
+        rec(s.line,'印到螢幕');return;
+      case 'cin':{
+        const used=[];for(const nme of s.names)used.push(readTok(lookup(nme),nme,s.line));
+        segs.push({k:'in',s:used.join(' ')+'\n'});
+        rec(s.line,`從鍵盤讀入：${used.join('、')}`);return}
+      case 'if':{
+        const r=truthy(ev(s.cond));
+        rec(s.line,condNote(s.text,r));
+        scopes.push(new Map());try{if(r)exec(s.then);else if(s.els)exec(s.els)}finally{scopes.pop()}return}
+      case 'ret':if(s.e)ev(s.e);rec(s.line,'return：程式結束');throw RET;
+    }
+  }
+  let error=null;
+  rec(prog.main.line,'程式從 main 開始');
+  try{exec(prog.main)}catch(e){if(e===RET){}else if(e instanceof RErr){error=e;rec(e.line,'💥 這一行發生錯誤，程式在此停止：'+e.message)}else throw e}
+  const output=segs.filter(s=>s.k==='out').map(s=>s.s).join('');
+  return {segs,trace,trunc,error,warns:[...warns],infos:[...infos],output};
+}
+return {compile,run,fmt,CErr,RErr};
+})();
+if(typeof module!=='undefined')module.exports=Engine;
+</script>
+
+<!-- ============================================================ -->
+<!--                      範例與挑戰題資料                          -->
+<!-- ============================================================ -->
+<script id="data">
+const SK=(body,pre='')=>String.raw`#include <iostream>
+using namespace std;
+${pre}int main(){
+${body}
+    return 0;
+}`;
+const PG={
+hello0:{title:'🧪 第一個程式',code:SK(String.raw`    cout<<"Hello, Hello!"<<endl;
+    cout<<"我正在學程式";`),task:'把雙引號裡的文字改成別的，按 ▶ 執行。'},
+
+hello1:{title:'💻 輸出練習',file:'20260907-2.cpp',
+ code:SK(String.raw`    cout<<"關西高中"<<endl;  //endl 是換行之意 (end line)
+    cout<<"高一乙"<<endl;
+    cout<<"王小明";          //結束則不需換行`),
+ task:'① 先執行看看。② 把第 2 行的 endl 刪掉再執行，輸出有什麼不同？③ 再多加幾行 cout。'},
+
+poem:{title:'🏆 挑戰：印出〈春曉〉',file:'20260907作業',
+ code:SK(String.raw`    cout<<"春眠不覺曉"<<endl;
+    //請繼續印出另外三句：
+    //處處聞啼鳥 / 夜來風雨聲 / 花落知多少 (最後一行不用 endl)`),
+ task:'讓程式印出整首四行的詩，每句各占一行。完成後按 <b>✔ 檢查答案</b>。',
+ tests:[{input:'',expected:'春眠不覺曉\n處處聞啼鳥\n夜來風雨聲\n花落知多少'}]},
+
+avg0:{title:'💻 算平均',file:'20260907-3.cpp',
+ code:SK(String.raw`    int x=10,y=40,avg;
+    avg=(x+y)/2;
+    cout<<avg;   //要印出變數運算結果，故不加雙引號`),
+ task:'按 👣 看看三個盒子 x、y、avg 如何變化。然後把 x 改成 30 再試一次。'},
+
+area_w:{title:'🏆 挑戰：長方形面積',
+ code:SK(String.raw`    int w=7, h=5, area;
+    //請在這裡算出面積，放進 area
+    cout<<area;`),
+ task:'補上一行，算出 w × h 並放進 area，讓程式印出 35。',
+ tests:[{input:'',expected:'35'}]},
+
+cin1:{title:'💻 輸入與輸出',file:'20260914-1.cpp',input:'100 2.5',
+ code:SK(String.raw`    int n=3,p=6;    //= 是指定運算子：把右邊的值放進左邊的變數
+    float t;
+    cout<<"請輸入n的數值:";
+    cin>>n;         //輸入 100，會取代原本的 3
+    cout<<"n等於"<<n<<"\n"<<"p="<<p<<"\n";
+    cout<<"請輸入t的數值:";
+    cin>>t;
+    cout<<"t等於"<<t;`),
+ task:'在 ⌨ 輸入區填入「100 2.5」（第一個給 n，第二個給 t）。試著改成別的數字。'},
+
+avgbug:{title:'🤔 為什麼平均不準？',file:'20260914-2.cpp',input:'90 85 84',
+ code:SK(String.raw`    int ch,ma,en,sum;   //宣告3個整數變數
+    float avg;          //平均用小數
+    cout<<"請輸入國文成績:";
+    cin>>ch;
+    cout<<"請輸入數學成績:";
+    cin>>ma;
+    cout<<"請輸入英文成績:";
+    cin>>en;
+
+    sum=ch+ma+en;
+    avg=sum/3;
+    cout<<"總分="<<sum<<"\n"<<"平均"<<avg;`),
+ task:'輸入 90 85 84。看看逐步模式中 avg 的值——注意，下方藍色的提示框會告訴你原因。'},
+
+avgfix:{title:'🏆 挑戰：讓平均變準確',file:'20260914-3.cpp',input:'90 85 84',
+ code:SK(String.raw`    int ch,ma,en,sum;
+    float avg;
+    cout<<"請依序輸入國文、數學、英文成績:";
+    cin>>ch>>ma>>en;      //cin 可以一次讀多個值
+
+    sum=ch+ma+en;
+    avg=sum/3;            //這行有問題
+    cout<<"總分="<<sum<<"\n"<<"平均"<<avg;`),
+ task:'目標：輸入 90 85 84 時，平均要顯示 86.3333。提示：除數改成「小數」的 3。',
+ tests:[{input:'90 85 84',expected:'請依序輸入國文、數學、英文成績:總分=259\n平均86.3333'},
+        {input:'80 70 90',expected:'請依序輸入國文、數學、英文成績:總分=240\n平均80'},
+        {input:'100 99 98',expected:'請依序輸入國文、數學、英文成績:總分=297\n平均99'}]},
+
+sum1:{title:'💻 sum = sum + i',file:'20260914-4.cpp',
+ code:SK(String.raw`    int sum=18, i=3;
+    sum=sum+i;      //new sum = old sum + i
+    cout<<"新的sum="<<sum;`),
+ task:'用 👣 觀察 sum 盒子：執行到第 2 行時，18 變成幾？'},
+
+dbg_semi:{title:'🐞 除錯 1',file:'20260914-4.cpp',
+ code:SK(String.raw`    int sum=18, i=3;
+    sum=sum+i;      //new sum = old sum + i
+
+    cout<<"新的sum="<<sum
+    `),
+ task:'按 ▶ 執行，讀紅色錯誤訊息，修正後讓它印出 <code>新的sum=21</code>。',
+ tests:[{input:'',expected:'新的sum=21'}]},
+
+dbg_decl:{title:'🐞 除錯 2',file:'20260914作業1.cpp',
+ code:SK(String.raw`    int x = 18,y = 3,;
+    sum =sum + i;      //new sum = old sum + i
+
+    cout<<"新的sum="<<sum;`),
+ task:'目標：印出 <code>新的sum=21</code>。（sum 一開始是 18，i 是 3）',
+ tests:[{input:'',expected:'新的sum=21'}]},
+
+ops_ex:{title:'🐞 運算與除錯',file:'20260921-2.cpp',
+ code:String.raw`#include <iostream>
+using namespace std;
+
+int main(){
+    cout<< 7/2 <<end;
+    x = 3*5%2-1;
+    cout<< x;
+}`,
+ task:'這份程式有 2 個錯誤。修好後應該印出兩行：<code>3</code> 和 <code>0</code>。',
+ tests:[{input:'',expected:'3\n0'}]},
+
+cast:{title:'💻 強制轉型',file:'20260921-1.cpp',
+ code:SK(String.raw`    int x=9, y=2;
+    cout<< x/y <<endl;           //整數 ÷ 整數
+    cout<< (float)x/y <<endl;    //先把 x 當成小數，再除
+    cout<< (float)(x/y);         //陷阱：先除完才轉型`),
+ task:'三個結果各是多少？再把 x、y 換成其他數字試試。'},
+
+circle:{title:'🏆 挑戰：圓面積',file:'20260921-3.cpp',input:'5',
+ code:SK(String.raw`    float a, pi=3.14;   //a 是面積，pi 是圓周率
+    int r;              //半徑 r (整數)
+    cout<<"請輸入半徑r(整數):";
+    cin>>r;
+
+    //請在這裡算出面積，放進 a
+
+    cout<<"面積是:"<<a;`),
+ task:'補上計算面積的那一行（π × r × r）。半徑 5 應該得到 78.5。',
+ tests:[{input:'5',expected:'請輸入半徑r(整數):面積是:78.5'},{input:'10',expected:'請輸入半徑r(整數):面積是:314'}]},
+
+incdec:{title:'💻 ++ 與 --',file:'20260921-5.cpp',
+ code:SK(String.raw`    int i=5, j=9;
+    i++;    //i+=1
+    cout<< i <<endl;
+    j--;    //j-=1
+    cout<< j <<endl;
+    i*=3;   //i=i*3
+    cout<< i;`),
+ task:'先猜最後三個輸出，再執行驗證。'},
+
+logic1:{title:'💻 連續比較的陷阱',file:'20260921-7.cpp',
+ code:SK(String.raw`    float s=85;
+
+    cout<< (80<=s<=89) <<endl;              //邏輯錯誤
+    cout<< ((s<= 89) && (s >=80)) <<endl;   //正確`),
+ task:'把 s 改成 95 和 70，各執行一次。哪一行結果是錯的？'},
+
+swap_ok:{title:'✅ 正確的交換',file:'20261005-1.cpp',
+ code:SK(String.raw`    int x=20, y=33, t;
+    cout<<"變數交換前，x="<< x <<"，y="<< y <<endl;
+    t=x;   //將 x 的值先放到 t 保管
+    x=y;   //將 y 的值放進 x
+    y=t;   //將 t 保管的值放進 y
+
+    cout<<"變數交換後，x="<< x <<"，y="<< y <<endl;`),
+ task:'用 👣 看 t 盒子扮演的角色。'},
+
+swap_bad:{title:'❌ 錯誤的交換（沒有暫存變數）',file:'20261005-2.cpp',
+ code:SK(String.raw`    int x=20, y=33;
+    cout<<"變數交換前，x="<< x <<"，y="<< y <<endl;
+
+    x=y;
+    y=x;
+
+    cout<<"變數交換後，x="<< x <<"，y="<< y <<endl;`),
+ task:'為什麼 x 和 y 最後都是 33？用 👣 找出 20 是在哪一步消失的。'},
+
+swap_ch:{title:'🏆 挑戰：交換 a 和 b',
+ code:SK(String.raw`    int a=5, b=8, t;
+    //請在這裡用三行完成交換
+
+    cout<<"a="<<a<<" b="<<b;`),
+ task:'讓程式印出 <code>a=8 b=5</code>。',
+ tests:[{input:'',expected:'a=8 b=5'}]},
+
+if1:{title:'💻 只有 if',file:'20261005-3.cpp',input:'75',
+ code:SK(String.raw`    int score;
+    cout<<"請輸入成績:";
+    cin>>score;
+
+    if(score>=60){
+        cout<<"成績及格。";
+    }`),
+ task:'輸入 75，再改成 59 試試。用 👣 看電腦怎麼判斷條件。'},
+
+if2:{title:'💻 if … else',file:'20261005-4.cpp',input:'59',
+ code:SK(String.raw`    int score;
+    cout<<"請輸入成績:";
+    cin>>score;
+
+    if(score>=60){
+        cout<<"成績及格。";
+    }
+    else{
+        cout<<"再接再厲！";
+    }`),
+ task:'輸入 59，現在不及格也有反應了。'},
+
+odd:{title:'💻 奇數偶數',file:'20261005-5.cpp',input:'7',
+ code:SK(String.raw`    int number;
+    cout<<"請輸入一個整數:";
+    cin>>number;
+
+    if(number%2==0){
+        cout<<number<<"是偶數";
+    }
+    else{
+        cout<<number<<"是奇數";
+    }`),
+ task:'試試 7、10、0、-3。'},
+
+adj:{title:'🏆 挑戰：補分調整',file:'20261005-7.cpp',input:'59',
+ code:SK(String.raw`    int score;
+    cout<<"請輸入成績:";
+    cin>>score;
+
+    if(score==59){
+        score++;    //score=score+1
+    }
+
+    cout<<"調整成績後為:"<<score;`),
+ task:'先用 59 試試。挑戰：修改程式，讓 <b>58 和 59 分</b>都被調整成 60，其他成績不變。',
+ tests:[{input:'59',expected:'請輸入成績:調整成績後為:60'},{input:'58',expected:'請輸入成績:調整成績後為:60'},
+        {input:'60',expected:'請輸入成績:調整成績後為:60'},{input:'57',expected:'請輸入成績:調整成績後為:57'},{input:'80',expected:'請輸入成績:調整成績後為:80'}]},
+
+mult3:{title:'🏆 挑戰：判斷 3 的倍數',
+ code:SK(String.raw`    int number;
+    cout<<"請輸入一個整數:";
+    cin>>number;
+
+    if(   ){        //在括號裡填入條件
+        cout<<number<<"是3的倍數";
+    }
+    else{
+        cout<<number<<"不是3的倍數";
+    }`),
+ task:'補上條件。提示：3 的倍數，除以 3 的餘數是 0。',
+ tests:[{input:'9',expected:'請輸入一個整數:9是3的倍數'},{input:'10',expected:'請輸入一個整數:10不是3的倍數'},{input:'12',expected:'請輸入一個整數:12是3的倍數'}]},
+
+grade:{title:'💻 成績等第',file:'20261005-6.cpp',input:'85',
+ code:SK(String.raw`    int score;
+    cout<<"請輸入成績:";
+    cin>>score;
+
+    if(score>=90){
+        cout<<score<<"的等第是A。";
+    }
+    else if(score>=80){
+        cout<<score<<"的等第是B。";
+    }
+    else if(score>=70){
+        cout<<score<<"的等第是C。";
+    }
+    else if(score>=60){
+        cout<<score<<"的等第是D。";
+    }
+    else if(score>=50){
+        cout<<score<<"的等第是F。";
+    }`),
+ task:'試試 95、85、60、50、30。30 會怎樣？'},
+
+grade_ch:{title:'🏆 挑戰：用 else 收尾',input:'30',
+ code:SK(String.raw`    int score;
+    cout<<"請輸入成績:";
+    cin>>score;
+
+    if(score>=90){
+        cout<<score<<"的等第是A。";
+    }
+    else if(score>=80){
+        cout<<score<<"的等第是B。";
+    }
+    else if(score>=70){
+        cout<<score<<"的等第是C。";
+    }
+    else if(score>=60){
+        cout<<score<<"的等第是D。";
+    }
+    else if(score>=50){
+        cout<<score<<"的等第是F。";
+    }`),
+ task:'修改最後一段，讓低於 60 的成績（包含 30）都顯示 F。',
+ tests:[{input:'95',expected:'請輸入成績:95的等第是A。'},{input:'85',expected:'請輸入成績:85的等第是B。'},{input:'60',expected:'請輸入成績:60的等第是D。'},
+        {input:'50',expected:'請輸入成績:50的等第是F。'},{input:'30',expected:'請輸入成績:30的等第是F。'}]},
+
+max_dbg:{title:'🐞 終極除錯：找最大值',file:'20261005-8.cpp',input:'70 90 80',
+ code:SK(String.raw`    int score1,score2,score3,max;
+    cout<<"請輸入第一次成績:";
+    cin>>score1;
+    cout<<"請輸入第二次成績:";
+    cin>>score2;
+    cout<<"請輸入第三次成績:";
+    cin>>score3;
+    cout<<"你輸入的成績分別是:"<<score1"、"<<score2"、"<<score3"。";
+
+    max=score1;     //將第一次分數設為最大
+    if(max<score2){
+        max=score2;
+    }
+    if(max=score3){
+        max=score3;
+    }
+
+    cout<<"你輸入的最高分數為:"<<max;`),
+ task:'修好所有錯誤，用 70 90 80 執行，最高分要是 90。按 ✔ 會用 4 組資料測試。',
+ tests:[{input:'70 90 80',expected:'請輸入第一次成績:請輸入第二次成績:請輸入第三次成績:你輸入的成績分別是:70、90、80。你輸入的最高分數為:90'},
+        {input:'50 60 90',expected:'請輸入第一次成績:請輸入第二次成績:請輸入第三次成績:你輸入的成績分別是:50、60、90。你輸入的最高分數為:90'},
+        {input:'95 60 80',expected:'請輸入第一次成績:請輸入第二次成績:請輸入第三次成績:你輸入的成績分別是:95、60、80。你輸入的最高分數為:95'},
+        {input:'60 60 60',expected:'請輸入第一次成績:請輸入第二次成績:請輸入第三次成績:你輸入的成績分別是:60、60、60。你輸入的最高分數為:60'}]}
+};
+if(typeof module!=='undefined')module.exports=PG;
+</script>
+
+<!-- ============================================================ -->
+<!--                          介面程式                              -->
+<!-- ============================================================ -->
+<script id="app">
+(()=>{
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function el(html){const t=document.createElement('template');t.innerHTML=html.trim();return t.content.firstChild}
+let store={};try{store=JSON.parse(localStorage.getItem('cpp-lab')||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem('cpp-lab',JSON.stringify(store))}catch(e){}};
+
+/* ---- syntax highlight ---- */
+const HL=/(\/\/.*$)|("(?:\\.|[^"\\\n])*")|('(?:\\.|[^'\\\n])*')|(#\s*include\s*<[^>]*>)|\b(int|float|double|char|bool|string|long|short|if|else|return|using|namespace)\b|\b(cout|cin|endl|std)\b|\b(\d+\.?\d*)\b/gm;
+function hl(text){
+  let out='',last=0,m;HL.lastIndex=0;
+  while((m=HL.exec(text))){
+    out+=esc(text.slice(last,m.index));
+    const cls=m[1]?'hc':m[2]||m[3]?'hs':m[4]?'hp':m[5]||m[6]?'hk':'hn';
+    out+=`<span class="${cls}">${esc(m[0])}</span>`;last=m.index+m[0].length;
+  }
+  return out+esc(text.slice(last));
+}
+$$('pre.code').forEach(p=>{p.innerHTML=hl(p.textContent)});
+
+/* ---- nav / routing ---- */
+const lessons=$$('.lesson');const nav=$('#nav');
+lessons.forEach((s,i)=>{
+  const li=el(`<li><button data-i="${i}"><span class="no">${i}</span><span>${esc(s.dataset.title)}<span class="src">${esc(s.dataset.src||'')}</span></span></button></li>`);
+  nav.appendChild(li);
+  s.appendChild(el(`<div class="nextbar"><span>${i>0?`<button class="btn" data-go="${i-1}">← 上一課</button>`:''}</span>
+    <button class="btn" data-done="${i}">☐ 我學會了</button>
+    <span>${i<lessons.length-1?`<button class="btn primary" data-go="${i+1}">下一課 →</button>`:''}</span></div>`));
+});
+function refreshProg(){
+  const d=store.done||{};let c=0;
+  $$('#nav button').forEach(b=>{const i=b.dataset.i;const ok=!!d[i];b.classList.toggle('done',ok);if(ok)c++});
+  $$('[data-done]').forEach(b=>{const ok=!!d[b.dataset.done];b.classList.toggle('done',ok);b.textContent=ok?'✔ 已學會':'☐ 我學會了'});
+  $('#prog').textContent=`學習進度：${c} / ${lessons.length}`;
+}
+function show(i,push=true){
+  i=Math.max(0,Math.min(lessons.length-1,i));
+  lessons.forEach((s,k)=>s.classList.toggle('on',k===i));
+  $$('#nav button').forEach(b=>b.classList.toggle('on',+b.dataset.i===i));
+  $('#topTitle').textContent=lessons[i].dataset.title;
+  if(push)history.replaceState(null,'','#L'+i);
+  sideState(false);window.scrollTo(0,0);
+  try{store.last=i;save()}catch(e){}
+}
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-go]');if(g)return show(+g.dataset.go);
+  const n=e.target.closest('#nav button');if(n)return show(+n.dataset.i);
+  const d=e.target.closest('[data-done]');if(d){store.done=store.done||{};store.done[d.dataset.done]=!store.done[d.dataset.done];save();refreshProg()}
+});
+const side=$('#side'),mq=matchMedia('(max-width:900px)');
+function sideState(open){side.classList.toggle('open',open);$('#menuBtn').setAttribute('aria-expanded',open);
+  side.inert=mq.matches?!open:false}
+$('#menuBtn').setAttribute('aria-controls','side');
+$('#menuBtn').onclick=()=>sideState(!side.classList.contains('open'));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&side.classList.contains('open')){sideState(false);$('#menuBtn').focus()}});
+mq.addEventListener('change',()=>sideState(false));
+side.insertAdjacentHTML('afterbegin','<button class="btn side-close" style="display:none;float:right;padding:2px 10px" aria-label="關閉目錄">✕</button>');
+$('.side-close').onclick=()=>{sideState(false);$('#menuBtn').focus()};
+sideState(false);
+$('#themeBtn').onclick=()=>{const r=document.documentElement;const dark=getComputedStyle(r).getPropertyValue('--bg').trim()==='#10131b';r.dataset.theme=dark?'light':'dark'};
+
+/* ---- annotated code ---- */
+$$('.annot').forEach(a=>{
+  const data=JSON.parse(a.dataset.lines);
+  const tmp=document.createElement('div');
+  a.innerHTML=`<div class="src"></div><div class="say"><div class="h">👆 點一點左邊的程式碼</div></div>`;
+  const src=$('.src',a),say=$('.say',a);
+  data.forEach(([code,note],i)=>{
+    const d=document.createElement('div');d.className='ln';d.innerHTML=hl(code);
+    d.tabIndex=0;d.setAttribute('role','button');
+    const pick=()=>{$$('.ln',src).forEach(x=>x.classList.remove('on'));d.classList.add('on');say.innerHTML=note};
+    d.onclick=pick;d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick()}};
+    src.appendChild(d);
+  });
+});
+
+/* ---- quizzes ---- */
+let finalRight=0;const finalTotal=$$('.quiz.final').length;
+$$('.quiz').forEach(q=>{
+  const ans=+q.dataset.ans;let tries=0;
+  const items=$$('ol>li',q);
+  items.forEach((li,i)=>{li.innerHTML=`<span class="k">${'ABCD'[i]}</span><span>${li.innerHTML}</span>`;li.tabIndex=0;li.setAttribute('role','button')});
+  q.appendChild(el('<div class="fb" aria-live="polite"></div>'));
+  $$('pre.code',q).forEach(p=>{if(!p.dataset.h){p.innerHTML=hl(p.textContent)}});
+  const pick=i=>{
+    if(q.classList.contains('solved'))return;
+    const li=items[i];if(li.classList.contains('wrong'))return;
+    tries++;
+    if(i===ans){li.classList.add('right');q.classList.add('solved');$('.fb',q).style.color='var(--good)';$('.fb',q).textContent='✔ 答對了！';
+      if(q.classList.contains('final')&&tries===1){finalRight++;}
+      if(q.classList.contains('final')){$('#finalScore').textContent=`目前答對 ${finalRight} / ${finalTotal}（第一次就答對才計分）`}}
+    else{li.classList.add('wrong');$('.fb',q).style.color='var(--bad)';$('.fb',q).textContent='✘ 還不對喔，再想想看～'}
+  };
+  items.forEach((li,i)=>{li.onclick=()=>pick(i);li.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(i)}}});
+});
+
+/* ---- playground ---- */
+function render(segs,limit){
+  let h='',left=limit==null?Infinity:limit;
+  for(const s of segs){
+    if(left<=0)break;
+    const t=s.s.slice(0,left);left-=t.length;
+    h+=s.k==='in'?`<span class="in">${esc(t)}</span>`:esc(t);
+  }
+  return h;
+}
+function compileSafe(code){
+  try{return {prog:Engine.compile(code)}}catch(e){if(e instanceof Engine.CErr)return {err:e};throw e}
+}
+function normalize(s){return String(s).replace(/\s+$/,'')}
+function vis(s){return esc(s).replace(/\n/g,'<span style="opacity:.5">⏎</span>\n')}
+
+function mountPG(root){
+  const cfg=PG[root.dataset.id];if(!cfg)return;
+  const showIn=cfg.input!==undefined||/cin/.test(cfg.code);
+  root.className='pg';
+  root.innerHTML=`<div class="pg-head"><span>${cfg.title||'試試看'}</span><span class="f">${cfg.file?'📄 '+cfg.file:''}</span></div>
+  ${cfg.task?`<div class="pg-task">${cfg.task}</div>`:''}
+  <div class="pg-edit"><div class="gut"></div><textarea spellcheck="false" aria-label="程式碼編輯區（Tab 鍵縮排；按 Esc 後再按 Tab 可離開編輯區）"></textarea></div>
+  <div class="pg-in"${showIn?'':' hidden'}><label>⌨ 輸入區（cin 讀的資料，用空白隔開）</label><input type="text" value="${esc(cfg.input||'')}" aria-label="cin 輸入區"></div>
+  <div class="pg-btns"><button class="btn primary b-run">▶ 執行</button><button class="btn b-step">👣 逐步看變數</button>${cfg.tests?'<button class="btn b-chk">✔ 檢查答案</button>':''}<button class="btn b-rst">↺ 還原</button></div>
+  <div class="pg-msgs" role="status" aria-live="polite"></div>
+  <pre class="term"><span class="ph">（按 ▶ 執行，結果會顯示在這裡）</span></pre>
+  <div class="stepper" hidden>
+    <div class="stp-grid"><div class="stp-code"></div>
+      <div class="stp-side"><div class="stp-note"></div><div class="vars"></div><pre class="term mini"></pre></div></div>
+    <div class="stp-ctl"><button class="btn s-first" aria-label="回到第一步">⏮</button><button class="btn s-prev">◀ 上一步</button><span class="pos"></span>
+      <button class="btn primary s-next">下一步 ▶</button><button class="btn s-auto">⏵ 自動播放</button><button class="btn s-close">✕ 關閉</button></div>
+  </div>
+  <div class="tests" role="status" aria-live="polite"></div>`;
+  const ta=$('textarea',root),gut=$('.gut',root),term=$('.term',root),msgs=$('.pg-msgs',root),inp=$('.pg-in input',root),tests=$('.tests',root);
+  const lines=()=>{const pin=$('.pg-in',root);if(pin)pin.hidden=!/cin/.test(ta.value);const n=ta.value.split('\n').length;gut.textContent=Array.from({length:n},(_,i)=>i+1).join('\n')};
+  ta.value=cfg.code;lines();
+  ta.addEventListener('input',lines);ta.addEventListener('blur',()=>{tabMove=false});
+  ta.addEventListener('scroll',()=>{gut.scrollTop=ta.scrollTop});
+  let tabMove=false;
+  ta.addEventListener('keydown',e=>{if(e.key==='Escape'){tabMove=true;return}if(e.key==='Tab'&&!tabMove&&!e.shiftKey){e.preventDefault();const s=ta.selectionStart;ta.setRangeText('    ',s,ta.selectionEnd,'end')}});
+  ta.style.height=Math.min(560,Math.max(150,ta.value.split('\n').length*22+24))+'px';
+  const note=(cls,html)=>msgs.appendChild(el(`<div class="msg ${cls}">${html}</div>`));
+  function showCompileErr(e){note('err',`🛑 <b>編譯錯誤（第 ${e.line} 行附近）</b><br>${esc(e.message)}`);term.innerHTML='<span class="ph">（程式有錯，所以沒有執行）</span>'}
+  function doRun(){
+    msgs.innerHTML='';tests.innerHTML='';closeStep();
+    const c=compileSafe(ta.value);
+    if(c.err){showCompileErr(c.err);return null}
+    const r=Engine.run(c.prog,inp?inp.value:'');
+    term.innerHTML=render(r.segs)||'<span class="ph">（程式沒有輸出任何東西）</span>';
+    if(r.error)note('err',`💥 <b>執行時發生錯誤（第 ${r.error.line} 行）</b><br>${esc(r.error.message)}`);
+    c.prog.warns.forEach(w=>note('warn',`⚠ <b>第 ${w.line} 行 警告：</b>${esc(w.msg)}`));
+    r.warns.forEach(w=>note('warn',`⚠ ${esc(w)}`));
+    r.infos.forEach(w=>note('info',`ℹ ${esc(w)}`));
+    return {c,r};
+  }
+  $('.b-run',root).onclick=doRun;
+  $('.b-rst',root).onclick=()=>{ta.value=cfg.code;lines();if(inp)inp.value=cfg.input||'';msgs.innerHTML='';tests.innerHTML='';closeStep();term.innerHTML='<span class="ph">（按 ▶ 執行，結果會顯示在這裡）</span>'};
+  if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')doRun()});
+
+  const chk=$('.b-chk',root);
+  if(chk)chk.onclick=()=>{
+    msgs.innerHTML='';closeStep();tests.innerHTML='';
+    const c=compileSafe(ta.value);
+    if(c.err){showCompileErr(c.err);return}
+    let pass=0;
+    cfg.tests.forEach((t,i)=>{
+      const r=Engine.run(c.prog,t.input);
+      const got=r.error?r.output+'\n[執行錯誤：'+r.error.message+']':r.output;
+      const ok=!r.error&&normalize(got)===normalize(t.expected);if(ok)pass++;
+      tests.appendChild(el(`<div class="tcase ${ok?'pass':'fail'}"><b>${ok?'✅':'❌'} 測試 ${i+1}</b>　輸入：<code>${esc(t.input||'（無）')}</code>
+        ${ok?'':`<pre>期望輸出：\n${vis(t.expected)}\n\n你的輸出：\n${vis(got)}</pre>`}</div>`));
+    });
+    if(pass===cfg.tests.length)tests.prepend(el('<div class="msg ok">🎉 <b>全部通過！</b>太棒了，你完成這個挑戰了。</div>'));
+    else tests.prepend(el(`<div class="msg err">通過 ${pass} / ${cfg.tests.length} 組測試，再檢查一下～</div>`));
+  };
+
+  /* stepper */
+  const stp=$('.stepper',root);let tr=null,idx=0,timer=null,codeLines=[];
+  const sc=$('.stp-code',root),sn=$('.stp-note',root),sv=$('.vars',root),so=$('.term.mini',root),pos=$('.pos',root);
+  function closeStep(){clearInterval(timer);timer=null;$('.s-auto',root).textContent='⏵ 自動播放';stp.hidden=true}
+  function draw(){
+    const t=tr.trace[idx],prev=idx>0?tr.trace[idx-1]:null;
+    $$('.sl',sc).forEach((d,i)=>d.classList.toggle('cur',i+1===t.line&&idx>0));
+    const cur=$('.sl.cur',sc);if(cur)cur.scrollIntoView({block:'nearest'});
+    sn.innerHTML=idx===0?'🏁 '+esc(t.note):`<b>剛執行第 ${t.line} 行</b>${t.note?'：'+esc(t.note):''}`;
+    sv.innerHTML=t.vars.length?t.vars.map(v=>{
+      const was=prev&&prev.vars.find(x=>x.name===v.name);const chg=!was||was.val!==v.val;
+      return `<div class="vbox ${chg&&idx>0?'chg':''}"><div class="vt">${esc(v.type)}</div><div class="vv ${v.val===null?'q':''}">${v.val===null?'?':esc(v.val)}</div><div class="vn">${esc(v.name)}</div></div>`}).join(''):'<span style="color:var(--muted)">（還沒有任何變數）</span>';
+    so.innerHTML=render(tr.segs,t.out)||'<span class="ph">（螢幕還是空的）</span>';
+    pos.textContent=`第 ${idx} / ${tr.trace.length-1} 步`;
+    $('.s-prev',root).disabled=$('.s-first',root).disabled=idx===0;$('.s-next',root).disabled=idx>=tr.trace.length-1;
+  }
+  $('.b-step',root).onclick=()=>{
+    const res=doRun();if(!res)return;
+    tr=res.r;idx=0;stp.hidden=false;term.innerHTML='<span class="ph">（逐步執行中：螢幕輸出請看下方右側的黑色視窗）</span>';
+    if(tr.trunc)note('info','ℹ 程式步驟太多，逐步模式只顯示前 400 步。');
+    sc.innerHTML=ta.value.split('\n').map((l,i)=>`<div class="sl"><i>${i+1}</i><span>${hl(l)||' '}</span></div>`).join('');
+    draw();stp.scrollIntoView({block:'nearest',behavior:'smooth'});
+  };
+  const go=d=>{idx=Math.max(0,Math.min(tr.trace.length-1,idx+d));draw();if(idx>=tr.trace.length-1)stopAuto()};
+  const stopAuto=()=>{clearInterval(timer);timer=null;$('.s-auto',root).textContent='⏵ 自動播放'};
+  $('.s-next',root).onclick=()=>go(1);$('.s-prev',root).onclick=()=>go(-1);
+  $('.s-first',root).onclick=()=>{idx=0;draw();stopAuto()};
+  $('.s-close',root).onclick=closeStep;
+  $('.s-auto',root).onclick=function(){
+    if(timer){stopAuto();return}
+    if(idx>=tr.trace.length-1)idx=0;draw();
+    this.textContent='⏸ 暫停';timer=setInterval(()=>go(1),1100)};
+}
+$$('.pg[data-id]').forEach(mountPG);
+
+/* ---- widgets ---- */
+const W={
+swap(w){
+  w.insertAdjacentHTML('beforeend',`<div class="bigbox"><div class="bb" data-b="x"><div class="n">x</div><div class="v">20</div></div>
+    <div class="bb" data-b="y"><div class="n">y</div><div class="v">33</div></div>
+    <div class="bb tmp" data-b="t"><div class="n">t（暫存）</div><div class="v">?</div></div></div>
+    <div class="cmds"></div><div class="log" aria-live="polite"></div><div class="fbk" style="margin-top:8px"></div>
+    <button class="btn rs" style="margin-top:8px">↺ 清除重來</button>`);
+  let S={x:20,y:33,t:null},hist=[];
+  const cmds=['t = x','t = y','x = y','y = x','x = t','y = t'];
+  const box=$('.cmds',w);
+  cmds.forEach(c=>{const b=el(`<button class="btn">${c};</button>`);b.onclick=()=>apply(c);box.appendChild(b)});
+  function draw(flash){
+    ['x','y','t'].forEach(k=>{const b=$(`[data-b=${k}]`,w);$('.v',b).textContent=S[k]===null?'?':S[k];
+      if(k===flash){b.classList.remove('flash');void b.offsetWidth;b.classList.add('flash')}});
+    $('.log',w).innerHTML=hist.length?hist.map((h,i)=>`${i+1}. ${h};`).join('<br>'):'<span style="color:var(--muted)">（按上面的積木，執行紀錄會出現在這裡）</span>';
+    const f=$('.fbk',w);
+    if(S.x===33&&S.y===20){f.innerHTML='<div class="msg ok">🎉 交換成功！x=33、y=20。你只用了 '+hist.length+' 步。</div>'}
+    else if(S.x===S.y&&S.x!==null&&hist.length>=2){f.innerHTML='<div class="msg err">糟了，x 和 y 變成一樣的值，原本的值被蓋掉了！按「清除重來」，記得先用 t 備份。</div>'}
+    else f.innerHTML='';
+  }
+  function apply(c){
+    const [l,r]=c.split(' = ');
+    if(S[r]===null){$('.fbk',w).innerHTML=`<div class="msg warn">⚠ ${r} 還是空的（?），先把值放進 ${r} 吧！</div>`;return}
+    S[l]=S[r];hist.push(c);draw(l);
+  }
+  $('.rs',w).onclick=()=>{S={x:20,y:33,t:null};hist=[];draw()};
+  draw();
+},
+ops(w){
+  w.insertAdjacentHTML('beforeend',`<div class="row"><label>a = <input type="number" class="a" value="9" aria-label="a"></label><label>b = <input type="number" class="b" value="2" aria-label="b"></label>
+    <label><input type="radio" name="m${Math.random()}" class="mi" checked> a、b 都是<b>整數</b></label>
+    <label><input type="radio" class="mf"> a、b 當成<b>小數</b></label></div>
+    <table class="t"><thead><tr><th>C++ 算式</th><th>結果</th><th>說明</th></tr></thead><tbody></tbody></table>`);
+  const mi=$('.mi',w),mf=$('.mf',w);const grp='g'+Math.random();mi.name=mf.name=grp;
+  function calc(){
+    let a=parseFloat($('.a',w).value),b=parseFloat($('.b',w).value);if(isNaN(a))a=0;if(isNaN(b))b=0;
+    const fl=mf.checked;if(!fl){a=Math.trunc(a);b=Math.trunc(b)}
+    const f=Engine.fmt,T=fl?'float':'int';const V=x=>f({t:T,v:x});
+    const rows=[['a + b',V(a+b),'加'],['a - b',V(a-b),'減'],['a * b',V(a*b),'乘']];
+    if(b===0){rows.push(['a / b','✘ 不能除以 0','除數不能是 0'],['a % b','✘ 不能除以 0','餘數也不行'])}
+    else{
+      rows.push(['a / b',fl?V(a/b):V(Math.trunc(a/b)),fl?'小數相除：保留小數':'整數 ÷ 整數：小數被捨去！']);
+      rows.push(['a % b',fl?'✘ 不能用':V(a%b),fl?'% 只能用在整數':'取餘數：a ÷ b 剩下多少']);
+      rows.push(['(float)a / b',Engine.fmt({t:'float',v:a/b}),'先把 a 轉成小數再除 → 保留小數部分（小數在電腦裡可能有微小誤差，cout 預設只顯示約 6 位有效數字）']);
+    }
+    $('tbody',w).innerHTML=rows.map(r=>`<tr><td><code>${r[0]}</code></td><td><b>${esc(r[1])}</b></td><td>${r[2]}</td></tr>`).join('');
+  }
+  $$('input',w).forEach(i=>i.addEventListener('input',calc));calc();
+},
+truth(w){
+  w.insertAdjacentHTML('beforeend',`<div class="row"><b>A =</b><button class="tfb t a">true（1）</button><b>B =</b><button class="tfb t b">true（1）</button></div>
+    <table class="t"><tr><th>運算</th><th>讀法</th><th>結果</th></tr>
+    <tr><td><code>A &amp;&amp; B</code></td><td>A <b>而且</b> B（兩個都要成立）</td><td class="r1"></td></tr>
+    <tr><td><code>A || B</code></td><td>A <b>或者</b> B（至少一個成立）</td><td class="r2"></td></tr>
+    <tr><td><code>!A</code></td><td><b>不是</b> A（顛倒）</td><td class="r3"></td></tr></table>`);
+  let A=true,B=true;const A_=$('.a',w),B_=$('.b',w);
+  const set=(btn,v)=>{btn.className='tfb '+(v?'t':'f')+(btn===A_?' a':' b');btn.textContent=v?'true（1）':'false（0）'};
+  const badge=v=>`<span class="tfb ${v?'t':'f'}" style="padding:2px 14px">${v?'1 成立':'0 不成立'}</span>`;
+  function draw(){set(A_,A);set(B_,B);$('.r1',w).innerHTML=badge(A&&B);$('.r2',w).innerHTML=badge(A||B);$('.r3',w).innerHTML=badge(!A)}
+  A_.onclick=()=>{A=!A;draw()};B_.onclick=()=>{B=!B;draw()};draw();
+},
+logic(w){
+  w.insertAdjacentHTML('beforeend',`<div class="row"><label>s =</label><input type="range" min="0" max="100" value="95" aria-label="分數 s"><b class="sv" style="min-width:2.5em"></b></div>
+    <div class="card"><div class="mono"><b style="color:var(--bad)">✘ 80 &lt;= s &lt;= 89</b></div><div class="e1" style="margin-top:6px"></div></div>
+    <div class="card"><div class="mono"><b style="color:var(--good)">✔ (s &gt;= 80) &amp;&amp; (s &lt;= 89)</b></div><div class="e2" style="margin-top:6px"></div></div>`);
+  const r=$('input',w);
+  function draw(){
+    const s=+r.value;$('.sv',w).textContent=s;
+    const a=80<=s?1:0,b=a<=89?1:0;
+    $('.e1',w).innerHTML=`電腦的算法：先算左邊 <code>80 &lt;= ${s}</code> → <b>${a}</b>；再算 <code>${a} &lt;= 89</code> → <b>${b}</b>。<br>結果 <b>${b}</b> ${b?'（成立）':''}<br><small style="color:var(--muted)">不論 s 是多少，第一步只會得到 0 或 1，而 0、1 都小於 89，所以<u>永遠成立</u>！</small>`;
+    const c=s>=80,d=s<=89;
+    $('.e2',w).innerHTML=`<code>${s}&gt;=80</code> → <b>${c?1:0}</b>　<code>${s}&lt;=89</code> → <b>${d?1:0}</b>　兩個都要成立 → 結果 <b>${c&&d?1:0}</b> ${c&&d?'（成立 ✔ 真的在 80~89）':'（不成立 ✔）'}`;
+  }
+  r.oninput=draw;draw();
+},
+ladder(w){
+  w.insertAdjacentHTML('beforeend',`<div class="row"><label>score =</label><input type="range" min="0" max="100" value="85" aria-label="分數 score"><b class="sv" style="min-width:2.5em"></b></div>
+    <div class="row"><label><input type="radio" class="m1" checked> <b>else if</b> 鏈（上面成立就停）</label><label><input type="radio" class="m2"> 每個都是獨立的 <b>if</b></label></div>
+    <div class="lad"></div><div class="res msg info" aria-live="polite"></div>`);
+  const g='g'+Math.random();const m1=$('.m1',w),m2=$('.m2',w);m1.name=m2.name=g;
+  const B=[[90,'A'],[80,'B'],[70,'C'],[60,'D'],[50,'F']];const r=$('input[type=range]',w);
+  function draw(){
+    const s=+r.value;$('.sv',w).textContent=s;const chain=m1.checked;let hit=false;const outs=[];
+    $('.lad',w).innerHTML=B.map(([n,g],i)=>{
+      const ok=s>=n;let cls,tag;
+      const kw=chain&&i>0?'else if':(i===0||!chain?'if':'else if');
+      if(chain){
+        if(hit){cls='skip';tag='不用看了'}
+        else if(ok){cls='hit';tag='✔ 成立 → 印出 '+g;hit=true;outs.push(g)}
+        else{cls='no';tag='✘ 不成立，往下問'}
+      }else{ if(ok){cls='hit';tag='✔ 成立 → 印出 '+g;outs.push(g)}else{cls='no';tag='✘ 不成立'} }
+      return `<div class="r ${cls}"><span>${chain?(i?'else if':'if'):'if'}(score&gt;=${n})</span><span>${tag}</span></div>`}).join('');
+    $('.res',w).innerHTML=outs.length===0?`<b>什麼都沒印出！</b>（${s} 分沒有符合任何一個條件。這就是上一頁挑戰題要用 else 補洞的原因。）`
+      :chain?`螢幕上顯示：<b>${s}的等第是${outs[0]}。</b>`:`螢幕上顯示：<b>${outs.map(o=>s+'的等第是'+o+'。').join('')}</b>${outs.length>1?'<br>⚠ 一個人得到了好幾個等第！所以多重條件要用 else if。':''}`;
+  }
+  r.oninput=draw;m1.onchange=m2.onchange=draw;draw();
+}
+};
+$$('.wd[data-widget]').forEach(w=>W[w.dataset.widget]&&W[w.dataset.widget](w));
+
+/* ---- start ---- */
+refreshProg();
+const h=/^#L(\d+)$/.exec(location.hash);
+show(h?+h[1]:(typeof store.last==='number'?store.last:0),false);
+})();
+</script>
+</body>
+</html>
