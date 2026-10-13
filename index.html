@@ -251,7 +251,7 @@ details.fold summary{cursor:pointer;font-weight:700}
   <h3>① 本教材的 C++ 程式都用這個骨架</h3>
   <p><b>點一點下面每一行</b>，看看它在做什麼：</p>
   <div class="annot" data-lines='[
-    ["#include &lt;iostream&gt;","<b>借工具箱。</b>iostream = input（輸入）+ output（輸出）+ stream（資料流）。想讓程式能「印字」和「讀鍵盤」，就要先借這個工具箱。<br><small>前面的 <code>#</code> 一定要有！</small>"],
+    ["#include &lt;iostream&gt;","<b>借工具箱。</b>iostream = input（輸入）+ output（輸出）+ stream（資料流）。想讓程式能「印字」和「讀鍵盤」，就要先借這個工具箱（這叫<b>標頭檔</b>，第 6 課會有完整介紹）。<br><small>前面的 <code>#</code> 一定要有！</small>"],
     ["using namespace std;","<b>告訴電腦：我用標準（std）的說法。</b>有了這行，才能直接寫 <code>cout</code>，不然要寫成很長的 <code>std::cout</code>。<br><small>結尾的 <code>;</code>（分號）像中文的句號，表示這句話說完了。</small>"],
     ["int main()","<b>主程式的入口。</b>電腦一啟動程式，就是從 <code>main</code> 這裡開始往下做。<br>整個程式只能有一個 main。"],
     ["{","<b>左大括號：</b>主程式的範圍從這裡開始。"],
@@ -391,7 +391,7 @@ cout&lt;&lt;y;</pre>
   <div class="quiz" data-ans="1">
     <div class="q">最後印出的 y 是多少？</div>
     <ol><li>1</li><li>0</li><li>0 和 1 對調，所以是 1</li></ol>
-    <div class="exp">第 2 行 <code>x=y</code>：x 被改成 0（原來的 1 <b>消失了</b>）。第 3 行 <code>y=x</code>：把 0 放進 y，還是 0。<br>想要「對調」兩個變數，需要更多技巧 → 第 7 課！</div>
+    <div class="exp">第 2 行 <code>x=y</code>：x 被改成 0（原來的 1 <b>消失了</b>）。第 3 行 <code>y=x</code>：把 0 放進 y，還是 0。<br>想要「對調」兩個變數，需要更多技巧 → 第 8 課！</div>
   </div>
   <div class="quiz" data-ans="2">
     <div class="q"><code>int a=5; a=a+2; a=a*2;</code> 之後，a 是？</div>
@@ -464,9 +464,73 @@ cout&lt;&lt; (float)(9/2);</pre></div>
   <div class="pg" data-id="incdec"></div>
 </section>
 
+<!-- ===================== LH ===================== -->
+<section class="lesson" id="L6" data-title="標頭檔 #include" data-src="工具箱">
+  <span class="tag">第 6 課</span>
+  <h2>標頭檔 <code>#include</code>：向「工具箱」借工具 🧰</h2>
+  <p class="lead">每個程式最前面都有 <code>#include &lt;iostream&gt;</code>，它到底是什麼？不寫會怎樣？</p>
+
+  <h3>為什麼需要標頭檔？</h3>
+  <div class="card">
+    C++ 語言本身只有「最基本」的功能。像<b>印字</b>（cout）、<b>開根號</b>（sqrt）、<b>找最大值</b>（max）這些常用功能，被分類收進不同的「工具箱」，這些工具箱就叫<b>標頭檔（header file）</b>。<br>
+    要用哪個工具，就用 <code>#include</code> 把那個工具箱「借進來」。<b>不借，電腦就找不到工具。</b>
+  </div>
+  <div class="note"><b class="t">📌 寫法規則</b>
+    ① 一定要有 <code>#</code>　② 標頭檔名稱放在 <code>&lt; &gt;</code> 尖括號裡　③ 結尾<b>不加分號</b>　④ 寫在整個程式的<b>最前面</b>（在 main 之前）。<br>
+    <small>名稱不用 <code>.h</code>：C++ 寫 <code>&lt;cmath&gt;</code>（C 語言舊寫法是 <code>&lt;math.h&gt;</code>）。</small></div>
+
+  <h3>常用標頭檔一覽</h3>
+  <table class="t">
+    <tr><th>標頭檔</th><th>提供的工具</th><th>例子</th></tr>
+    <tr><td><code>&lt;iostream&gt;</code></td><td>輸入輸出</td><td><code>cout</code>、<code>cin</code>、<code>endl</code></td></tr>
+    <tr><td><code>&lt;cmath&gt;</code></td><td>數學函式</td><td><code>sqrt(x)</code> 開根號、<code>pow(a,b)</code> a 的 b 次方、<code>abs(x)</code> 絕對值、<code>floor</code>/<code>ceil</code>/<code>round</code></td></tr>
+    <tr><td><code>&lt;algorithm&gt;</code></td><td>演算法工具</td><td><code>max(a,b)</code>、<code>min(a,b)</code></td></tr>
+    <tr><td><code>&lt;iomanip&gt;</code></td><td>控制輸出格式</td><td><code>setprecision(n)</code> 控制小數位數</td></tr>
+    <tr><td><code>&lt;string&gt;</code></td><td>文字處理</td><td><code>string</code> 型態</td></tr>
+  </table>
+  <div class="note warn"><b class="t">⚠ 還有一個「萬用工具箱」</b>
+    <code>#include &lt;bits/stdc++.h&gt;</code> 會一次借進幾乎所有工具箱，比賽時很常見。但它<b>不是標準寫法</b>、有些電腦編譯不過，也讓你不知道自己到底用了什麼。學習階段請<b>需要什麼就借什麼</b>。</div>
+  <details class="fold"><summary>進階：尖括號 &lt; &gt; 和雙引號 " " 有什麼不同？</summary>
+    <p><code>#include &lt;名稱&gt;</code>：到「系統提供」的地方找。<code>#include "名稱.h"</code>：先到「你自己的資料夾」找 —— 以後你會自己寫標頭檔來整理大型程式。</p></details>
+
+  <h3>① 親手借借看</h3>
+  <div class="pg" data-id="hdr_demo"></div>
+  <div class="note good"><b class="t">🔎 觀察</b>刪掉 <code>#include &lt;cmath&gt;</code> 之後，錯誤訊息說了什麼？它會告訴你<u>該借哪個標頭檔</u>！記住這種提示，以後遇到「xxx 找不到」時先想：<b>是不是少借了工具箱？</b></div>
+
+  <div class="quiz" data-ans="1">
+    <div class="q">想用 <code>max(a,b)</code> 找兩數中較大的，應該加上哪個標頭檔？</div>
+    <ol><li><code>#include &lt;iostream&gt;</code></li><li><code>#include &lt;algorithm&gt;</code></li><li><code>#include &lt;string&gt;</code></li></ol>
+    <div class="exp">max 和 min 收在 <code>&lt;algorithm&gt;</code>。</div>
+  </div>
+  <div class="quiz" data-ans="2">
+    <div class="q">下面哪一行<u>寫法正確</u>？</div>
+    <ol><li><code>include &lt;cmath&gt;</code></li><li><code>#include &lt;cmath&gt;;</code></li><li><code>#include &lt;cmath&gt;</code></li><li><code>#include cmath</code></li></ol>
+    <div class="exp">要有 <code>#</code>、要有尖括號、結尾不加分號。</div>
+  </div>
+
+  <h3>② 🐞 標頭檔除錯</h3>
+  <div class="pg" data-id="hdr_err"></div>
+  <details class="fold"><summary>提示</summary><p>第一個錯誤：<code>iostream</code> 的拼字。第二個錯誤：用了 <code>sqrt</code>，卻沒借 <code>cmath</code>。</p></details>
+
+  <h3>③ 🏆 挑戰：畢氏定理</h3>
+  <p>直角三角形兩股 a、b，斜邊 c = √(a² + b²)。需要的工具：<code>sqrt</code>（<code>pow(a,2)</code> 也可以用，或直接 <code>a*a</code>）。</p>
+  <div class="pg" data-id="hdr_pyth"></div>
+
+  <h3>④ 控制小數位數：<code>&lt;iomanip&gt;</code></h3>
+  <p>還記得 <code>cout</code> 預設只印約 6 位有效數字嗎？想印「小數點後兩位」就要借 <code>&lt;iomanip&gt;</code>：</p>
+  <div class="card mono">cout &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; x;<br>
+    <span style="color:var(--muted)">fixed = 固定小數點　setprecision(2) = 小數點後 2 位（會四捨五入）</span></div>
+  <div class="pg" data-id="hdr_prec"></div>
+  <div class="pg" data-id="hdr_area"></div>
+
+  <h3>⑤ 找最大最小：<code>&lt;algorithm&gt;</code></h3>
+  <div class="pg" data-id="hdr_max"></div>
+  <div class="note"><b class="t">🔗 想一想</b>第 11 課我們用 if 一個一個比出最大值。有了 <code>max()</code>，是不是短很多？不過先學會 if 的思路，才算真正懂得它在做什麼。</div>
+</section>
+
 <!-- ===================== L6 ===================== -->
-<section class="lesson" id="L6" data-title="比較與邏輯運算" data-src="0921">
-  <span class="tag">第 6 課 · 0921</span>
+<section class="lesson" id="L7" data-title="比較與邏輯運算" data-src="0921">
+  <span class="tag">第 7 課 · 0921</span>
   <h2>比較與邏輯：讓電腦回答「對 / 錯」</h2>
   <p class="lead">電腦能做決定的基礎：判斷一件事「成立」還是「不成立」。</p>
 
@@ -503,8 +567,8 @@ cout&lt;&lt; (float)(9/2);</pre></div>
 </section>
 
 <!-- ===================== L7 ===================== -->
-<section class="lesson" id="L7" data-title="變數交換" data-src="1005">
-  <span class="tag">第 7 課 · 1005</span>
+<section class="lesson" id="L8" data-title="變數交換" data-src="1005">
+  <span class="tag">第 8 課 · 1005</span>
   <h2>變數交換：需要一個「空杯子」🥤</h2>
   <p class="lead">想把左手的可樂和右手的果汁互換，你一定會先把一杯放到桌上。程式也一樣！</p>
 
@@ -523,8 +587,8 @@ cout&lt;&lt; (float)(9/2);</pre></div>
 </section>
 
 <!-- ===================== L8 ===================== -->
-<section class="lesson" id="L8" data-title="if 與 if…else" data-src="1005">
-  <span class="tag">第 8 課 · 1005</span>
+<section class="lesson" id="L9" data-title="if 與 if…else" data-src="1005">
+  <span class="tag">第 9 課 · 1005</span>
   <h2>if：讓程式學會「做決定」</h2>
   <p class="lead">之前的程式都是從頭跑到尾。現在，程式可以依情況走不同的路了。</p>
 
@@ -564,8 +628,8 @@ else{
 </section>
 
 <!-- ===================== L9 ===================== -->
-<section class="lesson" id="L9" data-title="多重條件 else if" data-src="1005">
-  <span class="tag">第 9 課 · 1005</span>
+<section class="lesson" id="L10" data-title="多重條件 else if" data-src="1005">
+  <span class="tag">第 10 課 · 1005</span>
   <h2>else if：多個選項，一路問下去</h2>
   <p class="lead">成績分成 A、B、C、D、F 好幾級，要怎麼判斷？</p>
 
@@ -592,8 +656,8 @@ else{
 </section>
 
 <!-- ===================== L10 ===================== -->
-<section class="lesson" id="L10" data-title="綜合：找最大值" data-src="1005">
-  <span class="tag">第 10 課 · 1005</span>
+<section class="lesson" id="L11" data-title="綜合：找最大值" data-src="1005">
+  <span class="tag">第 11 課 · 1005</span>
   <h2>找三個數字中的最大值 👑</h2>
   <p class="lead">把前面學的全部組合起來：輸入、變數、if、指定。</p>
 
@@ -605,6 +669,7 @@ else{
     ④ 最後站在台上的就是最大值！
   </div>
 
+  <div class="note"><b class="t">💡 小提示</b>第 6 課學過的 <code>max()</code> 也能做到同樣的事，但這裡請用 if 自己實作一次。</div>
   <h3>🐞 終極除錯挑戰</h3>
   <p>這份程式藏著 <b>兩種不同的錯誤</b>：一種會被電腦直接擋下來（編譯錯誤），另一種可以執行，但算出<b>錯的答案</b>（邏輯錯誤）。</p>
   <div class="pg" data-id="max_dbg"></div>
@@ -615,8 +680,8 @@ else{
 </section>
 
 <!-- ===================== L11 ===================== -->
-<section class="lesson" id="L11" data-title="總複習" data-src="綜合測驗">
-  <span class="tag">第 11 課</span>
+<section class="lesson" id="L12" data-title="總複習" data-src="綜合測驗">
+  <span class="tag">第 12 課</span>
   <h2>總複習測驗 🎓</h2>
   <p class="lead">八題選擇題，看看你學會多少。<b>第一次就答對</b>才計分哦！</p>
   <div class="score" id="finalScore">目前答對 0 / 8</div>
@@ -671,6 +736,10 @@ const TYPES=['int','float','double','char','bool','long','short','string'];
 const RESERVED=new Set([...TYPES,'if','else','return','while','for','using','namespace','cout','cin','endl','true','false','main']);
 const TWO=['<<','>>','<=','>=','==','!=','&&','||','++','--','+=','-=','*=','/=','%='];
 const ONE='+-*/%=<>!(){};,';
+const KNOWN=['iostream','cmath','math.h','cstdlib','stdlib.h','algorithm','string','iomanip','bits/stdc++.h'];
+const FUNCS={sqrt:{h:['cmath','math.h'],n:1},pow:{h:['cmath','math.h'],n:2},abs:{h:['cmath','cstdlib','math.h','stdlib.h'],n:1},
+  fabs:{h:['cmath','math.h'],n:1},floor:{h:['cmath','math.h'],n:1},ceil:{h:['cmath','math.h'],n:1},round:{h:['cmath','math.h'],n:1},
+  max:{h:['algorithm'],n:2},min:{h:['algorithm'],n:2}};
 const FULL=/[\uFF01-\uFF5E\u3000-\u303F\u201C\u201D\u2018\u2019]/;
 
 function lev(a,b){const m=a.length,n=b.length,d=[];for(let i=0;i<=m;i++){d[i]=[i];}for(let j=1;j<=n;j++)d[0][j]=j;
@@ -711,7 +780,8 @@ function tokenize(src){
 
 function compile(src){
   const toks=tokenize(src);
-  let p=0;const warns=[];let hasIo=false,usingStd=false,hasMain=false;
+  let p=0;const warns=[];let hasIo=false,usingStd=false,hasMain=false;const incs=new Set();
+  const have=h=>incs.has(h)||incs.has('bits/stdc++.h');
   const scopes=[new Map()];let main=null;
   const EOF=()=>({t:'eof',v:'結尾',line:toks.length?toks[toks.length-1].line:1});
   const peek=(k=0)=>toks[p+k]||EOF();
@@ -797,6 +867,15 @@ function compile(src){
     if(t.t==='id'){
       if(t.v==='true'||t.v==='false'){p++;return {k:'bool',v:t.v==='true',line:t.line}}
       if(TYPES.includes(t.v)||RESERVED.has(t.v))err(t.line,`這裡不該出現「${t.v}」（它是 C++ 的保留字）`);
+      if(FUNCS[t.v]&&isOp('(',1)&&!declared(t.v)){
+        const f=FUNCS[t.v];
+        if(!f.h.some(h=>have(h)))err(t.line,`要使用 ${t.v}()，程式最前面要加上 #include <${f.h[0]}>（它住在 <${f.h[0]}> 這個標頭檔裡）`);
+        p+=2;const args=[];
+        if(!isOp(')')){do{args.push(assign())}while(isOp(',')&&(p++,true))}
+        if(!isOp(')'))err(t.line,`${t.v}( ) 的括號沒有成對`);p++;
+        if(args.length!==f.n)err(t.line,`${t.v}() 需要 ${f.n} 個數字，你給了 ${args.length} 個`);
+        return {k:'call',name:t.v,args,line:t.line};
+      }
       checkVar(t);p++;return {k:'var',name:t.v,line:t.line};
     }
     if(t.t==='op'&&t.v==='('){
@@ -818,6 +897,12 @@ function compile(src){
     while(isOp('<<')){
       p++;
       if(peek().t==='id'&&peek().v==='endl'){p++;items.push({k:'endl'})}
+      else if(peek().t==='id'&&peek().v==='fixed'&&!declared('fixed')){p++;items.push({k:'manip',m:'fixed'})}
+      else if(peek().t==='id'&&peek().v==='setprecision'&&isOp('(',1)){
+        const sp=peek();
+        if(!have('iomanip'))err(sp.line,'要使用 setprecision()，程式最前面要加上 #include <iomanip>');
+        p+=2;const e=assign();if(!isOp(')'))err(sp.line,'setprecision( ) 的括號沒有成對');p++;
+        items.push({k:'manip',m:'prec',e})}
       else items.push(assign());
     }
     if(!isOp(';')){
@@ -897,8 +982,13 @@ function compile(src){
   while(peek().t!=='eof'){
     const t=peek();
     if(t.t==='pp'){
-      if(!/^#\s*include\s*<[\w.]+>$/.test(t.v))err(t.line,'#include 的寫法應該像這樣：#include <iostream>');
-      if(/iostream/.test(t.v))hasIo=true;p++;continue}
+      const m=/^#\s*include\s*<([\w.\/+]+)>$/.exec(t.v);
+      if(!m){
+        if(/^#\s*include\s*"/.test(t.v))err(t.line,'用雙引號 " " 的 #include 是引入「自己寫的標頭檔」，這裡找不到那個檔案。系統提供的標頭檔要用尖括號，像 #include <iostream>');
+        err(t.line,'#include 的寫法應該像這樣：#include <iostream>')}
+      if(!KNOWN.includes(m[1])){const sg=KNOWN.find(k=>lev(k,m[1])<=2);
+        err(t.line,`找不到標頭檔 <${m[1]}>。`+(sg?`（你是不是想寫 <${sg}>？）`:'請檢查拼字。'))}
+      incs.add(m[1]);if(m[1]==='iostream'||m[1]==='bits/stdc++.h')hasIo=true;p++;continue}
     if(t.t==='id'&&t.v==='using'){
       p++;const a=peek();
       if(a.v!=='namespace')err(t.line,`using 後面應該接 namespace，你寫的是「${a.v}」`);
@@ -919,15 +1009,19 @@ function compile(src){
 }
 
 // ---------- format ----------
-function fmtFloat(x){
+function fmtFloat(x,P=6){
   if(Number.isNaN(x))return 'nan';if(!Number.isFinite(x))return x<0?'-inf':'inf';
+  P=Math.max(1,Math.min(20,P|0));
   if(x===0)return '0';
-  const e=Number(x.toExponential(5).split('e')[1]);
-  if(e<-4||e>=6){let [m,ex]=x.toExponential(5).split('e');m=m.replace(/\.?0+$/,'');const sg=ex[0]==='-'?'-':'+';ex=ex.replace(/^[+-]/,'').padStart(2,'0');return m+'e'+sg+ex}
-  {const f=x.toFixed(Math.max(0,5-e));return f.includes('.')?f.replace(/\.?0+$/,''):f}
+  const strip=t=>t.includes('.')?t.replace(/\.?0+$/,''):t;
+  const ex=x.toExponential(P-1);const e=Number(ex.split('e')[1]);
+  if(e<-4||e>=P){let [m,xx]=ex.split('e');m=strip(m);const sg=xx[0]==='-'?'-':'+';xx=xx.replace(/^[+-]/,'').padStart(2,'0');return m+'e'+sg+xx}
+  return strip(x.toFixed(Math.max(0,P-1-e)));
 }
-function fmt(v){
-  if(v.t==='float')return fmtFloat(v.v);
+function fmt(v,st){
+  if(v.t==='float'){
+    if(st&&st.fixed)return Number.isFinite(v.v)?v.v.toFixed(Math.max(0,Math.min(20,st.prec))):fmtFloat(v.v);
+    return fmtFloat(v.v,st?st.prec:6)}
   if(v.t==='bool')return v.v?'1':'0';
   return String(v.v);
 }
@@ -992,6 +1086,19 @@ function run(prog,inputText){
         if(n.op==='-')return isF(v)?{t:'float',v:-v.v}:{t:'int',v:-num(v,n.line)};
         return isF(v)?v:{t:'int',v:num(v,n.line)}}
       case 'cast':return conv(ev(n.e),n.type,n.line);
+      case 'call':{
+        const a=n.args.map(ev),N=a.map(x=>num(x,n.line)),F=(v)=>({t:'float',v});
+        switch(n.name){
+          case 'sqrt':return F(Math.sqrt(N[0]));
+          case 'pow':return F(Math.pow(N[0],N[1]));
+          case 'abs':return isF(a[0])?F(Math.abs(N[0])):{t:'int',v:Math.abs(N[0])|0};
+          case 'fabs':return F(Math.abs(N[0]));
+          case 'floor':return F(Math.floor(N[0]));
+          case 'ceil':return F(Math.ceil(N[0]));
+          case 'round':return F(Math.sign(N[0])*Math.round(Math.abs(N[0])));
+          case 'max':case 'min':{const v=n.name==='max'?Math.max(N[0],N[1]):Math.min(N[0],N[1]);
+            return a.some(isF)?F(v):{t:'int',v}}
+        }}
       case 'logic':{const l=num(ev(n.l),n.line)!==0;
         if(n.op==='&&')return {t:'bool',v:l&&num(ev(n.r),n.line)!==0};
         return {t:'bool',v:l||num(ev(n.r),n.line)!==0}}
@@ -1012,6 +1119,7 @@ function run(prog,inputText){
     }
   }
   const truthy=v=>num(v,0)!==0;
+  const cst={fixed:false,prec:6};
   let failed=false;
   function readTok(c,name,line){
     if(failed){warns.add(`前面的 cin 已經讀取失敗，後面的變數（例如 ${name}）不會再被更新。`);return '（略過）'}
@@ -1052,7 +1160,7 @@ function run(prog,inputText){
         rec(s.line,'宣告變數'+(s.items.every(i=>i.init)?'並放進初始值':'（沒有初始值的盒子是空的 ?）'));return;
       case 'expr':ev(s.e);rec(s.line);return;
       case 'cout':
-        for(const it of s.items){if(it.k==='endl')out('\n');else out(fmt(ev(it)))}
+        for(const it of s.items){if(it.k==='endl')out('\n');else if(it.k==='manip'){if(it.m==='fixed')cst.fixed=true;else cst.prec=Math.max(0,num(ev(it.e),s.line)|0)}else out(fmt(ev(it),cst))}
         rec(s.line,'印到螢幕');return;
       case 'cin':{
         const used=[];for(const nme of s.names)used.push(readTok(lookup(nme),nme,s.line));
@@ -1086,7 +1194,76 @@ ${pre}int main(){
 ${body}
     return 0;
 }`;
+const HD=(inc,body)=>`#include <iostream>
+${inc}using namespace std;
+int main(){
+${body}
+    return 0;
+}`;
 const PG={
+hdr_demo:{title:'💻 借用 <cmath> 工具箱',file:'標頭檔示範',
+ code:HD('#include <cmath>\n',String.raw`    cout<<sqrt(16)<<endl;        //開根號
+    cout<<pow(2,10)<<endl;       //2 的 10 次方
+    cout<<abs(-5)<<endl;         //絕對值
+    cout<<floor(3.7)<<" "<<ceil(3.2)<<" "<<round(3.5);   //無條件捨去 / 無條件進位 / 四捨五入`),
+ task:'先執行。再把第 2 行 <code>#include &lt;cmath&gt;</code> 刪掉，看看電腦怎麼說。'},
+
+hdr_err:{title:'🐞 標頭檔除錯',file:'標頭檔練習 1',
+ code:`#include <iostrem>
+using namespace std;
+int main(){
+    cout<<"sqrt(25) = "<<sqrt(25);
+    return 0;
+}`,
+ task:'這份程式有 2 個和標頭檔有關的錯誤，修好後應該印出 <code>sqrt(25) = 5</code>。',
+ tests:[{input:'',expected:'sqrt(25) = 5'}]},
+
+hdr_pyth:{title:'🏆 挑戰：畢氏定理',file:'標頭檔練習 2',input:'3 4',
+ code:`#include <iostream>
+using namespace std;
+int main(){
+    int a,b;
+    float c;
+    cout<<"請輸入兩股長:";
+    cin>>a>>b;
+    //請算出斜邊 c = 開根號( a平方 + b平方 )
+    cout<<"斜邊長="<<c;
+    return 0;
+}`,
+ task:'補上需要的<b>標頭檔</b>與計算那一行。輸入 3 4 要得到 5。',
+ tests:[{input:'3 4',expected:'請輸入兩股長:斜邊長=5'},{input:'5 12',expected:'請輸入兩股長:斜邊長=13'},{input:'1 1',expected:'請輸入兩股長:斜邊長=1.41421'}]},
+
+hdr_prec:{title:'💻 <iomanip>：控制小數位數',file:'標頭檔示範 2',
+ code:HD('#include <iomanip>\n',String.raw`    double x=1234.5678;
+    cout<<x<<endl;                          //預設：約 6 位有效數字
+    cout<<fixed<<setprecision(2)<<x<<endl;  //fixed：固定小數點後 2 位
+    cout<<setprecision(0)<<x<<endl;         //fixed 還在，小數點後 0 位 → 四捨五入成整數
+    cout<<setprecision(3)<<x;               //小數點後 3 位`),
+ task:'依序看四行輸出。注意 <code>fixed</code> 一旦設定，後面都會維持。'},
+
+hdr_area:{title:'🏆 挑戰：面積取到小數第二位',file:'標頭檔練習 3',input:'5',
+ code:`#include <iostream>
+using namespace std;
+int main(){
+    double pi=3.14159, a;
+    int r;
+    cout<<"請輸入半徑:";
+    cin>>r;
+    a=pi*r*r;
+    cout<<"面積="<<a;
+    return 0;
+}`,
+ task:'目前半徑 5 會印出 78.5397。請補上標頭檔並修改輸出，讓答案固定顯示到<b>小數點後 2 位</b>（78.54）。',
+ tests:[{input:'5',expected:'請輸入半徑:面積=78.54'},{input:'1',expected:'請輸入半徑:面積=3.14'},{input:'10',expected:'請輸入半徑:面積=314.16'}]},
+
+hdr_max:{title:'💻 <algorithm>：max 與 min',file:'標頭檔示範 3',input:'70 90 80',
+ code:HD('#include <algorithm>\n',String.raw`    int a,b,c;
+    cout<<"請輸入三個整數:";
+    cin>>a>>b>>c;
+    cout<<"最大值="<<max(max(a,b),c)<<"\n";
+    cout<<"最小值="<<min(min(a,b),c);`),
+ task:'試試不同的三個數字。<code>max(a,b)</code> 一次只能比兩個，所以三個要「套」兩層。'},
+
 hello0:{title:'🧪 第一個程式',code:SK(String.raw`    cout<<"Hello, Hello!"<<endl;
     cout<<"我正在學程式";`),task:'把雙引號裡的文字改成別的，按 ▶ 執行。'},
 
