@@ -184,6 +184,77 @@ details.fold{background:var(--surface);border:1px solid var(--line);border-radiu
 details.fold summary{cursor:pointer;font-weight:700}
 .ok-ico{color:var(--good);font-weight:800}
 
+
+/* ---- Dev-C++ simulator ---- */
+.devbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px;margin:18px 0}
+.devbox:focus-visible{outline:3px solid var(--accent)}
+.dev-step{display:flex;gap:10px;align-items:flex-start;padding:10px 14px;border-radius:12px;background:var(--accent-soft);color:var(--text);margin-bottom:10px}
+.dev-step b.n{flex:none;background:var(--accent);color:var(--on-accent);border-radius:99px;padding:0 10px;font-size:.85rem}
+.dev-prog{display:flex;gap:4px;margin:0 0 10px}
+.dev-prog i{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.dev-prog i.d{background:var(--good)}.dev-prog i.c{background:var(--accent)}
+.dev-fit{width:100%;overflow:hidden;position:relative;border-radius:6px;border:1px solid #888}
+.dw{position:absolute;left:0;top:0;width:1000px;height:640px;transform-origin:0 0;background:#f0f0f0;color:#000;font:13px "Microsoft JhengHei","Noto Sans TC",sans-serif;user-select:none}
+.dw *{box-sizing:border-box}
+.dw .tb{height:30px;background:#0078d7;color:#fff;display:flex;align-items:center;padding-left:10px;gap:8px;font-size:13px}
+.dw .tb .ic{width:16px;height:16px;background:#1b3a8a;border:1px solid #fff;font-size:7px;line-height:14px;text-align:center;font-weight:700}
+.dw .tb .wc{margin-left:auto;display:flex}.dw .tb .wc span{width:44px;text-align:center;font-size:14px}
+.dw .mb{display:flex;height:24px;align-items:center;padding-left:4px;background:#f0f0f0}
+.dw .mb span{padding:2px 8px;cursor:pointer}.dw .mb span:hover,.dw .mb span.on{background:#cce4f7}
+.dw .tl{display:flex;align-items:center;gap:2px;height:32px;padding:2px 6px;background:#f0f0f0}
+.dw .tl b{width:24px;height:24px;border:1px solid transparent;display:grid;place-items:center;font-size:13px;font-weight:400;border-radius:2px}
+.dw .tl b.act{cursor:pointer}.dw .tl b.act:hover{background:#cce4f7;border-color:#7cb8e8}
+.dw .tl .sp{width:1px;height:22px;background:#bbb;margin:0 4px}
+.dw .tl .cb{margin-left:6px;border:1px solid #999;background:#fff;padding:2px 8px;font:12px Consolas,monospace;width:340px;display:flex;justify-content:space-between}
+.dw .tl2{height:30px;display:flex;align-items:center;gap:6px;padding:0 6px}
+.dw .tl2 .cb2{border:1px solid #bbb;background:#fff;height:22px;padding:2px 8px;font:12px Consolas,monospace;display:flex;justify-content:space-between;align-items:center}
+.dw .mid{display:flex;height:calc(100% - 30px - 24px - 32px - 30px - 24px - var(--botH,28px))}
+.dw .lp{width:132px;background:#fff;border-right:1px solid #ccc}
+.dw .lp .tabs{display:flex;background:#f0f0f0;height:22px;font-size:12px}.dw .lp .tabs span{padding:2px 8px}.dw .lp .tabs span:first-child{background:#fff}
+.dw .ed{flex:1;display:flex;flex-direction:column;min-width:0}
+.dw .ed .et{height:22px;background:#f0f0f0;display:flex}.dw .ed .et span{padding:2px 8px;font-size:13px;background:#fff;border:1px solid #ddd;border-bottom:0}
+.dw .ed .code{flex:1;display:flex;background:#fff;overflow:hidden;font:700 14px/20.6px Consolas,"Courier New","Microsoft JhengHei",monospace;white-space:pre}
+.dw .gut{width:56px;background:#f0f0f0;color:#333;text-align:left;padding-left:14px;border-right:1px solid #ddd;font-weight:400}
+.dw .gut div,.dw .lines div{height:20.6px}
+.dw .lines{flex:1;overflow:hidden}
+.dw .lines .cur{background:#ccffff}
+.dw .lines .er{background:#800000;color:#fff!important}.dw .lines .er *{color:#fff!important}
+.dw .gut .erm{color:#c00;font-weight:700}
+.k-pp{color:#008000;font-weight:400}.k-st{color:#0000ff}.k-nm{color:#d00000}.k-op{color:#c00000}.k-kw{color:#000}
+.dw .bt{display:flex;height:26px;background:#f0f0f0;align-items:center;gap:2px;font-size:12.5px;border-top:1px solid #ccc}
+.dw .bt span{padding:3px 10px;cursor:pointer;border:1px solid transparent;display:flex;gap:4px;align-items:center}
+.dw .bt span.on{background:#fff;border-color:#bbb}
+.dw .bp{background:#fff;border-top:1px solid #aaa;overflow:auto;font-size:13px}
+.dw .bp table{border-collapse:collapse;width:100%}
+.dw .bp th{font-weight:400;text-align:left;padding:2px 6px;border-right:1px solid #ddd;border-bottom:1px solid #ccc;background:#f8f8f8}
+.dw .bp td{padding:2px 6px;border-right:1px solid #eee;border-bottom:1px solid #f0f0f0;height:22px}
+.dw .bp tr.sel td{background:#e8e8e8}
+.dw .bp pre{margin:0;padding:6px 10px;font:12.5px/1.45 Consolas,monospace;white-space:pre-wrap;user-select:text}
+.dw .sb{height:24px;display:flex;align-items:center;gap:10px;background:#f0f0f0;border-top:1px solid #ccc;padding:0 6px;font-size:12.5px;white-space:nowrap;overflow:hidden}
+.dw .sb span{padding-right:10px;border-right:1px solid #ccc}
+.dw .dd{position:absolute;background:#f2f2f2;border:1px solid #999;box-shadow:2px 2px 6px rgba(0,0,0,.35);z-index:5;min-width:330px;padding:2px 0;font-size:13px}
+.dw .dd div{display:flex;justify-content:space-between;gap:30px;padding:3px 24px 3px 34px;cursor:pointer;position:relative}
+.dw .dd div:hover{background:#cce4f7}.dw .dd div.sep{height:1px;padding:0;margin:3px 2px;background:#ccc;cursor:default}
+.dw .dd div.dis{color:#999;cursor:default}.dw .dd div.dis:hover{background:none}
+.dw .dd div.sub::after{content:"▶";font-size:9px;position:absolute;right:8px;top:6px}
+.dw .dd div i{font-style:normal;position:absolute;left:8px;width:18px;text-align:center}
+.dw .glow{box-shadow:0 0 0 3px #ffb300,0 0 12px 2px #ffb300;animation:glow 1.1s ease-in-out infinite}
+@keyframes glow{50%{box-shadow:0 0 0 3px #ff6f00,0 0 16px 4px #ff6f00}}
+.dw .ov{position:absolute;inset:0;background:rgba(0,0,0,.25);z-index:9;display:flex}
+.dw .dlg{margin:auto;width:540px;background:#f0f0f0;border:2px solid #0078d7;box-shadow:0 6px 24px rgba(0,0,0,.5);font-size:13px}
+.dw .dlg .h{background:#0078d7;color:#fff;height:30px;display:flex;align-items:center;padding:0 12px;justify-content:space-between}
+.dw .dlg .row{display:flex;align-items:center;gap:8px;padding:6px 12px}
+.dw .dlg .fl{margin:0 12px;height:150px;background:#fff;border:1px solid #aaa;overflow:hidden}
+.dw .dlg .fl div{padding:3px 10px;display:flex;gap:6px}
+.dw .dlg input[type=text]{flex:1;height:24px;border:1px solid #7a7a7a;padding:0 4px;font:13px "Microsoft JhengHei",sans-serif;user-select:text}
+.dw .dlg button{min-width:84px;height:24px;border:1px solid #adadad;background:#e1e1e1;font:13px "Microsoft JhengHei",sans-serif;cursor:pointer}
+.dw .dlg button.df{border:2px solid #0078d7}
+.dw .con{margin:20px;flex:1;background:#0c0c0c;color:#ccc;font:15px/1.45 Consolas,"MS Gothic","Microsoft JhengHei",monospace;padding:0;border:1px solid #0078d7;display:flex;flex-direction:column}
+.dw .con .ct{height:34px;background:#1f1f1f;color:#fff;display:flex;align-items:center;padding:0 12px;font-size:12.5px;gap:10px}
+.dw .con pre{margin:0;padding:10px 14px;white-space:pre-wrap;font:inherit;color:#ccc;flex:1;overflow:hidden;user-select:text}
+.dw .toast{position:absolute;left:50%;bottom:60px;transform:translateX(-50%);background:#333;color:#fff;padding:6px 16px;border-radius:6px;z-index:20;font-size:13px}
+.dev-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
 @media (max-width:900px){
   .side-close{display:block!important}
   .app{display:block}
@@ -217,7 +288,7 @@ details.fold summary{cursor:pointer;font-weight:700}
   <p><b>程式 = 寫給電腦的「一步一步的指令」</b>，就像食譜：</p>
   <div class="card">
     <b>🍳 煎蛋食譜</b>：① 熱鍋 → ② 倒油 → ③ 打蛋 → ④ 煎 2 分鐘 → ⑤ 起鍋<br>
-    <b>💻 程式</b>：電腦<u>由上往下</u>，<u>一個步驟一個步驟</u>照著做。
+    <b>💻 程式</b>：電腦<u>從 main 開始、由上往下</u>，<u>一個步驟一個步驟</u>照著做。
   </div>
   <div class="note warn"><b class="t">⚠ 電腦很聽話，但也很「死板」</b>
     少一個符號、拼錯一個字，它就會直接說「看不懂」。所以你會常常看到<b>紅色的錯誤訊息</b>——這完全正常，每個工程師每天都在遇到！</div>
@@ -242,16 +313,101 @@ details.fold summary{cursor:pointer;font-weight:700}
   </div>
 </section>
 
+<!-- ===================== LDEV ===================== -->
+<section class="lesson" id="L1" data-title="在 Dev-C++ 寫程式" data-src="編譯與執行流程">
+  <span class="tag">第 1 課</span>
+  <h2>在 Dev-C++ 寫出你的第一個程式 🖥️</h2>
+  <p class="lead">這個網頁的「▶ 執行」只是練習用。真正寫程式時，你要在自己的電腦、用學校的 <b>Dev-C++</b> 完成整個流程。</p>
+
+  <h3>為什麼程式要「編譯」？</h3>
+  <div class="card">
+    你寫的程式叫<b>原始碼（source code）</b>，檔案副檔名是 <code>.cpp</code>，是給「人」看的。電腦卻只看得懂 0 和 1。<br>
+    所以中間需要一位<b>翻譯官 —— 編譯器（compiler）</b>，把原始碼翻成電腦能執行的<b>執行檔（<code>.exe</code>）</b>。
+    <br><b>Dev-C++</b> 是一個 <b>IDE（整合開發環境）</b>：它把「編輯器（打字）＋編譯器（翻譯）＋執行」包在同一個軟體裡。
+  </div>
+
+  <div class="wd" data-widget="flow"><h4>🔬 流程模擬：改了程式，要做什麼才會看到新結果？</h4></div>
+
+  <h3>Dev-C++ 操作步驟（對照表）</h3>
+  <table class="t">
+    <tr><th>要做什麼</th><th>怎麼做</th></tr>
+    <tr><td>新增程式檔</td><td><b>檔案(F) → 開新檔案(N) → 原始碼(S)</b>（快速鍵 <code>Ctrl+N</code>）</td></tr>
+    <tr><td>存檔</td><td><code>Ctrl+S</code>。第一次會跳出 Save As 視窗，檔名預設是 <code>新文件1.cpp</code>，請改成有意義的名字，<b>副檔名保持 <code>.cpp</code></b></td></tr>
+    <tr><td>只編譯</td><td><b>執行(Z) → 編譯(C)</b>（<code>F9</code>）：翻譯，檢查有沒有錯</td></tr>
+    <tr><td>只執行</td><td><b>執行(Z) → 執行(R)</b>（<code>F10</code>）：跑已經編譯好的檔案</td></tr>
+    <tr><td>編譯並執行</td><td><b>執行(Z) → 編譯並執行(O)</b>（<code>F11</code>）：一次完成，最常用</td></tr>
+    <tr><td>全部重新建置</td><td><b>執行(Z) → 全部重新建置(V)</b>（<code>F12</code>）：把整個程式從頭重翻一遍，遇到怪問題時用</td></tr>
+  </table>
+  <p><small>工具列上也有對應的按鈕：由左而右是「編譯、執行、編譯並執行、全部重新建置」。</small></p>
+
+  <h3>🖥 互動模擬：照著畫面一步一步來</h3>
+  <p>下面是依照 Dev-C++ 5.11 畫面重繪的操作視窗。<b>黃色閃爍的地方就是下一步要點的地方</b>，也可以用鍵盤快速鍵（先點一下視窗，再按 <code>Ctrl+N</code>、<code>Ctrl+S</code>、<code>F9</code>、<code>F11</code>）。</p>
+  <div class="wd devbox" data-widget="devsim"></div>
+
+  <div class="note"><b class="t">📌 執行結果在哪？</b>
+    程式會在一個<b>黑色視窗</b>裡執行。結束後，視窗會顯示 <code>Process exited after 0.1218 seconds with return value 0</code>（秒數每次不同），其中的 <b>return value 0 就是你寫的 <code>return 0;</code></b>！再接著顯示「請按任意鍵繼續 . . .」，按任意鍵才會關閉視窗。</div>
+
+  <h3>先把程式複製過去試試</h3>
+  <p>學會流程後，在你自己的 Dev-C++ 試試：按下面程式框的 <b>📋 複製</b>，貼到新檔案，存成 <code>hello.cpp</code>，按 <code>F11</code>。看到結果後，把名字改成你的名字再執行一次。</p>
+  <div class="pg" data-id="dev_hello"></div>
+
+  <h3>讀懂「真正」的錯誤訊息</h3>
+  <p>網頁上的錯誤訊息是中文的，但 Dev-C++ 的編譯器訊息是<b>英文</b>。編譯失敗時，視窗下方會自動切到<b>「編譯器訊息」</b>分頁，用表格列出：<b>行數</b>、<b>列數</b>、<b>檔案</b>、<b>訊息</b>（訊息開頭有 <code>[Error]</code>）。出錯的那一行程式會被塗成<b>深紅色</b>。雙擊錯誤列，游標會跳到出錯位置。上面的互動模擬裡就可以體驗。</p>
+  <p><small>下面的訊息，都是用這間學校使用的 Dev-C++ 5.11（g++ 4.9.2）實際編譯出來的。</small></p>
+  <table class="t">
+    <tr><th>Dev-C++ 顯示的訊息</th><th>常見原因</th></tr>
+    <tr><td><code>[Error] expected ';' before 'return'</code></td><td>少了分號。注意：它指的是 <b>return 這一行</b>，但真正漏掉分號的是<b>上一行行尾</b></td></tr>
+    <tr><td><code>[Error] 'total' was not declared in this scope</code></td><td>變數 total 沒宣告，或名字打錯</td></tr>
+    <tr><td><code>[Error] 'cout' was not declared in this scope</code></td><td>漏了 <code>using namespace std;</code></td></tr>
+    <tr><td><code>[Fatal Error] iostrem: No such file or directory</code></td><td>標頭檔名稱拼錯（Fatal 表示直接停止編譯）</td></tr>
+    <tr><td><code>[Error] expected '}' at end of input</code></td><td>大括號 { } 數量不成對</td></tr>
+    <tr><td><code>[Error] stray '\357' in program</code>（後面的數字可能不同）</td><td>程式裡混進了<b>全形符號</b>（例如 ； ）或看不見的奇怪字元</td></tr>
+    <tr><td><code>[Error] 'include' does not name a type</code></td><td><code>#include</code> 前面漏了 <code>#</code></td></tr>
+    <tr><td><code>[Error] invalid conversion from 'const char*' to 'char' [-fpermissive]</code></td><td>把雙引號的文字 <code>"A"</code> 放進 <code>char</code>（<code>char</code> 要用單引號 <code>'A'</code>）</td></tr>
+    <tr><td><code>[Error] 'sqrt' was not declared in this scope</code></td><td>用了 sqrt 卻沒 <code>#include &lt;cmath&gt;</code></td></tr>
+  </table>
+  <div class="note good"><b class="t">🛠 處理錯誤的順序</b>
+    <b>從第一個錯誤開始修</b>，修完就重新編譯。後面的錯誤常常是「連鎖反應」，第一個修好後會一起消失。</div>
+  <div class="quiz" data-ans="2">
+    <div class="q">Dev-C++ 顯示 <code>expected ';' before 'return'</code>，指向第 8 行（<code>return 0;</code>）。你應該先檢查？</div>
+    <ol><li>第 8 行的 return 拼錯了</li><li>整個程式重寫</li><li>第 8 行<b>上面一行</b>的結尾，是不是少了 ;</li></ol>
+    <div class="exp">編譯器是讀到 return 才發現「前面好像漏了分號」，所以報告的行號常常是「錯誤的下一行」。</div>
+  </div>
+  <div class="quiz" data-ans="1">
+    <div class="q"><code>'sum' was not declared in this scope</code> 是什麼意思？</div>
+    <ol><li>sum 的值太大</li><li>sum 還沒宣告（或名字打錯）</li><li>sum 不能當變數名稱</li></ol>
+    <div class="exp">「not declared」＝沒有宣告。回頭檢查有沒有 <code>int sum;</code>，以及大小寫、拼字。</div>
+  </div>
+
+  <div class="note warn"><b class="t">⚠ 網頁練習器 ≠ 真正的編譯器</b>
+    <ul style="margin:.3em 0 0">
+      <li>練習器的錯誤訊息是<b>中文</b>；Dev-C++ 是<b>英文</b>，而且比較「冷淡」，不會建議你怎麼改。</li>
+      <li>沒有給初始值的變數，練習器會當成 0；在真正的電腦上，它的值是<b>不確定</b>的，不能依賴。</li>
+      <li>真正的編譯器有些問題<b>完全不提醒</b>：例如 <code>if(x=3)</code>、整數除法被捨去小數，Dev-C++ 都編譯過關、沒有任何警告，要靠你自己小心。</li>
+      <li>有時候「沒借工具箱」在 Dev-C++ 剛好也能過（例如沒寫 <code>&lt;algorithm&gt;</code> 就用 <code>max</code>），但換一台電腦或別的編譯器就可能失敗。所以一律<b>需要什麼就借什麼</b>。</li>
+    </ul></div>
+
+  <h3>✅ 實作任務清單（在 Dev-C++ 完成）</h3>
+  <div class="card" data-checklist="dev">
+    <label><input type="checkbox"> 新增原始碼檔案，貼上程式</label><br>
+    <label><input type="checkbox"> 存成 <code>.cpp</code> 檔</label><br>
+    <label><input type="checkbox"> 按 F11，看到黑色視窗的輸出</label><br>
+    <label><input type="checkbox"> 找到 <code>return value 0</code> 這行字</label><br>
+    <label><input type="checkbox"> 故意刪掉某行結尾的分號，編譯並找到錯誤訊息和行號</label><br>
+    <label><input type="checkbox"> 修好錯誤，再改成你自己的名字</label>
+  </div>
+</section>
+
 <!-- ===================== L1 ===================== -->
-<section class="lesson" id="L1" data-title="程式骨架與輸出 cout" data-src="0907">
-  <span class="tag">第 1 課 · 0907</span>
+<section class="lesson" id="L2" data-title="程式骨架與輸出 cout" data-src="0907">
+  <span class="tag">第 2 課 · 0907</span>
   <h2>程式的骨架與 cout 輸出</h2>
   <p class="lead">學會讓電腦在螢幕上「說話」，並認識每個 C++ 程式都有的固定架構。</p>
 
   <h3>① 本教材的 C++ 程式都用這個骨架</h3>
   <p><b>點一點下面每一行</b>，看看它在做什麼：</p>
   <div class="annot" data-lines='[
-    ["#include &lt;iostream&gt;","<b>借工具箱。</b>iostream = input（輸入）+ output（輸出）+ stream（資料流）。想讓程式能「印字」和「讀鍵盤」，就要先借這個工具箱（這叫<b>標頭檔</b>，第 6 課會有完整介紹）。<br><small>前面的 <code>#</code> 一定要有！</small>"],
+    ["#include &lt;iostream&gt;","<b>借工具箱。</b>iostream = input（輸入）+ output（輸出）+ stream（資料流）。想讓程式能「印字」和「讀鍵盤」，就要先借這個工具箱（這叫<b>標頭檔</b>，第 9 課會有完整介紹）。<br><small>前面的 <code>#</code> 一定要有！</small>"],
     ["using namespace std;","<b>告訴電腦：我用標準（std）的說法。</b>有了這行，才能直接寫 <code>cout</code>，不然要寫成很長的 <code>std::cout</code>。<br><small>結尾的 <code>;</code>（分號）像中文的句號，表示這句話說完了。</small>"],
     ["int main()","<b>主程式的入口。</b>電腦一啟動程式，就是從 <code>main</code> 這裡開始往下做。<br>整個程式只能有一個 main。"],
     ["{","<b>左大括號：</b>主程式的範圍從這裡開始。"],
@@ -281,13 +437,40 @@ cout&lt;&lt;"C";</pre>
     <div class="exp">雙引號裡的東西是「文字」，不會計算，直接照印。下一課你會看到沒有雙引號的差別。</div>
   </div>
 
+  <h3>③ 註解：寫給「人」看的備忘</h3>
+  <p>程式裡常出現 <code>//endl 是換行之意</code> 這樣的文字，這叫<b>註解</b>。<b>電腦會完全略過註解</b>，它是寫給人看的筆記（也很適合暫時「關掉」某行程式）。</p>
+  <table class="t">
+    <tr><th>寫法</th><th>範圍</th></tr>
+    <tr><td><code>// 說明</code></td><td>從 <code>//</code> 到<b>這一行結束</b></td></tr>
+    <tr><td><code>/* 說明 */</code></td><td>從 <code>/*</code> 到 <code>*/</code> 之間，<b>可跨好幾行</b></td></tr>
+  </table>
+  <div class="pg" data-id="cmt_demo"></div>
+  <div class="quiz" data-ans="1">
+    <div class="q">下面的程式印出什麼？<pre class="code">cout&lt;&lt;"A";
+//cout&lt;&lt;"B";
+cout&lt;&lt;"C";   //cout&lt;&lt;"D";</pre></div>
+    <ol><li>ABCD</li><li>AC</li><li>ABC</li><li>A</li></ol>
+    <div class="exp">第 2 行整行被註解，第 3 行的 <code>cout&lt;&lt;"C"</code> 在 <code>//</code> 前面，會執行；後面的 D 被註解掉了。</div>
+  </div>
+
+  <h3>④ 跳脫字元：印出特殊符號</h3>
+  <p>想印出<b>雙引號</b>本身，電腦會以為字串在那裡結束！這時用「<b>反斜線 <code>\</code> + 字母</b>」來「跳脫」：</p>
+  <table class="t">
+    <tr><th>寫法</th><th>印出</th></tr>
+    <tr><td><code>\n</code></td><td>換行</td></tr>
+    <tr><td><code>\t</code></td><td>Tab（一大段空白，排整齊用）</td></tr>
+    <tr><td><code>\"</code></td><td>雙引號 <code>"</code></td></tr>
+    <tr><td><code>\\</code></td><td>反斜線 <code>\</code> 本身</td></tr>
+  </table>
+  <div class="pg" data-id="esc_ch"></div>
+
   <h3>🏆 挑戰：印出唐詩</h3>
   <div class="pg" data-id="poem"></div>
 </section>
 
 <!-- ===================== L2 ===================== -->
-<section class="lesson" id="L2" data-title="變數與資料型態" data-src="0907">
-  <span class="tag">第 2 課 · 0907</span>
+<section class="lesson" id="L3" data-title="變數與資料型態" data-src="0907">
+  <span class="tag">第 3 課 · 0907</span>
   <h2>變數：會記東西的盒子 📦</h2>
   <p class="lead">電腦要計算，就得先把數字「記」起來。變數就是用來記數字的盒子。</p>
 
@@ -307,6 +490,26 @@ cout&lt;&lt;"C";</pre>
   </table>
   <div class="note"><b class="t">📝 取名字的規則</b>
     只能用英文字母、數字、底線 <code>_</code>；<b>不能用數字開頭</b>；不能和 <code>int</code>、<code>return</code> 這類保留字相同；大小寫視為不同（<code>Sum</code> ≠ <code>sum</code>）。</div>
+
+  <h3>先記住這句：<code>=</code> 是「放進去」</h3>
+  <div class="card"><code>c = a + b;</code> 的讀法：<b>先算右邊，再把結果放進左邊的盒子</b>。（第 6 課會再深入）</div>
+  <div class="pg" data-id="assign0"></div>
+
+  <h3>宣告 vs. 給初始值</h3>
+  <table class="t">
+    <tr><th>寫法</th><th>發生什麼事</th></tr>
+    <tr><td><code>int a;</code></td><td>只<b>做出盒子</b>，裡面是空的（<b>不是 0！</b>內容不確定）</td></tr>
+    <tr><td><code>int b=5;</code></td><td>做出盒子，<b>並放進初始值 5</b></td></tr>
+    <tr><td><code>int a; a=5;</code></td><td>先做盒子，之後再放值（值還沒放進去之前，不要去讀它）</td></tr>
+  </table>
+  <div class="pg" data-id="init_demo"></div>
+  <div class="note warn"><b class="t">⚠ 習慣：沒有把握，就給初始值</b>
+    需要累加的變數（例如 <code>sum</code>）一定要先寫成 <code>int sum=0;</code>。練習器會用橘色警告提醒你，並暫時當成 0；但在真正的電腦上，沒給值的變數內容是不確定的。</div>
+  <div class="quiz" data-ans="2">
+    <div class="q"><code>int sum; sum = sum + 5;</code> 之後，sum 是多少？</div>
+    <ol><li>5</li><li>0</li><li>不確定，因為一開始 sum 沒有值</li></ol>
+    <div class="exp">「舊的 sum + 5」中的舊 sum 是不確定的內容。要累加，先寫 <code>int sum=0;</code>。</div>
+  </div>
 
   <h3>實際操作：算平均</h3>
   <p>按 <b>👣 逐步看變數</b>，看盒子裡的數字怎麼一步步改變。</p>
@@ -332,8 +535,8 @@ cout&lt;&lt;"C";</pre>
 </section>
 
 <!-- ===================== L3 ===================== -->
-<section class="lesson" id="L3" data-title="輸入 cin 與整數除法" data-src="0914">
-  <span class="tag">第 3 課 · 0914</span>
+<section class="lesson" id="L4" data-title="輸入 cin 與整數除法" data-src="0914">
+  <span class="tag">第 4 課 · 0914</span>
   <h2>cin 輸入：讓使用者決定數字</h2>
   <p class="lead">有了輸入，同一個程式就能算出不同人的答案。</p>
 
@@ -369,9 +572,44 @@ cout&lt;&lt;"C";</pre>
   <div class="pg" data-id="avgfix"></div>
 </section>
 
+<!-- ===================== LSTR ===================== -->
+<section class="lesson" id="L5" data-title="字元與字串" data-src="文字也是資料">
+  <span class="tag">第 5 課</span>
+  <h2>字元與字串：文字也是資料 🔤</h2>
+  <p class="lead">姓名、班級、等第「A」…… 程式不只處理數字，也要處理文字。</p>
+
+  <h3><code>7</code>、<code>'7'</code>、<code>"7"</code> 是三種不同的東西！</h3>
+  <table class="t">
+    <tr><th>寫法</th><th>型態</th><th>意思</th></tr>
+    <tr><td><code>7</code></td><td><code>int</code></td><td>數字 7，可以計算</td></tr>
+    <tr><td><code>'7'</code></td><td><code>char</code></td><td>「一個」字元（單引號），電腦用編號（ASCII 碼）儲存</td></tr>
+    <tr><td><code>"7"</code>、<code>"Amy"</code></td><td><code>string</code></td><td>「一串」文字（雙引號）。要借 <code>&lt;string&gt;</code>（Dev-C++ 通常借了 iostream 也能用，但建議明確寫）</td></tr>
+  </table>
+  <div class="note"><b class="t">📌 記憶口訣</b>單引號放<b>一個</b>字元；雙引號放<b>一串</b>文字。中文字請一律用 <code>string</code>。</div>
+  <div class="pg" data-id="type_demo"></div>
+  <div class="note good"><b class="t">🔎 發現</b><code>'A'+1</code> 得到 66，因為字元是用編號儲存的（'A' 的編號是 65）。想把結果再變回字元，要用 <code>(char)</code> 轉型。</div>
+
+  <div class="quiz" data-ans="1">
+    <div class="q">想存放學生姓名 "Amy"，宣告哪個正確？</div>
+    <ol><li><code>char name = "Amy";</code></li><li><code>string name = "Amy";</code></li><li><code>int name = "Amy";</code></li><li><code>string name = 'Amy';</code></li></ol>
+    <div class="exp">一串文字用 <code>string</code> 加雙引號。<code>char</code> 只能放一個字元；單引號裡也只能放一個字元。</div>
+  </div>
+  <h3>🐞 修修看</h3>
+  <div class="pg" data-id="char_fix"></div>
+
+  <h3>用 <code>cin</code> 輸入文字：遇到「空白」就停</h3>
+  <p><code>cin &gt;&gt;</code> 每次讀一個「以空白隔開」的資料。所以輸入 <code>Amy Chen 15</code> 時，<code>name</code> 只拿到 <code>Amy</code>，接下來 <code>age</code> 會去讀 <code>Chen</code> ——但那不是數字，讀取就失敗了。</p>
+  <div class="pg" data-id="str_in"></div>
+  <details class="fold"><summary>進階：想讀「含空白的一整行」怎麼辦？</summary>
+    <p>可以用 <code>getline(cin, name);</code>，它會讀到按下 Enter 為止。但如果前面剛用過 <code>cin &gt;&gt;</code>，Enter 的換行會被留在輸入中，要先處理掉，這在之後的課程會學到。網頁練習器目前不支援 <code>getline</code>。</p></details>
+
+  <h3>🏆 挑戰：自我介紹</h3>
+  <div class="pg" data-id="str_ch"></div>
+</section>
+
 <!-- ===================== L4 ===================== -->
-<section class="lesson" id="L4" data-title="指定運算子 = 與除錯" data-src="0914">
-  <span class="tag">第 4 課 · 0914</span>
+<section class="lesson" id="L6" data-title="指定運算子 = 與除錯" data-src="0914">
+  <span class="tag">第 6 課 · 0914</span>
   <h2><code>=</code> 不是「等於」，是「放進去」</h2>
   <p class="lead">這是初學者最容易搞混、也最重要的觀念。</p>
 
@@ -391,7 +629,7 @@ cout&lt;&lt;y;</pre>
   <div class="quiz" data-ans="1">
     <div class="q">最後印出的 y 是多少？</div>
     <ol><li>1</li><li>0</li><li>0 和 1 對調，所以是 1</li></ol>
-    <div class="exp">第 2 行 <code>x=y</code>：x 被改成 0（原來的 1 <b>消失了</b>）。第 3 行 <code>y=x</code>：把 0 放進 y，還是 0。<br>想要「對調」兩個變數，需要更多技巧 → 第 8 課！</div>
+    <div class="exp">第 2 行 <code>x=y</code>：x 被改成 0（原來的 1 <b>消失了</b>）。第 3 行 <code>y=x</code>：把 0 放進 y，還是 0。<br>想要「對調」兩個變數，需要更多技巧 → 下一課！</div>
   </div>
   <div class="quiz" data-ans="2">
     <div class="q"><code>int a=5; a=a+2; a=a*2;</code> 之後，a 是？</div>
@@ -407,9 +645,29 @@ cout&lt;&lt;y;</pre>
     <p>第 2 個題目有兩個問題：① 宣告變數時，最後一個變數後面<b>不能再接逗號</b>；② 程式用了 <code>sum</code> 和 <code>i</code>，但從來沒有宣告它們。想一想，哪兩個變數該改名？</p></details>
 </section>
 
+<!-- ===================== L7 ===================== -->
+<section class="lesson" id="L7" data-title="變數交換" data-src="1005">
+  <span class="tag">第 7 課 · 1005</span>
+  <h2>變數交換：需要一個「空杯子」🥤</h2>
+  <p class="lead">想把左手的可樂和右手的果汁互換，你一定會先把一杯放到桌上。程式也一樣！</p>
+
+  <h3>🧩 拼拼看：自己用指令積木交換 x 和 y</h3>
+  <p>目標：讓 <b>x 變成 33、y 變成 20</b>。按下面的指令積木（由上往下執行），看看盒子的變化。</p>
+  <div class="wd" data-widget="swap"><h4>變數交換積木</h4></div>
+
+  <h3>正確 vs 錯誤的交換</h3>
+  <div class="pg" data-id="swap_ok"></div>
+  <div class="pg" data-id="swap_bad"></div>
+  <div class="note"><b class="t">📌 交換三步驟</b>
+    <code>t = x;</code> 先把 x 的值<b>備份</b>到 t　→　<code>x = y;</code> x 可以安心被蓋掉　→　<code>y = t;</code> 把備份的值放回 y。</div>
+
+  <h3>🏆 挑戰</h3>
+  <div class="pg" data-id="swap_ch"></div>
+</section>
+
 <!-- ===================== L5 ===================== -->
-<section class="lesson" id="L5" data-title="算術運算子" data-src="0921">
-  <span class="tag">第 5 課 · 0921</span>
+<section class="lesson" id="L8" data-title="算術運算子" data-src="0921">
+  <span class="tag">第 8 課 · 0921</span>
   <h2>算術運算子：加減乘除餘</h2>
   <p class="lead">除了 + − × ÷，還有一個超好用的「餘數」。</p>
 
@@ -465,8 +723,8 @@ cout&lt;&lt; (float)(9/2);</pre></div>
 </section>
 
 <!-- ===================== LH ===================== -->
-<section class="lesson" id="L6" data-title="標頭檔 #include" data-src="工具箱">
-  <span class="tag">第 6 課</span>
+<section class="lesson" id="L9" data-title="標頭檔 #include" data-src="工具箱">
+  <span class="tag">第 9 課</span>
   <h2>標頭檔 <code>#include</code>：向「工具箱」借工具 🧰</h2>
   <p class="lead">每個程式最前面都有 <code>#include &lt;iostream&gt;</code>，它到底是什麼？不寫會怎樣？</p>
 
@@ -484,10 +742,12 @@ cout&lt;&lt; (float)(9/2);</pre></div>
     <tr><th>標頭檔</th><th>提供的工具</th><th>例子</th></tr>
     <tr><td><code>&lt;iostream&gt;</code></td><td>輸入輸出</td><td><code>cout</code>、<code>cin</code>、<code>endl</code></td></tr>
     <tr><td><code>&lt;cmath&gt;</code></td><td>數學函式</td><td><code>sqrt(x)</code> 開根號、<code>pow(a,b)</code> a 的 b 次方、<code>abs(x)</code> 絕對值、<code>floor</code>/<code>ceil</code>/<code>round</code></td></tr>
-    <tr><td><code>&lt;algorithm&gt;</code></td><td>演算法工具</td><td><code>max(a,b)</code>、<code>min(a,b)</code></td></tr>
+    <tr><td><code>&lt;algorithm&gt;</code></td><td>演算法工具</td><td><code>max(a,b)</code>、<code>min(a,b)</code>（第 14 課會用到）</td></tr>
     <tr><td><code>&lt;iomanip&gt;</code></td><td>控制輸出格式</td><td><code>setprecision(n)</code> 控制小數位數</td></tr>
     <tr><td><code>&lt;string&gt;</code></td><td>文字處理</td><td><code>string</code> 型態</td></tr>
   </table>
+  <div class="note"><b class="t">🧪 在 Dev-C++ 5.11 實測</b>
+    沒借 <code>&lt;cmath&gt;</code> 就用 <code>sqrt</code> → <b>會錯</b>；沒借 <code>&lt;iomanip&gt;</code> 就用 <code>setprecision</code> → <b>會錯</b>；但沒借 <code>&lt;algorithm&gt;</code> 就用 <code>max</code> → <b>竟然能過</b>（因為別的標頭檔偷偷幫你借了）。這種「碰巧能過」不可靠，請養成<b>用到什麼就借什麼</b>的習慣。</div>
   <div class="note warn"><b class="t">⚠ 還有一個「萬用工具箱」</b>
     <code>#include &lt;bits/stdc++.h&gt;</code> 會一次借進幾乎所有工具箱，比賽時很常見。但它<b>不是標準寫法</b>、有些電腦編譯不過，也讓你不知道自己到底用了什麼。學習階段請<b>需要什麼就借什麼</b>。</div>
   <details class="fold"><summary>進階：尖括號 &lt; &gt; 和雙引號 " " 有什麼不同？</summary>
@@ -523,14 +783,13 @@ cout&lt;&lt; (float)(9/2);</pre></div>
   <div class="pg" data-id="hdr_prec"></div>
   <div class="pg" data-id="hdr_area"></div>
 
-  <h3>⑤ 找最大最小：<code>&lt;algorithm&gt;</code></h3>
-  <div class="pg" data-id="hdr_max"></div>
-  <div class="note"><b class="t">🔗 想一想</b>第 11 課我們用 if 一個一個比出最大值。有了 <code>max()</code>，是不是短很多？不過先學會 if 的思路，才算真正懂得它在做什麼。</div>
 </section>
 
-<!-- ===================== L6 ===================== -->
-<section class="lesson" id="L7" data-title="比較與邏輯運算" data-src="0921">
-  <span class="tag">第 7 課 · 0921</span>
+</section>
+
+<!-- ===================== L6 -->
+<section class="lesson" id="L10" data-title="比較與邏輯運算" data-src="0921">
+  <span class="tag">第 10 課 · 0921</span>
   <h2>比較與邏輯：讓電腦回答「對 / 錯」</h2>
   <p class="lead">電腦能做決定的基礎：判斷一件事「成立」還是「不成立」。</p>
 
@@ -566,29 +825,9 @@ cout&lt;&lt; (float)(9/2);</pre></div>
   </div>
 </section>
 
-<!-- ===================== L7 ===================== -->
-<section class="lesson" id="L8" data-title="變數交換" data-src="1005">
-  <span class="tag">第 8 課 · 1005</span>
-  <h2>變數交換：需要一個「空杯子」🥤</h2>
-  <p class="lead">想把左手的可樂和右手的果汁互換，你一定會先把一杯放到桌上。程式也一樣！</p>
-
-  <h3>🧩 拼拼看：自己用指令積木交換 x 和 y</h3>
-  <p>目標：讓 <b>x 變成 33、y 變成 20</b>。按下面的指令積木（由上往下執行），看看盒子的變化。</p>
-  <div class="wd" data-widget="swap"><h4>變數交換積木</h4></div>
-
-  <h3>正確 vs 錯誤的交換</h3>
-  <div class="pg" data-id="swap_ok"></div>
-  <div class="pg" data-id="swap_bad"></div>
-  <div class="note"><b class="t">📌 交換三步驟</b>
-    <code>t = x;</code> 先把 x 的值<b>備份</b>到 t　→　<code>x = y;</code> x 可以安心被蓋掉　→　<code>y = t;</code> 把備份的值放回 y。</div>
-
-  <h3>🏆 挑戰</h3>
-  <div class="pg" data-id="swap_ch"></div>
-</section>
-
 <!-- ===================== L8 ===================== -->
-<section class="lesson" id="L9" data-title="if 與 if…else" data-src="1005">
-  <span class="tag">第 9 課 · 1005</span>
+<section class="lesson" id="L11" data-title="if 與 if…else" data-src="1005">
+  <span class="tag">第 11 課 · 1005</span>
   <h2>if：讓程式學會「做決定」</h2>
   <p class="lead">之前的程式都是從頭跑到尾。現在，程式可以依情況走不同的路了。</p>
 
@@ -610,7 +849,7 @@ else{
   <div class="note"><b class="t">📌 格式提醒</b>if 的條件要放在 <b>小括號</b> 裡；要做的事放在 <b>大括號 { }</b> 裡（只有一行時可省略大括號，但建議保留）。if 後面<b>不要加分號</b>。</div>
 
   <h3>③ 奇數還是偶數？</h3>
-  <p>用到第 5 課的 <code>%</code>：<b>偶數除以 2 餘 0</b>。</p>
+  <p>用到第 8 課的 <code>%</code>：<b>偶數除以 2 餘 0</b>。</p>
   <div class="pg" data-id="odd"></div>
 
   <div class="quiz" data-ans="2">
@@ -628,12 +867,12 @@ else{
 </section>
 
 <!-- ===================== L9 ===================== -->
-<section class="lesson" id="L10" data-title="多重條件 else if" data-src="1005">
-  <span class="tag">第 10 課 · 1005</span>
+<section class="lesson" id="L12" data-title="多重條件 else if" data-src="1005">
+  <span class="tag">第 12 課 · 1005</span>
   <h2>else if：多個選項，一路問下去</h2>
   <p class="lead">成績分成 A、B、C、D、F 好幾級，要怎麼判斷？</p>
 
-  <p><b>從上往下依序問</b>，遇到第一個「成立」就執行並<u>離開</u>，後面都不用看了：</p>
+  <p><b>從上往下依序問</b>，遇到第一個「成立」就執行那一段，並<u>略過這一串剩下的條件</u>（然後繼續執行整串 if 後面的程式）：</p>
   <div class="wd" data-widget="ladder"><h4>🔬 等第判斷器</h4></div>
 
   <h3>實際程式</h3>
@@ -655,9 +894,45 @@ else{
   <div class="pg" data-id="grade_ch"></div>
 </section>
 
+<!-- ===================== LDBG ===================== -->
+<section class="lesson" id="L13" data-title="除錯三步驟與測資" data-src="怎麼抓 bug">
+  <span class="tag">第 13 課</span>
+  <h2>除錯：像偵探一樣抓 bug 🕵️</h2>
+  <p class="lead">寫程式一定會出錯，厲害的人不是不出錯，而是「很會找錯」。</p>
+
+  <h3>三種錯誤，三種處理方式</h3>
+  <table class="t">
+    <tr><th>種類</th><th>什麼時候發現</th><th>例子</th><th>怎麼找</th></tr>
+    <tr><td><b>編譯錯誤</b></td><td>程式<b>跑不起來</b>，編譯器擋下來</td><td>少分號、變數沒宣告</td><td>看錯誤訊息的<b>行號</b>，從第一個開始修</td></tr>
+    <tr><td><b>執行錯誤</b></td><td>跑到一半<b>當掉</b></td><td>整數除以 0</td><td>看是哪一步出事，檢查輸入資料</td></tr>
+    <tr><td><b>邏輯錯誤</b></td><td>程式跑得動，但<b>答案不對</b></td><td>算平均得 86 不是 86.3</td><td>最難！要靠<b>追蹤</b>和<b>測資</b></td></tr>
+  </table>
+  <div class="quiz" data-ans="2">
+    <div class="q"><code>if(score=60)</code>（應該是 ==）。程式能執行，但輸入任何成績都顯示「及格」。這是哪一種錯誤？</div>
+    <ol><li>編譯錯誤</li><li>執行錯誤</li><li>邏輯錯誤</li></ol>
+    <div class="exp">電腦完全看得懂這行（所以不是編譯錯誤），也沒當掉，只是做的事和你想的不一樣 —— 邏輯錯誤。</div>
+  </div>
+
+  <h3>四個步驟找 bug</h3>
+  <div class="card">
+    ① <b>讀</b>：有紅字？先讀訊息和行號。<br>
+    ② <b>猜</b>：不執行，先在紙上<b>預測</b>結果，再和實際比較，差異就是線索。<br>
+    ③ <b>追</b>：用 👣 逐步執行（Dev-C++ 裡可以多印幾個變數出來看），看哪一步的數字開始不對。<br>
+    ④ <b>改</b>：<b>一次只改一個地方</b>，改完馬上重新測試。
+  </div>
+  <h3>練習：預測 → 追蹤 → 修正</h3>
+  <p>這個程式要算 4 和 6 的平均，應該是 5，但執行後是 7。先<b>預測</b>為什麼，再用 👣 追蹤驗證。</p>
+  <div class="pg" data-id="bug_trace"></div>
+
+  <h3>好的測資：專挑「邊界」測</h3>
+  <p>很多 bug 藏在<b>剛好等於界線</b>的地方。例如「60 分以上及格」，你只測 80 分和 30 分，是找不到 <code>&gt;</code> 和 <code>&gt;=</code> 差別的。測資要包含：<b>界線本身</b>、<b>界線的前一個和後一個</b>、極端值（0、100、負數）、相等的情況。</p>
+  <div class="wd" data-widget="tester"><h4>🕵️ 測資偵探：用你的測資，抓出藏在程式裡的 bug</h4></div>
+  <div class="note good"><b class="t">🧠 小結</b>「跑得動」不等於「正確」。每寫完一個判斷式，都要想：<b>界線值會怎樣？</b></div>
+</section>
+
 <!-- ===================== L10 ===================== -->
-<section class="lesson" id="L11" data-title="綜合：找最大值" data-src="1005">
-  <span class="tag">第 11 課 · 1005</span>
+<section class="lesson" id="L14" data-title="綜合：找最大值" data-src="1005">
+  <span class="tag">第 14 課 · 1005</span>
   <h2>找三個數字中的最大值 👑</h2>
   <p class="lead">把前面學的全部組合起來：輸入、變數、if、指定。</p>
 
@@ -669,22 +944,28 @@ else{
     ④ 最後站在台上的就是最大值！
   </div>
 
-  <div class="note"><b class="t">💡 小提示</b>第 6 課學過的 <code>max()</code> 也能做到同樣的事，但這裡請用 if 自己實作一次。</div>
-  <h3>🐞 終極除錯挑戰</h3>
+  <h3>① 先看一份正確的程式</h3>
+  <p>按 👣 逐步執行，盯著 <code>max</code> 盒子：它在什麼時候被換掉？注意兩個 <code>if</code> 是<b>各自獨立</b>的 —— 每個挑戰者都要比一次，所以<b>不能</b>改成 <code>else if</code>。</p>
+  <div class="pg" data-id="max_ok"></div>
+  <h3>② 🐞 終極除錯挑戰</h3>
   <p>這份程式藏著 <b>兩種不同的錯誤</b>：一種會被電腦直接擋下來（編譯錯誤），另一種可以執行，但算出<b>錯的答案</b>（邏輯錯誤）。</p>
   <div class="pg" data-id="max_dbg"></div>
   <details class="fold"><summary>提示 1</summary>
     <p>先處理紅色的錯誤。看它說哪一行？那一行 cout 的每個項目中間，是不是都有 <code>&lt;&lt;</code>？</p></details>
   <details class="fold"><summary>提示 2</summary>
     <p>修好後，用 70 90 80 執行，最高分竟然是 80？看看橘色警告。<code>if(max=score3)</code> 中的 <code>=</code> 是「放進去」，不是「比較」！而且該比較的是「誰比較大」。</p></details>
+
+  <h3>③ 🔗 另一種寫法：<code>max()</code> 與 <code>min()</code></h3>
+  <p>C++ 的 <code>&lt;algorithm&gt;</code> 標頭檔已經幫我們準備好「兩個數比大小」的工具。一次只能比兩個，三個數就要「套」兩層。你剛剛學會的 if 擂台，正是 <code>max()</code> 內部做的事。</p>
+  <div class="pg" data-id="hdr_max"></div>
 </section>
 
 <!-- ===================== L11 ===================== -->
-<section class="lesson" id="L12" data-title="總複習" data-src="綜合測驗">
-  <span class="tag">第 12 課</span>
+<section class="lesson" id="L15" data-title="總複習" data-src="綜合測驗">
+  <span class="tag">第 15 課</span>
   <h2>總複習測驗 🎓</h2>
-  <p class="lead">八題選擇題，看看你學會多少。<b>第一次就答對</b>才計分哦！</p>
-  <div class="score" id="finalScore">目前答對 0 / 8</div>
+  <p class="lead">十題選擇題加一題小實作，看看你學會多少。<b>第一次就答對</b>才計分哦！</p>
+  <div class="score" id="finalScore">目前答對 0 / 10</div>
 
   <div class="quiz final" data-ans="2"><div class="q"><code>cout&lt;&lt;"5+3";</code> 印出？</div>
     <ol><li>8</li><li>5 + 3</li><li>5+3</li></ol><div class="exp">雙引號內是文字，原樣印出。</div></div>
@@ -695,7 +976,7 @@ else{
   <div class="quiz final" data-ans="3"><div class="q"><code>int x=5; x=x*2; x++; cout&lt;&lt;x;</code> 印出？</div>
     <ol><li>5</li><li>10</li><li>12</li><li>11</li></ol><div class="exp">5 → ×2 = 10 → ++ 變 11。</div></div>
   <div class="quiz final" data-ans="1"><div class="q">想判斷 s 是否在 80 到 89 之間，哪個正確？</div>
-    <ol><li><code>80&lt;=s&lt;=89</code></li><li><code>s&gt;=80 &amp;&amp; s&lt;=89</code></li><li><code>s&gt;=80 || s&lt;=89</code></li></ol><div class="exp">C++ 不能連寫，要用 &amp;&amp; 把兩個條件接起來。</div></div>
+    <ol><li><code>80&lt;=s&lt;=89</code></li><li><code>s&gt;=80 &amp;&amp; s&lt;=89</code></li><li><code>s&gt;=80 || s&lt;=89</code></li></ol><div class="exp">C++ 連寫比較雖然能編譯，但意思和數學不同，要用 &amp;&amp; 把兩個條件接起來。</div></div>
   <div class="quiz final" data-ans="2"><div class="q">交換 a 和 b 的正確順序是？</div>
     <ol><li><code>a=b; b=a;</code></li><li><code>t=a; b=t; a=b;</code></li><li><code>t=a; a=b; b=t;</code></li></ol><div class="exp">先備份 a，再讓 a 變成 b，最後把備份放進 b。</div></div>
   <div class="quiz final" data-ans="0"><div class="q"><pre class="code">int s=75;
@@ -707,6 +988,15 @@ else cout&lt;&lt;"D";</pre>印出？</div>
   <div class="quiz final" data-ans="2"><div class="q"><code>if(x=3)</code> 這種寫法的問題是？</div>
     <ol><li>沒有問題</li><li>應該寫成 <code>if(x==3);</code></li><li>用了 <code>=</code>（放進去），應該用 <code>==</code>（比較）</li></ol><div class="exp">這是最常見的 bug 之一。<code>=</code> 會把 x 改成 3，而且條件永遠成立。</div></div>
 
+  <div class="quiz final" data-ans="1"><div class="q"><code>string s="7"; int n=7;</code>，<code>cout&lt;&lt;s+s&lt;&lt;" "&lt;&lt;n+n;</code> 印出？</div>
+    <ol><li>14 14</li><li>77 14</li><li>77 77</li></ol><div class="exp">字串相加是「接起來」→ 77；整數相加是計算 → 14。</div></div>
+  <div class="quiz final" data-ans="0"><div class="q">程式裡，被 <code>//</code> 或 <code>/* */</code> 包住的文字，電腦會？</div>
+    <ol><li>完全略過</li><li>當成要印出的文字</li><li>當成錯誤</li></ol><div class="exp">註解是寫給人看的，編譯時會被忽略。</div></div>
+
+  <h3>✍️ 小實作：兩數比大小</h3>
+  <p>輸入兩個整數，印出較大的那個。<b>請特別測試兩個數相等的情況。</b>按 ✔ 會用 4 組資料幫你檢查。</p>
+  <div class="pg" data-id="cmp2"></div>
+
   <h3>🧰 錯誤訊息速查表</h3>
   <table class="t">
     <tr><th>訊息關鍵字</th><th>通常是因為…</th></tr>
@@ -717,6 +1007,7 @@ else cout&lt;&lt;"D";</pre>印出？</div>
     <tr><td>全形符號</td><td>用了中文輸入法的 ； （ ） ，，程式只認半形</td></tr>
     <tr><td>(警告) 整數除法</td><td>想要小數結果時，要有一邊是小數</td></tr>
     <tr><td>(警告) if 裡的 =</td><td>比較要用 <code>==</code></td></tr>
+    <tr><td>英文訊息 <code>was not declared</code></td><td>真正編譯器的「變數沒宣告」，見第 1 課的對照表</td></tr>
   </table>
   <div class="note good"><b class="t">🎉 恭喜你完成整份教材！</b>你已經學會輸出入、變數、運算、判斷式 —— 這些就是所有程式的基本積木。繼續加油！</div>
 </section>
@@ -1041,6 +1332,7 @@ function run(prog,inputText){
     if(v.t==='char')return v.v.codePointAt(0);if(v.t==='bool')return v.v?1:0;return v.v};
   const isF=v=>v.t==='float';
   function conv(v,type,line){
+    if(v.t==='string'&&type!=='string')throw new RErr(line,type==='char'?'char 變數只能放「一個字元」，要用單引號，例如 \'A\'；一串文字請改用 string 型態並用雙引號。':`變數型態是 ${type}，不能放進文字（雙引號 " " 包起來的是「字串」）。`);
     switch(type){
       case 'int':case 'long':case 'short':{let n=num(v,line);if(isF(v))n=Math.trunc(n);return {t:'int',v:n|0}}
       case 'float':return {t:'float',v:Math.fround(num(v,line))};
@@ -1201,6 +1493,112 @@ ${body}
     return 0;
 }`;
 const PG={
+dev_hello:{title:'📋 複製到 Dev-C++',file:'hello.cpp',
+ code:SK(String.raw`    cout<<"Hello, Dev-C++!"<<endl;
+    cout<<"我是王小明";`),
+ task:'先在這裡按 ▶ 看結果，再用「📋 複製」貼到 Dev-C++ 執行，比較兩邊的輸出。'},
+
+cmt_demo:{title:'💻 註解實驗',
+ code:SK(String.raw`    cout<<"第一行"<<endl;
+    //cout<<"這一行被註解掉了"<<endl;
+    /* 這裡面的文字
+       可以寫很多行
+       cout<<"我也不會出現"; */
+    cout<<"第四行";   //這裡可以寫說明`),
+ task:'先猜會印出什麼，再執行。然後試著把第 2 行開頭的 <code>//</code> 刪掉。'},
+
+esc_ch:{title:'🏆 挑戰：跳脫字元',
+ code:SK(String.raw`    cout<<"他說：Hello"<<endl;
+    cout<<"C:temp";`),
+ task:'目標輸出兩行：<br><code>他說："Hello"</code><br><code>C:\\temp</code><br>提示：Hello 兩側要印雙引號；路徑中的反斜線要寫兩個。',
+ tests:[{input:'',expected:'他說："Hello"\nC:\\temp'}]},
+
+assign0:{title:'💻 = 是放進去',
+ code:SK(String.raw`    int a=3, b=4, c;
+    c=a+b;     //右邊算完，放進左邊
+    a=10;      //a 原本的 3 被蓋掉了
+    cout<<c<<" "<<a;`),
+ task:'用 👣 看盒子的變化，特別注意最後 a 的值。'},
+
+init_demo:{title:'💻 宣告與初始值',
+ code:SK(String.raw`    int a;          //只宣告，盒子是空的
+    int b=5;        //宣告並給初始值
+    int c=0;
+    cout<<b+c<<endl;
+    cout<<a;        //讀取一個沒有值的變數`),
+ task:'執行並看橘色警告。逐步模式中，空盒子會顯示 <b>?</b>。把第 1 行改成 <code>int a=0;</code> 試試。'},
+
+type_demo:{title:'💻 7、\'7\'、"7"',
+ code:HD('#include <string>\n',String.raw`    char c='7';
+    string s="7";
+    int n=7;
+    cout<<c<<s<<n<<endl;
+    cout<<n+n<<" "<<s+s<<endl;     //數字相加 vs 文字接起來
+    cout<<c-'0'<<endl;             //字元 '7' 變回數字 7
+    char d='A';
+    cout<<d+1<<" "<<(char)(d+1);   //字元的編號 +1`),
+ task:'先預測每一行的輸出，再執行驗證。'},
+
+char_fix:{title:'🐞 型態不對',
+ code:SK(String.raw`    char grade="A";
+    cout<<"等第:"<<grade;`),
+ task:'目標輸出 <code>等第:A</code>。有兩種改法：改成單引號，或改變型態。',
+ tests:[{input:'',expected:'等第:A'}]},
+
+str_in:{title:'💻 cin 讀文字',input:'Amy Chen 15',
+ code:HD('#include <string>\n',String.raw`    string name;
+    int age;
+    cout<<"請輸入名字和年齡:";
+    cin>>name>>age;
+    cout<<name<<" "<<age;`),
+ task:'輸入區現在是 <code>Amy Chen 15</code>，看看發生什麼事。再改成 <code>Amy 15</code>。'},
+
+str_ch:{title:'🏆 挑戰：自我介紹',input:'Amy 15',
+ code:HD('#include <string>\n',String.raw`    string name;
+    int age;
+    cout<<"請輸入名字和年齡:";
+    cin>>name>>age;
+    //請印出：你好，名字！你今年XX歲。`),
+ task:'輸出格式：<code>你好，Amy！你今年15歲。</code>（逗號、驚嘆號、句號都是全形）',
+ tests:[{input:'Amy 15',expected:'請輸入名字和年齡:你好，Amy！你今年15歲。'},{input:'小明 14',expected:'請輸入名字和年齡:你好，小明！你今年14歲。'}]},
+
+bug_trace:{title:'🐞 追蹤並修正',
+ code:SK(String.raw`    int a=4, b=6, avg;
+    avg=a+b/2;
+    cout<<avg;`),
+ task:'目標輸出 5。先預測、再 👣 追蹤，最後修正。',
+ tests:[{input:'',expected:'5'}]},
+
+cmp2:{title:'✍️ 兩數比大小',input:'3 5',
+ code:SK(String.raw`    int a,b;
+    cout<<"請輸入兩個整數:";
+    cin>>a>>b;
+    //請印出較大的數（相等時印出那個數）
+    `),
+ task:'輸出格式：<code>較大的是 5</code>（兩數相等時也印出這個數）。',
+ tests:[{input:'3 5',expected:'請輸入兩個整數:較大的是 5'},{input:'9 2',expected:'請輸入兩個整數:較大的是 9'},{input:'4 4',expected:'請輸入兩個整數:較大的是 4'},{input:'-1 -5',expected:'請輸入兩個整數:較大的是 -1'}]},
+
+max_ok:{title:'✅ 正確的找最大值',file:'20261005-8.cpp',input:'70 90 80',
+ code:SK(String.raw`    int score1,score2,score3,max;
+    cout<<"請輸入第一次成績:";
+    cin>>score1;
+    cout<<"請輸入第二次成績:";
+    cin>>score2;
+    cout<<"請輸入第三次成績:";
+    cin>>score3;
+    cout<<"你輸入的成績分別是:"<<score1<<"、"<<score2<<"、"<<score3<<"。";
+
+    max=score1;     //先讓第一個人當擂台主
+    if(max<score2){
+        max=score2;
+    }
+    if(max<score3){
+        max=score3;
+    }
+
+    cout<<"你輸入的最高分數為:"<<max;`),
+ task:'用 👣 觀察 max 盒子。再試試 95 60 80（最大的在第一個）。'},
+
 hdr_demo:{title:'💻 借用 <cmath> 工具箱',file:'標頭檔示範',
  code:HD('#include <cmath>\n',String.raw`    cout<<sqrt(16)<<endl;        //開根號
     cout<<pow(2,10)<<endl;       //2 的 10 次方
@@ -1694,7 +2092,7 @@ function mountPG(root){
   ${cfg.task?`<div class="pg-task">${cfg.task}</div>`:''}
   <div class="pg-edit"><div class="gut"></div><textarea spellcheck="false" aria-label="程式碼編輯區（Tab 鍵縮排；按 Esc 後再按 Tab 可離開編輯區）"></textarea></div>
   <div class="pg-in"${showIn?'':' hidden'}><label>⌨ 輸入區（cin 讀的資料，用空白隔開）</label><input type="text" value="${esc(cfg.input||'')}" aria-label="cin 輸入區"></div>
-  <div class="pg-btns"><button class="btn primary b-run">▶ 執行</button><button class="btn b-step">👣 逐步看變數</button>${cfg.tests?'<button class="btn b-chk">✔ 檢查答案</button>':''}<button class="btn b-rst">↺ 還原</button></div>
+  <div class="pg-btns"><button class="btn primary b-run">▶ 執行</button><button class="btn b-step">👣 逐步看變數</button>${cfg.tests?'<button class="btn b-chk">✔ 檢查答案</button>':''}<button class="btn b-rst">↺ 還原</button><button class="btn b-copy">📋 複製</button></div>
   <div class="pg-msgs" role="status" aria-live="polite"></div>
   <pre class="term"><span class="ph">（按 ▶ 執行，結果會顯示在這裡）</span></pre>
   <div class="stepper" hidden>
@@ -1727,6 +2125,9 @@ function mountPG(root){
     return {c,r};
   }
   $('.b-run',root).onclick=doRun;
+  $('.b-copy',root).onclick=async function(){const b=this;
+    try{await navigator.clipboard.writeText(ta.value);b.textContent='✔ 已複製'}catch(e){ta.select();b.textContent='請按 Ctrl+C 複製'}
+    setTimeout(()=>b.textContent='📋 複製',1800)};
   $('.b-rst',root).onclick=()=>{ta.value=cfg.code;lines();if(inp)inp.value=cfg.input||'';msgs.innerHTML='';tests.innerHTML='';closeStep();term.innerHTML='<span class="ph">（按 ▶ 執行，結果會顯示在這裡）</span>'};
   if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')doRun()});
 
@@ -1881,8 +2282,233 @@ ladder(w){
   r.oninput=draw;m1.onchange=m2.onchange=draw;draw();
 }
 };
+
+W.devsim=function(w){
+  const PATH='C:\\Users\\student\\Documents\\';
+  const SRC=[
+    '#include <iostream>',
+    'using namespace std;',
+    'int main(){',
+    '    cout<<"Hello, Dev-C++!"<<endl;',
+    '    cout<<"我是王小明";',
+    '    return 0;',
+    '}'];
+  const STEPS=[
+    ['開新檔案','點選單「<b>檔案(F)</b> → 開新檔案(N) → 原始碼(S)」，或按 <code>Ctrl+N</code>'],
+    ['貼上程式','把程式放進編輯區：按下方的「📋 貼上範例程式」（就像按 Ctrl+V）'],
+    ['存檔','按 <code>Ctrl+S</code>（或「檔案 → 儲存」），在 Save As 視窗輸入檔名 <code>hello</code>，按「存檔」'],
+    ['編譯並執行','點選單「<b>執行(Z)</b> → 編譯並執行(O)」，或按 <code>F11</code>（也可以點工具列第三顆彩色按鈕）'],
+    ['製造錯誤','故意製造一個錯誤：按下方「💥 刪掉第 5 行的分號」'],
+    ['看錯誤訊息','按 <code>F9</code> 編譯（或工具列第一顆按鈕），看底部的<b>編譯器訊息</b>'],
+    ['修好重編譯','按「✏ 補回分號」，再按 <code>F11</code>，確認錯誤消失'],
+    ['完成','🎉 你已經完成整個流程：開檔 → 寫程式 → 存檔 → 編譯 → 看錯誤 → 修正 → 執行！']];
+  let S;
+  const init=()=>S={opened:false,pasted:false,name:null,dirty:false,broken:false,saved1:false,ran1:false,everBroken:false,
+     compBroken:false,fixedRun:false,exeSnap:null,exeVer:0,ver:0,tab:'msg',errs:null,log:'',bot:false,cur:[1,1],menu:null,dlg:null,con:null,pendingAfterSave:null,hl:false};
+  init();
+  w.innerHTML=`<div class="dev-step" aria-live="polite"><b class="n"></b><span class="tx"></span></div><div class="dev-prog"></div>
+    <div class="dev-fit"><div class="dw"></div></div>
+    <div class="dev-btns"><button class="btn b-paste">📋 貼上範例程式</button><button class="btn b-break">💥 刪掉第 5 行的分號</button><button class="btn b-fix">✏ 補回分號</button><button class="btn b-reset">↺ 重來</button></div>
+    <p class="hintline" style="margin:.5em 0 0;color:var(--muted);font-size:.85rem">快速鍵：先在視窗上點一下，再按 Ctrl+N / Ctrl+S / F9 / F10 / F11。</p>`;
+  w.tabIndex=0;
+  const dw=$('.dw',w),fit=$('.dev-fit',w);
+  const code=()=>{const L=[...SRC];if(S.broken)L[4]='    cout<<"我是王小明"';return L};
+  const bytes=()=>(code().join('\r\n')+'\r\n').replace(/[\u0080-\uffff]/g,'xx').length;
+  const curStep=()=>{if(!S.opened)return 0;if(!S.pasted)return 1;if(!S.saved1)return 2;if(!S.ran1)return 3;if(!S.everBroken)return 4;
+     if(!S.compBroken)return 5;if(!S.fixedRun)return 6;return 7};
+  const title=()=>(S.name?PATH+S.name:(S.opened?'新文件1':''))+(S.opened?' - ':'')+'Dev-C++ 5.11';
+  const tabName=()=>S.name?S.name:'新文件1';
+  function hl(line){
+    const e=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+    if(/^#/.test(line))return `<span class="k-pp">${e(line)}</span>`;
+    let o='',re=/("[^"]*")|(\b(?:int|using|namespace|return)\b)|(\b\d+\b)|(<<|;)|(\w+)|(.)/g,m;
+    while((m=re.exec(line))){o+=m[1]?`<span class="k-st">${e(m[1])}</span>`:m[2]?`<span class="k-kw">${m[2]}</span>`:m[3]?`<span class="k-nm">${m[3]}</span>`:m[4]?`<span class="k-op">${e(m[4])}</span>`:e(m[0])}
+    return o||' ';
+  }
+  const glowIf=(c)=>c?' glow':'';
+  function draw(){
+    const st=curStep();
+    $('.n',w).textContent='第 '+(Math.min(st,6)+1)+' 步 / 7';
+    $('.tx',w).innerHTML=(st<7?'<b>'+STEPS[st][0]+'：</b>':'')+STEPS[st][1];
+    $('.dev-prog',w).innerHTML=[0,1,2,3,4,5,6].map(i=>`<i class="${i<st?'d':i===st?'c':''}"></i>`).join('');
+    const L=code(),has=S.opened&&S.pasted;
+    const errLine=S.errs?6:0;
+    const botH=S.bot?170:0;
+    dw.style.setProperty('--botH',(26+botH)+'px');
+    const had=w.contains(document.activeElement);
+    const gl={file:st===0&&!S.menu,run:st===3&&!S.menu||st===6&&!S.menu,cmp:st===5&&!S.menu};
+    dw.innerHTML=`
+    <div class="tb"><div class="ic">DEV</div><span>${title()}</span><div class="wc"><span>—</span><span>☐</span><span>✕</span></div></div>
+    <div class="mb"><span data-m="file" class="${S.menu==='file'?'on':''}${glowIf(gl.file)}">檔案(F)</span><span data-m="x">編輯(E)</span><span data-m="x">搜尋(S)</span><span data-m="x">檢視(V)</span><span data-m="x">專案(P)</span><span data-m="run" class="${S.menu==='run'?'on':''}${glowIf(gl.run)}">執行(Z)</span><span data-m="x">工具(T)</span><span data-m="x">AStyle</span><span data-m="x">視窗(W)</span><span data-m="x">求助(H)</span></div>
+    <div class="tl"><b class="act" data-a="new" title="新增 (Ctrl+N)">📄</b><b title="開啟">📂</b><b class="act" data-a="save" title="儲存 (Ctrl+S)">💾</b><b>🗐</b><b>✖</b><b>🖨</b><span class="sp"></span><b>↶</b><b>↷</b><span class="sp"></span>
+      <b class="act${glowIf(gl.cmp)}" data-a="compile" title="編譯 (F9)"><span style="font-size:15px;line-height:1;color:#2b7a2b">▦</span></b><b class="act" data-a="runonly" title="執行 (F10)"><span style="font-size:15px;color:#555">☐</span></b><b class="act${glowIf(gl.run&&!S.menu)}" data-a="both" title="編譯並執行 (F11)"><span style="font-size:15px;color:#c33">▣</span></b><b class="act" data-a="rebuild" title="全部重新建置 (F12)"><span style="font-size:15px;color:#555">▤</span></b><span class="sp"></span><b>✔</b><b>✖</b><span class="cb"><span>TDM-GCC 4.9.2 64-bit Release</span><span>⌄</span></span></div>
+    <div class="tl2"><span class="cb2" style="width:480px"><span>(globals)</span><span>⌄</span></span><span class="cb2" style="width:480px"><span></span><span>⌄</span></span></div>
+    <div class="mid"><div class="lp"><div class="tabs"><span>專案</span><span>類別</span><span>除錯</span></div></div>
+      <div class="ed"><div class="et">${S.opened?`<span>${S.dirty?'[*] ':''}${tabName()}</span>`:''}</div>
+        <div class="code"><div class="gut">${S.opened?(has?L:[' ']).map((_,i)=>`<div class="${errLine===i+1?'erm':''}">${errLine===i+1?'⊗':''}${i+1}</div>`).join(''):''}</div>
+        <div class="lines">${S.opened?(has?L.map((l,i)=>`<div class="${errLine===i+1?'er':(S.cur[0]===i+1?'cur':'')}">${hl(l)}</div>`).join(''):`<div class="cur"> </div>`):''}</div></div></div></div>
+    <div class="bt" style="height:26px"><span data-t="msg" class="${S.tab==='msg'&&S.bot?'on':''}">▦ 編譯器訊息${S.errs?' ('+2+')':''}</span><span data-t="res">▣ 資源檔</span><span data-t="log" class="${S.tab==='log'&&S.bot?'on':''}">▮ 編譯紀錄</span><span data-t="dbg">✔ 除錯</span><span data-t="srch">🔍 搜尋結果</span><span data-t="min">⊠ 最小化</span></div>
+    ${S.bot?`<div class="bp" style="height:${botH}px">${bottom()}</div>`:''}
+    <div class="sb"><span>行數： ${S.cur[0]}</span><span>列數： ${S.cur[1]}</span><span>反白字數： 0</span><span>總行數： ${S.opened?(has?L.length:1)-(has?0:1):0}</span><span>檔案長度： ${S.opened&&has?bytes():0}</span><span>插入模式</span>${S.parsed?'<span style="border:0">完成解析（花了 0.016 秒）</span>':''}</div>
+    ${menu()}${dialog()}${console_()}`;
+    layout();
+    if(had){const fn=$(".fn",w);if(S.dlg&&fn){if(document.activeElement!==fn){fn.focus();fn.select()}}else w.focus({preventScroll:true})}
+  }
+  function bottom(){
+    if(S.tab==='log')return `<div style="display:flex;height:100%"><div style="width:240px;padding:8px 10px;border-right:1px solid #ddd;background:#f6f6f6"><div style="border:1px solid #ccc;background:#f0f0f0;color:#999;text-align:center;padding:6px 0">中斷</div><div style="height:22px;background:#e6e6e6;border:1px solid #ccc;margin:8px 0"></div><label style="font-size:12.5px"><span style="display:inline-block;width:13px;height:13px;border:1px solid #666;background:#fff;vertical-align:-2px;margin-right:4px"></span>Shorten compiler paths</label></div><pre style="flex:1;font-size:14px;line-height:1.5">${S.log||'（還沒有編譯）'}</pre></div>`;
+    if(S.tab!=='msg')return '';
+    if(!S.errs)return `<table><tr><th style="width:60px">行數</th><th style="width:60px">列數</th><th style="width:420px">檔案</th><th>訊息</th></tr></table>`;
+    return `<table><tr><th style="width:60px">行數</th><th style="width:60px">列數</th><th style="width:420px">檔案</th><th>訊息</th></tr>
+      <tr><td></td><td></td><td><b>${PATH}${S.name}</b></td><td><b>In function 'int main()':</b></td></tr>
+      <tr class="sel glow2" data-err="1" style="cursor:pointer"><td>6</td><td>5</td><td>${PATH}${S.name}</td><td>[Error] expected ';' before 'return'</td></tr></table>`;
+  }
+  function menu(){
+    if(!S.menu)return '';
+    const it=(t,k,a,x={})=>`<div class="${x.dis?'dis ':''}${x.sub?'sub ':''}${x.glow?'glow':''}" data-i="${a||''}"><span>${t}</span><span>${k||''}</span></div>`;
+    if(S.menu==='file'){const saveDis=!S.opened||!S.pasted||(S.name&&!S.dirty);return `<div class="dd" style="left:6px;top:54px;min-width:330px">
+      ${it('開新檔案(N)','','newsub',{sub:1,glow:curStep()===0})}<div class="sep"></div>${it('開啟舊檔(O)...','Ctrl+O','x')}
+      ${it('儲存(S)','Ctrl+S',saveDis?'x':'save',{dis:saveDis,glow:curStep()===2&&!saveDis})}${it('另存新檔(A)...','','x')}${it('儲存所有檔案(V)','','x')}<div class="sep"></div>${it('關閉檔案(C)','Ctrl+W','x')}${it('列印(P)...','Ctrl+P','x')}<div class="sep"></div>${it('結束程式(X)','Alt+F4','x')}</div>
+      ${S.sub?`<div class="dd" style="left:330px;top:56px;min-width:260px">${it('原始碼(S)','Ctrl+N','new',{glow:curStep()===0})}${it('專案(P)...','','x')}<div class="sep"></div>${it('樣版檔(Template)...','','x',{dis:1})}${it('類別(C)...','','x',{dis:1})}</div>`:''}`}
+    if(S.menu==='run'){const g=curStep();return `<div class="dd" style="left:371px;top:54px;min-width:330px">
+      ${it('編譯(C)','F9','compile',{glow:g===5})}${it('執行(R)','F10','runonly')}${it('編譯並執行(O)','F11','both',{glow:g===3||g===6})}${it('全部重新建置(V)','F12','rebuild')}<div class="sep"></div>
+      ${it('語法檢查(S)','','x')}${it('Syntax Check Current File','Ctrl+F9','x')}<div class="sep"></div>${it('參數(W)...','','x')}<div class="sep"></div>${it('編輯 makefile 檔(Makefile)','','x',{dis:1})}<div class="sep"></div>${it('清除(L)','','x')}<div class="sep"></div>${it('效能分析資訊(F)','','x')}${it('刪除效能分析資訊(X)','','x')}<div class="sep"></div>${it('除錯(D)','F5','x')}</div>`}
+    return '';
+  }
+  function dialog(){
+    if(!S.dlg)return '';
+    return `<div class="ov"><div class="dlg"><div class="h"><span>Save As</span><span>✕</span></div>
+      <div class="row"><span style="width:70px">儲存於(I):</span><span style="flex:1;border:1px solid #aaa;background:#fff;padding:2px 8px">文件</span></div>
+      <div class="fl"><div style="color:#666">名稱</div><div>📁 我的程式</div><div>📁 作業</div><div>📁 Downloads</div><div>📁 Pictures</div></div>
+      <div class="row"><span style="width:70px">檔案名稱(N):</span><input type="text" class="fn" value="${S.dlg.name}" aria-label="檔案名稱"></div>
+      <div class="row"><span style="width:70px">存檔類型(T):</span><span style="flex:1;border:1px solid #aaa;background:#fff;padding:2px 8px;font-size:12px">C++ source files (*.cpp;*.cc;*.cxx;*.c++;*.cp)</span></div>
+      <div class="row" style="justify-content:flex-end"><button class="df glow" data-d="ok">存檔(S)</button><button data-d="cancel">取消</button></div></div></div>`;
+  }
+  function console_(){
+    if(!S.con)return '';
+    return `<div class="ov" style="background:rgba(0,0,0,.45)"><div class="con"><div class="ct">▣ ${PATH}${S.name.replace(/\.cpp$/,'.exe')}</div><pre>${S.con}</pre></div></div>`;
+  }
+  function layout(){const sc=Math.min(1,fit.clientWidth/1000)||1;dw.style.transform=`scale(${sc})`;fit.style.height=(640*sc)+'px'}
+  window.addEventListener('resize',layout);
+
+  // ---- actions
+  const toast=t=>{const d=document.createElement('div');d.className='toast';d.textContent=t;dw.appendChild(d);setTimeout(()=>d.remove(),2200)};
+  function doNew(){if(S.opened){toast('已經有一個檔案了，這個練習用它就好');return}S.opened=true;S.menu=null;S.sub=false;draw()}
+  function needFile(){if(!S.opened){toast('請先新增檔案（Ctrl+N）');return false}if(!S.pasted){toast('編輯區是空的，先貼上程式');return false}return true}
+  function doSave(after){S.menu=null;if(!S.opened||!S.pasted){toast(S.opened?'沒有內容可存':'請先新增檔案');return}
+    if(S.name){S.dirty=false;draw();after&&after();return}
+    S.dlg={name:'新文件1.cpp'};S.pendingAfterSave=after||null;draw();const i=$('.fn',w);if(i){i.focus();i.select()}}
+  function commitSave(){const i=$('.fn',w);let n=(i.value||'').trim();if(!n){toast('檔名不能是空的');return}
+    if(!/\.(cpp|cc|cxx|c\+\+|cp)$/i.test(n))n+='.cpp';S.name=n;S.dirty=false;S.saved1=true;S.dlg=null;
+    const f=S.pendingAfterSave;S.pendingAfterSave=null;draw();f&&f()}
+  function compile(after){S.menu=null;if(!needFile())return;
+    if(!S.name){doSave(()=>compile(after));return}
+    S.dirty=false;S.ver++;S.bot=true;S.parsed=true;
+    if(S.broken){S.errs=true;S.tab='msg';S.compBroken=true;S.cur=[6,5];S.exeSnap=S.exeSnap;draw();return}
+    S.errs=null;S.tab='log';S.exeSnap=code().join('\n');S.exeVer=S.ver;S.cur=[S.cur[0],S.cur[1]];
+    const exe=PATH+S.name.replace(/\.cpp$/,'.exe');
+    S.log=`Compilation results...
+--------
+- Errors: 0
+- Warnings: 0
+- Output Filename: ${exe}
+- Output Size: 1.83260917663574 MiB
+- Compilation Time: 0.${30+Math.floor(Math.random()*20)}s`;
+    draw();after&&after()}
+  function run(){S.menu=null;if(!S.exeSnap){toast('還沒有執行檔，請先編譯（F9）或直接按 F11');return}
+    let out='';try{out=Engine.run(Engine.compile(S.exeSnap),'').output}catch(e){out='(執行失敗)'}
+    const t=(0.05+Math.random()*0.15).toFixed(4);
+    const esc2=x=>x.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+    S.con=esc2(out)+`\n\n--------------------------------\nProcess exited after ${t} seconds with return value 0\n請按任意鍵繼續 . . . _`;draw()}
+  function both(){compile(()=>{if(!S.broken)run()})}
+  function closeCon(){if(!S.con)return;S.con=null;S.ran1=true;if(S.everBroken&&!S.broken&&S.compBroken)S.fixedRun=true;draw()}
+
+  w.addEventListener('click',e=>{
+    if(S.con){closeCon();return}
+    const d=e.target.closest('[data-d]');if(d){d.dataset.d==='ok'?commitSave():(S.dlg=null,S.pendingAfterSave=null,draw());return}
+    if(S.dlg)return;
+    const m=e.target.closest('[data-m]');
+    if(m){const k=m.dataset.m;if(k==='x'){toast('這個選單這次練習不會用到');S.menu=null;draw();return}S.menu=S.menu===k?null:k;S.sub=false;draw();return}
+    const i=e.target.closest('[data-i]');
+    if(i){const a=i.dataset.i;if(a==='newsub'){S.sub=!S.sub;draw();return}
+      if(a==='x'||a===''){toast('這個項目這次練習不會用到');return}
+      ({new:doNew,save:()=>doSave(),compile:()=>compile(),runonly:run,both,rebuild:()=>compile()})[a]();return}
+    const a=e.target.closest('[data-a]');
+    if(a){({new:doNew,save:()=>doSave(),compile:()=>compile(),runonly:run,both,rebuild:()=>compile()})[a.dataset.a]();return}
+    const t=e.target.closest('[data-t]');
+    if(t){const k=t.dataset.t;if(k==='msg'||k==='log'){S.tab=k;S.bot=true;draw()}else if(k==='min'){S.bot=false;draw()}else toast('這次練習不會用到這個分頁');return}
+    const er=e.target.closest('[data-err]');if(er){S.cur=[6,5];draw();return}
+    if(S.menu){S.menu=null;S.sub=false;draw()}
+  });
+  w.addEventListener('keydown',e=>{
+    if(S.con){e.preventDefault();closeCon();return}
+    if(S.dlg){if(e.key==='Enter'){e.preventDefault();commitSave()}else if(e.key==='Escape'){S.dlg=null;draw()}return}
+    const k=e.key;
+    if(k==='F9'){e.preventDefault();compile()}else if(k==='F10'){e.preventDefault();run()}else if(k==='F11'){e.preventDefault();both()}else if(k==='F12'){e.preventDefault();compile()}
+    else if(e.ctrlKey&&(k==='s'||k==='S')){e.preventDefault();doSave()}
+    else if(e.ctrlKey&&(k==='n'||k==='N')){e.preventDefault();doNew()}
+    else if(e.ctrlKey&&(k==='v'||k==='V')){e.preventDefault();paste()}
+    else if(k==='Escape'&&S.menu){S.menu=null;draw()}
+  });
+  function paste(){if(!S.opened){toast('請先新增檔案（Ctrl+N）');return}if(S.pasted){toast('程式已經貼上了');return}S.pasted=true;S.dirty=true;S.cur=[7,2];draw()}
+  $('.b-paste',w).onclick=paste;
+  $('.b-break',w).onclick=()=>{if(!S.pasted){toast('先貼上程式');return}S.broken=true;S.everBroken=true;S.dirty=true;S.errs=null;S.cur=[5,24];draw()};
+  $('.b-fix',w).onclick=()=>{if(!S.broken){toast('目前沒有錯誤');return}S.broken=false;S.dirty=true;S.errs=null;S.cur=[5,25];draw()};
+  $('.b-reset',w).onclick=()=>{init();draw()};
+  if(typeof ResizeObserver!=="undefined")new ResizeObserver(layout).observe(fit);
+  draw();
+};
+W.flow=function(w){
+  w.insertAdjacentHTML('beforeend',`<div class="row"><span>📝 程式碼：第 <b class="sv">1</b> 版（已存檔：第 <b class="sa">0</b> 版）</span><span>⚙ 執行檔 .exe：<b class="se">還沒有</b></span></div>
+    <div class="cmds"><button class="btn" data-a="edit">✏ 修改程式碼</button><button class="btn" data-a="save">💾 存檔 Ctrl+S</button><button class="btn" data-a="compile">⚙ 編譯 F9</button><button class="btn" data-a="run">▶ 執行 F10</button><button class="btn" data-a="both">⚡ 編譯並執行 F11</button><button class="btn" data-a="reset">↺ 重來</button></div>
+    <div class="msg info" aria-live="polite">按上面的按鈕試試看：先「修改程式碼」，然後只按「執行 F10」會發生什麼事？</div>`);
+  let S;const init=()=>S={src:1,saved:0,exe:0};init();
+  const m=$('.msg',w);
+  const draw=(t,cls='info')=>{$('.sv',w).textContent=S.src;$('.sa',w).textContent=S.saved;$('.se',w).textContent=S.exe?`由第 ${S.exe} 版編譯而成`:'還沒有';m.className='msg '+cls;m.innerHTML=t};
+  const compile=()=>{if(S.saved===0)return '⚠ 還沒有存檔，沒有東西可以編譯（Dev-C++ 會先要你存檔）。';
+    S.exe=S.saved;return S.saved<S.src?`⚠ 編譯的是<b>已存檔的第 ${S.saved} 版</b>，你最新的修改（第 ${S.src} 版）沒有包含進去！`:'✅ 編譯成功，執行檔是最新版。'};
+  const run=()=>{if(!S.exe)return '❌ 還沒有執行檔！要先編譯。';
+    return S.exe<S.src?`🖥 黑色視窗跑出來的是<b>第 ${S.exe} 版</b>的結果 —— 但你的程式碼已經改到第 ${S.src} 版了，所以你看到的是<b>舊結果</b>！`:`🖥 黑色視窗顯示第 ${S.exe} 版的結果，和你的程式碼一致 ✔`};
+  w.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;
+    if(a==='reset'){init();return draw('已重來。')}
+    if(a==='edit'){S.src++;return draw(`你改了程式碼（現在是第 ${S.src} 版），但還沒存檔，也還沒編譯。`)}
+    if(a==='save'){S.saved=S.src;return draw(`已存檔（第 ${S.saved} 版）。`)}
+    if(a==='compile'){const t=compile();return draw(t,t.startsWith('✅')?'ok':'warn')}
+    if(a==='run'){const t=run();return draw(t,t.startsWith('🖥 黑色視窗顯示')?'ok':'warn')}
+    if(a==='both'){S.saved=S.src;S.exe=S.saved;return draw(`⚡ 一次完成：存檔 → 編譯 → 執行。黑色視窗顯示<b>第 ${S.exe} 版</b>（最新）的結果 ✔`,'ok')}
+  });
+};
+W.tester=function(w){
+  const PR={pass:{name:'及格判斷：60 分以上及格',good:'score>=60',bad:'score>60',a:'及格',b:'不及格',def:'80, 30'},
+            gradeA:{name:'A 等判斷：90 分以上是 A',good:'score>=90',bad:'score>90',a:'A',b:'不是A',def:'95'}};
+  w.insertAdjacentHTML('beforeend',`<div class="row"><label>題目：<select>${Object.entries(PR).map(([k,v])=>`<option value="${k}">${v.name}</option>`).join('')}</select></label></div>
+    <p style="margin:.2em 0">下面有一個「正確版」和一個「藏了 bug 的版本」。輸入你的測資（分數，用逗號或空白隔開），看看能不能讓兩個版本的輸出<b>不一樣</b>：</p>
+    <div class="row"><input type="text" class="ti" style="flex:1;min-width:180px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);font:inherit" aria-label="測資">
+      <button class="btn primary go">🔍 測試</button><button class="btn add">＋ 加入建議的邊界值</button></div>
+    <div class="tb"></div><div class="res" aria-live="polite"></div>`);
+  const sel=$('select',w),ti=$('.ti',w);
+  const src=(c,a,b)=>`#include <iostream>
+using namespace std;
+int main(){int score;cin>>score;if(${c}){cout<<"${a}";}else{cout<<"${b}";}return 0;}`;
+  const out=(c,a,b,n)=>Engine.run(Engine.compile(src(c,a,b)),String(n)).output;
+  const reset=()=>{const P=PR[sel.value];ti.value=P.def;$('.tb',w).innerHTML='';$('.res',w).innerHTML='';};
+  function go(){
+    const P=PR[sel.value];const nums=ti.value.split(/[\s,，]+/).filter(x=>x!=='').map(Number).filter(x=>Number.isFinite(x));
+    if(!nums.length){$('.res',w).innerHTML='<div class="msg warn">請輸入至少一個數字。</div>';return}
+    let found=[];
+    const rows=nums.map(n=>{const g=out(P.good,P.a,P.b,n),b=out(P.bad,P.a,P.b,n),d=g!==b;if(d)found.push(n);
+      return `<tr><td>${n}</td><td>${esc(g)}</td><td>${esc(b)}</td><td>${d?'<b style="color:var(--bad)">❌ 不一樣！</b>':'相同'}</td></tr>`}).join('');
+    $('.tb',w).innerHTML=`<table class="t"><tr><th>測資</th><th>正確版</th><th>有 bug 的版本</th><th>結果</th></tr>${rows}</table>`;
+    $('.res',w).innerHTML=found.length?`<div class="msg ok">🎉 抓到了！測資 <b>${[...new Set(found)].join('、')}</b> 讓兩個版本的結果不一樣。藏 bug 的版本把 <code>${P.good}</code> 寫成了 <code>${P.bad}</code>，只有在<b>剛好等於界線</b>時才會出錯。</div>`
+      :`<div class="msg warn">這些測資沒有抓到 bug —— 兩個版本的結果全都一樣。想一想：bug 最可能藏在哪裡？（提示：界線本身）</div>`;
+  }
+  $('.go',w).onclick=go;ti.onkeydown=e=>{if(e.key==='Enter')go()};
+  $('.add',w).onclick=()=>{const b=sel.value==='pass'?60:90;ti.value=[b-1,b,b+1].join(', ');go()};
+  sel.onchange=reset;reset();
+};
 $$('.wd[data-widget]').forEach(w=>W[w.dataset.widget]&&W[w.dataset.widget](w));
 
+$$('[data-checklist]').forEach(c=>{const k=c.dataset.checklist;store.chk=store.chk||{};const arr=store.chk[k]||[];
+  $$('input',c).forEach((i,n)=>{i.checked=!!arr[n];i.onchange=()=>{store.chk[k]=$$('input',c).map(x=>x.checked);save()}})});
 /* ---- start ---- */
 refreshProg();
 const h=/^#L(\d+)$/.exec(location.hash);
