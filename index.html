@@ -7,7 +7,7 @@
 <style>
 :root{
   --bg:#f6f7fb; --surface:#ffffff; --text:#1d2433; --muted:#5d6678; --line:#dfe3ec;
-  --accent:#2f6bff; --accent-soft:#e6eeff; --good:#12805c; --good-soft:#dff5ec;
+  --accent:#2559e0; --accent-soft:#e6eeff; --ctl:#8a93a6; --good:#12805c; --good-soft:#dff5ec;
   --bad:#c0362c; --bad-soft:#fde8e6; --warn:#a15c00; --warn-soft:#fff1d6;
   --code-bg:#f1f3f9; --term-bg:#12161f; --term-text:#e8ecf5; --term-in:#7fd1ff;
   --on-accent:#fff;--kw:#b4237a; --str:#0b7a4b; --cm:#68708a; --num:#b35900; --pp:#6b4fd0;
@@ -15,7 +15,7 @@
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --bg:#10131b; --surface:#181c27; --text:#e7eaf2; --muted:#9aa3b8; --line:#2b3243;
-    --accent:#6c9bff; --accent-soft:#1d2a4a; --good:#4ed19f; --good-soft:#12342a;
+    --accent:#6c9bff; --accent-soft:#1d2a4a; --ctl:#6a7590; --good:#4ed19f; --good-soft:#12342a;
     --bad:#ff7d72; --bad-soft:#3a1c1a; --warn:#ffc15a; --warn-soft:#3a2d12;
     --code-bg:#1e2331; --term-bg:#0a0c12; --term-text:#e8ecf5; --term-in:#7fd1ff;
     --on-accent:#0b1020;--kw:#ff7ac6; --str:#69e0a8; --cm:#9aa4bb; --num:#ffb066; --pp:#a99bff;
@@ -23,7 +23,7 @@
 }
 :root[data-theme="dark"]{
   --bg:#10131b; --surface:#181c27; --text:#e7eaf2; --muted:#9aa3b8; --line:#2b3243;
-  --accent:#6c9bff; --accent-soft:#1d2a4a; --good:#4ed19f; --good-soft:#12342a;
+  --accent:#6c9bff; --accent-soft:#1d2a4a; --ctl:#6a7590; --good:#4ed19f; --good-soft:#12342a;
   --bad:#ff7d72; --bad-soft:#3a1c1a; --warn:#ffc15a; --warn-soft:#3a2d12;
   --code-bg:#1e2331; --term-bg:#0a0c12; --term-text:#e8ecf5; --term-in:#7fd1ff;
   --on-accent:#0b1020;--kw:#ff7ac6; --str:#69e0a8; --cm:#7e889f; --num:#ffb066; --pp:#a99bff;
@@ -160,8 +160,10 @@ pre.code{background:var(--code-bg);border:1px solid var(--line);border-radius:12
 /* widgets */
 .wd{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:18px 0}
 .wd h4{margin:0 0 8px;font-size:1.02rem}
+.wd select{padding:5px 8px;border:1px solid var(--ctl);border-radius:8px;background:var(--surface);color:var(--text);font:inherit}
+.wd .cap{font-size:.85rem;color:var(--muted)}
 .wd .row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:8px 0}
-.wd input[type=number]{width:90px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);font:inherit}
+.wd input[type=number]{width:90px;padding:5px 8px;border:1px solid var(--ctl);border-radius:8px;background:var(--surface);color:var(--text);font:inherit}
 .wd input[type=range]{flex:1;min-width:120px;accent-color:var(--accent)}
 .bigbox{display:flex;gap:18px;flex-wrap:wrap;margin:12px 0}
 .bb{width:104px;text-align:center;border:3px solid var(--accent);border-radius:14px;overflow:hidden;background:var(--surface)}
@@ -960,12 +962,237 @@ else{
   <div class="pg" data-id="hdr_max"></div>
 </section>
 
+<!-- ===================== L15 FOR ===================== -->
+<section class="lesson" id="L15" data-title="for 迴圈：重複做事" data-src="1019">
+  <span class="tag">第 15 課 · 1019</span>
+  <h2>for 迴圈：讓電腦幫你重複做事 🔁</h2>
+  <p class="lead">要印 10 次「Hello」，你會複製貼上 10 行嗎？要印 1000 次呢？電腦最擅長的，就是<b>不嫌煩地重複做同一件事</b>。</p>
+
+  <div class="note"><b class="t">📌 先修正一個觀念</b>第 0 課說「程式由上往下一行一行執行」。學了迴圈之後，要加一句：<b>遇到迴圈，會在迴圈裡面「繞圈圈」，繞完才繼續往下。</b></div>
+
+  <h3>🏃 想像：操場跑 10 圈</h3>
+  <div class="card">
+    ① <b>起點</b>：從第 1 圈開始<br>
+    ② <b>檢查</b>：還沒跑完 10 圈嗎？是 → 繼續；不是 → 收工<br>
+    ③ <b>做事</b>：跑一圈<br>
+    ④ <b>更新</b>：圈數 +1，<b>回到 ②</b> 再檢查
+  </div>
+  <p>C++ 的 <code>for</code> 就是把這四件事，濃縮寫在同一行的小括號裡（用 <b>兩個分號 ;</b> 分成三段）：</p>
+<pre class="code">for ( <b>初始化</b> ;  <b>條件</b>  ;  <b>更新</b> ){
+    重複做的事      //這一段叫「迴圈本體」
+}</pre>
+  <table class="t">
+    <tr><th>順序</th><th>哪一段</th><th>什麼時候做</th><th>例子</th></tr>
+    <tr><td>①</td><td>初始化</td><td><b>只做一次</b>（剛進來的時候）</td><td><code>count=1</code></td></tr>
+    <tr><td>②</td><td>條件</td><td><b>每一輪開始前</b>都檢查；成立才做事，不成立就離開</td><td><code>count&lt;=10</code></td></tr>
+    <tr><td>③</td><td>迴圈本體 { }</td><td>條件成立時，做一次</td><td><code>cout&lt;&lt;"Hello"&lt;&lt;endl;</code></td></tr>
+    <tr><td>④</td><td>更新</td><td><b>本體做完後</b>，然後回到 ② 檢查</td><td><code>count++</code></td></tr>
+  </table>
+
+  <h3>🔬 迴圈實驗室</h3>
+  <p>改改看起點、終點和每次前進的格數，觀察 <code>x</code> 怎麼變、<b>做了幾輪</b>、<b>最後離開時 x 是多少</b>。</p>
+  <div class="wd" data-widget="forviz"><h4>🔬 for 迴圈實驗室</h4></div>
+
+  <h3>① 第一個 for 迴圈</h3>
+  <p>按 👣 逐步執行（可按「⏵ 自動播放」）。注意同一行 <code>for</code> 會被「看到」好幾次：初始化 1 次、檢查條件<b>11 次</b>、更新 10 次。</p>
+  <div class="pg" data-id="for1"></div>
+  <div class="quiz" data-ans="2">
+    <div class="q">程式最後一行 <code>cout&lt;&lt;count;</code> 印出的是？</div>
+    <ol><li>10</li><li>0</li><li>11</li></ol>
+    <div class="exp">第 10 輪做完後，更新 <code>count++</code> 讓 count 變成 <b>11</b>；回去檢查 <code>11&lt;=10</code> 不成立，才離開迴圈。所以<b>迴圈結束時，變數會停在「第一個讓條件不成立的值」</b>。</div>
+  </div>
+  <div class="quiz" data-ans="1">
+    <div class="q">如果把條件改成 <code>count&lt;10</code>（少了等號），會印出幾行 Hello？</div>
+    <ol><li>10 行</li><li>9 行</li><li>11 行</li></ol>
+    <div class="exp"><code>count</code> 從 1 開始，到 9 還成立，等於 10 時 <code>10&lt;10</code> 不成立就停了。所以只做 1~9 共 9 輪。這種「多一輪或少一輪」的錯誤，叫「差一錯誤」，是最常見的迴圈 bug。</div>
+  </div>
+  <div class="note good"><b class="t">🧠 更新的寫法</b><code>count++</code> 和 <code>count=count+1</code> 和 <code>count+=1</code> 意思都一樣：<b>讓 count 變大 1</b>。要減 1 就用 <code>count--</code>。</div>
+
+  <h3>② 迴圈變數本身也能拿來用</h3>
+  <p>迴圈變數 <code>i</code> 每一輪都不一樣，所以可以放進 <code>cout</code> 或拿去計算。</p>
+  <div class="pg" data-id="for_show"></div>
+
+  <h3>③ 🐞 停不下來的程式（無窮迴圈）</h3>
+  <p>如果「條件永遠成立」，迴圈就永遠不會結束。這個練習器會在跑太久時強制停下，但<b>在真正的 Dev-C++ 裡，黑色視窗會一直跑、卡住不動</b>，這時要用右上角的 ✕ 把它關掉。</p>
+  <div class="pg" data-id="for_inf"></div>
+  <details class="fold"><summary>提示</summary>
+    <p>想一想：<code>i</code> 從 1 開始、每次 +1，只會越來越大。條件 <code>i&gt;=1</code> 會有不成立的一天嗎？要印 1 2 3，條件應該怎麼寫？</p></details>
+
+  <div class="note warn"><b class="t">⚠ 三個新手常見錯誤</b>
+    ① 括號裡要用<b>分號 ;</b> 不是逗號 <code>,</code>：<code>for(i=1; i&lt;=10; i++)</code><br>
+    ② <code>for(...)</code> <b>後面不要加分號</b>：加了就變成「重複做一件空的事」，大括號裡的程式只會執行一次。<br>
+    ③ 條件裡的比較用 <code>&lt;=</code>、<code>&lt;</code>、<code>==</code>…，不要寫成 <code>=</code>（那是「放進去」）。</div>
+
+  <h3>🏆 挑戰 1：印 5 次</h3>
+  <div class="pg" data-id="for_cnt"></div>
+  <h3>🏆 挑戰 2：倒數計時</h3>
+  <p>起點可以不是 1、更新也可以是 <code>i--</code>。</p>
+  <div class="pg" data-id="for_down"></div>
+</section>
+
+<!-- ===================== L16 SUM ===================== -->
+<section class="lesson" id="L16" data-title="迴圈累加：1+2+…+100" data-src="1019">
+  <span class="tag">第 16 課 · 1019</span>
+  <h2>用迴圈做「累加」：1 + 2 + 3 + … + 100 ➕</h2>
+  <p class="lead">不用手按 100 次計算機。迴圈 + 一個變數，就能把一堆數字加起來。</p>
+
+  <div class="card">
+    <b>🐷 撲滿比喻</b><br>
+    <code>sum</code> 是一個<b>撲滿</b>，一開始要是<b>空的（0）</b>。<br>
+    迴圈每轉一圈，就把這一圈的數字 <code>x</code> 丟進去：<code>sum = sum + x;</code><br>
+    （第 6 課學過：右邊先算「舊的 sum + x」，算完再放回 sum。）
+  </div>
+
+  <h3>① 1 加到 100</h3>
+  <p>按 👣，再按「⏵ 自動播放」。盯著 <code>sum</code>：1、3、6、10、15… 一路變大。結束後想一想：最後的 <code>x</code> 為什麼不是 100？</p>
+  <div class="pg" data-id="sum100"></div>
+  <div class="quiz" data-ans="1">
+    <div class="q">這段程式結束時，印出的「最終 x」是？</div>
+    <ol><li>100</li><li>101</li><li>5050</li></ol>
+    <div class="exp">x=100 的那一輪做完後，<code>x++</code> 讓 x 變成 101；<code>101&lt;=100</code> 不成立才離開。這個值跟上一課一樣，停在「第一個不成立的值」。</div>
+  </div>
+  <div class="quiz" data-ans="1">
+    <div class="q">如果寫成 <code>int x, sum;</code>（<b>沒有</b>給 sum 初始值 0），會怎麼樣？</div>
+    <ol><li>沒差，電腦會自動當成 0</li><li>sum 一開始是不確定的值，答案不能保證正確</li><li>程式會編譯失敗</li></ol>
+    <div class="exp">沒給初始值的變數，裡面是「上次留下來的垃圾值」（第 3 課學過）。撲滿一開始不是空的，結果就不可靠；就算這次碰巧算對，換一台電腦也可能不對。<b>累加用的變數一定要先設成 0。</b>你可以在上面的程式把 <code>sum=0</code> 改成 <code>sum</code>，看看橘色警告。</div>
+  </div>
+
+  <h3>② 每次跳 2 格：只加奇數</h3>
+  <p>更新不一定是 <code>x++</code>。<code>x+=2</code> 就是 <code>x=x+2</code>，每次往前跳 2 格：1、3、5、7…。先輸入 <b>9</b>，再試試 <b>10</b>、<b>7</b>。</p>
+  <div class="pg" data-id="odd_sum"></div>
+  <div class="quiz" data-ans="0">
+    <div class="q">輸入 <code>n=7</code>，迴圈結束時印出的「最終 x」是？</div>
+    <ol><li>9</li><li>7</li><li>8</li></ol>
+    <div class="exp">x 依序是 1、3、5、7 都成立（總和 16）；7 做完後 x 變成 9，<code>9&lt;=7</code> 不成立 → 離開，最終 x=9（就是 n+2）。上方「迴圈實驗室」把終點設 7、每次 +2 也能驗證。</div>
+  </div>
+
+  <h3>③ 🐞 差一錯誤：少加了 100</h3>
+  <p>目標是印出 <code>1加到100=5050</code>，但這份程式印出的不是。用 👣 看最後一輪的 x，回想上一課「<code>&lt;</code> 和 <code>&lt;=</code> 的差別」。</p>
+  <div class="pg" data-id="loop_bug"></div>
+  <div class="note"><b class="t">🕵️ 回憶第 13 課</b>好的測資要專挑<b>邊界</b>。迴圈也一樣：最容易出錯的是「第一輪」和「最後一輪」。</div>
+
+  <h3>🏆 挑戰 1：1 加到 n</h3>
+  <p>讓使用者輸入 n，印出 1+2+…+n 的總和。測資含 n=1 的邊界。</p>
+  <div class="pg" data-id="sum_n"></div>
+  <h3>🏆 挑戰 2：只加偶數</h3>
+  <p>算 1~n 當中所有偶數（2+4+6+…）的總和。有兩種想法：<b>起點設 2、每次 +2</b>；或是每個數都檢查 <code>x%2==0</code>（第 8 課）。選一種做做看。</p>
+  <div class="pg" data-id="sum_even"></div>
+</section>
+
+<!-- ===================== L17 GRADES ===================== -->
+<section class="lesson" id="L17" data-title="迴圈 + 輸入：成績統計" data-src="1019">
+  <span class="tag">第 17 課 · 1019</span>
+  <h2>迴圈搭配 cin：統計全班的成績 📝</h2>
+  <p class="lead">以前輸入 3 科成績，要寫 <code>cin&gt;&gt;a&gt;&gt;b&gt;&gt;c</code>。如果是 30 位同學呢？讓使用者先說「有幾筆」，再用迴圈一筆一筆讀。</p>
+
+  <div class="card">
+    <b>🧩 這個程式的變數分工</b><br>
+    <code>n</code>：總共有幾科（使用者輸入）<br>
+    <code>i</code>：目前進行到第幾科（迴圈計數器）<br>
+    <code>s</code>：這一科的成績 ── <b>每一輪都被新的成績「蓋掉」</b>，只負責暫放<br>
+    <code>sum</code>：累加的撲滿　<code>ave</code>：平均　<code>j</code>：不及格的科目數
+  </div>
+
+  <h3>① 先看程式怎麼跑</h3>
+  <p>輸入區已經填好 <code>3 80 55 90</code>（第 1 個數是科目數，後面是成績）。按 👣，觀察 <code>s</code> 盒子被一次次覆蓋，而 <code>sum</code> 一直長大。</p>
+  <div class="pg" data-id="grades"></div>
+  <p>執行後有一個橘色警告：<b>變數 j 還沒有放進任何值就被拿來用</b>。這是故意留下的 ── 「不及格科目數」這個功能還沒寫完，等一下就是你的任務。</p>
+
+  <div class="quiz" data-ans="1">
+    <div class="q"><code>sum</code> 是 <code>float</code>，<code>n</code> 是 <code>int</code>。如果<b>兩個都是 int</b>，總分 5、n=2，<code>ave=sum/n;</code> 會得到？（ave 是 float 變數）</div>
+    <ol><li>2.5</li><li>2</li><li>3</li></ol>
+    <div class="exp">整數 ÷ 整數，小數會被捨去（第 4、8 課）→ 先得到 2，才放進 ave。所以這份程式把 <code>sum</code> 宣告成 <code>float</code>，讓除法保留小數。</div>
+  </div>
+  <div class="quiz" data-ans="2">
+    <div class="q">輸入 <code>3 80 55 90</code>，迴圈結束後 <code>s</code> 盒子裡面是？</div>
+    <ol><li>80</li><li>55</li><li>90</li></ol>
+    <div class="exp"><code>s</code> 每一輪都被蓋掉，只剩最後一次讀進來的 90。想保留每一科成績要用「陣列」（以後會學到），目前只能邊讀邊處理。</div>
+  </div>
+
+  <h3>🏆 挑戰 1：數出不及格科目</h3>
+  <p>完成最後一行的「不及格科目數」：成績 <b>低於 60</b> 算不及格。<br>
+     <b>兩個重點：</b>① <code>j</code> 要先歸零（撲滿！）② 要在迴圈裡面，每讀一個成績就用 <code>if</code>（第 11 課）判斷，不及格就 <code>j++</code>。</p>
+  <div class="pg" data-id="grade_cnt"></div>
+  <details class="fold"><summary>提示</summary>
+    <p>① 在迴圈<b>之前</b>加一行 <code>j=0;</code>。② 在 <code>sum=sum+s;</code> 下面加：<code>if(s&lt;60){ j++; }</code>。注意：<code>j=0</code> 不能放在迴圈裡，否則每一輪都會被歸零。</p></details>
+
+  <h3>🏆 挑戰 2：用迴圈找最高分</h3>
+  <p>還記得第 14 課的「擂台」嗎？現在不管有幾個人，都用同一個迴圈：每讀進一個成績，就和擂台主 <code>max</code> 比一次，比較大就取代。</p>
+  <div class="pg" data-id="loop_max"></div>
+  <details class="fold"><summary>提示</summary>
+    <p>在讀完 <code>cin&gt;&gt;s;</code> 之後加：<code>if(s&gt;max){ max=s; }</code>。<code>max</code> 一開始是 0，所以任何成績（≥0）都能挑戰成功。</p></details>
+</section>
+
+<!-- ===================== L18 NESTED ===================== -->
+<section class="lesson" id="L18" data-title="巢狀迴圈：星星圖形" data-src="1019">
+  <span class="tag">第 18 課 · 1019</span>
+  <h2>迴圈裡面再放迴圈：用星星畫圖形 ⭐</h2>
+  <p class="lead">目標：印出 4 行，每行 6 顆星。先笨一點做，再一步一步變聰明。</p>
+<pre class="code" style="margin-top:0">******
+******
+******
+******</pre>
+
+  <h3>① 最笨的方法：複製貼上</h3>
+  <div class="pg" data-id="star_hand"></div>
+  <p>能用，但如果要 100 行呢？這種「一模一樣的重複」就交給迴圈。</p>
+
+  <h3>② 用 for 重複「印一整行」</h3>
+  <p>下面這份是別人寫的，有<b>三個</b>問題：兩個會被電腦擋下來（<b>編譯錯誤</b>），修好之後還有一個<b>邏輯錯誤</b>。目標是印出 4 行 <code>******</code>。</p>
+  <div class="pg" data-id="star_bug"></div>
+  <details class="fold"><summary>提示 1</summary>
+    <p>讀紅字：第一個錯誤是哪一行的結尾少了什麼？（每個敘述都要有 <code>;</code>）</p></details>
+  <details class="fold"><summary>提示 2</summary>
+    <p>修好分號之後，再看新的錯誤：<code>{</code> 和 <code>}</code> 的數量要一樣多。for 的大括號 <code>{ }</code> 有關起來嗎？</p></details>
+  <details class="fold"><summary>提示 3</summary>
+    <p>可以執行了，但螢幕上是一整排 24 顆星，沒有分行。換行要用 <code>&lt;&lt;endl</code>（第 2 課）。</p></details>
+
+  <h3>③ 巢狀迴圈：內圈管「一行有幾顆」</h3>
+  <p>如果每行的星星數也想用迴圈控制呢？答案是：<b>在迴圈裡面再放一個迴圈</b>。</p>
+  <div class="card">
+    <b>⏰ 像時鐘一樣</b>：<b>分針（內圈）</b>轉完一整圈，<b>時針（外圈）</b>才走一格。<br>
+    外圈 <code>i</code>：管<b>第幾行</b>（共 4 行）<br>
+    內圈 <code>j</code>：管<b>這一行的第幾顆</b>（共 6 顆）<br>
+    內圈跑完 → 這行印好了 → <code>cout&lt;&lt;endl;</code> 換行 → 外圈才 +1，換下一行。
+  </div>
+  <div class="wd" data-widget="nest"><h4>🔬 一顆一顆看星星怎麼印出來</h4></div>
+
+  <p>實際程式：用 👣 觀察，<code>j</code> 會一直 1→6 重來，而 <code>i</code> 要等 j 轉完一圈才加 1。</p>
+  <div class="pg" data-id="star_nested"></div>
+  <div class="quiz" data-ans="2">
+    <div class="q">4 行、每行 6 顆的圖形，<code>cout&lt;&lt;"*";</code> 總共會被執行幾次？</div>
+    <ol><li>10 次</li><li>6 次</li><li>24 次</li></ol>
+    <div class="exp">外圈 4 輪 × 內圈每輪 6 次 = 24 次。<b>當「每一輪內圈的次數都一樣」時，總次數 = 外圈次數 × 內圈次數。</b>（如果內圈次數會跟著外圈改變，例如下面的三角形，就要把每一行的次數加起來。）</div>
+  </div>
+  <div class="quiz" data-ans="0">
+    <div class="q">如果把 <code>cout&lt;&lt;endl;</code> 搬進「內圈」的大括號裡面（每印一顆星就換行），結果會是？</div>
+    <ol><li>24 行，每行 1 顆星</li><li>4 行，每行 6 顆星（沒變）</li><li>1 行 24 顆星</li></ol>
+    <div class="exp">換行放在內圈，每顆星後面都換行 → 24 行 × 1 顆。所以 <code>endl</code> 要放在<b>內圈的外面、外圈的裡面</b>：內圈印完一整行後，才換行一次。</div>
+  </div>
+  <div class="note warn"><b class="t">⚠ 計數器要分開</b>外圈用 <code>i</code>、內圈用 <code>j</code>，<b>不能共用同一個變數</b>。如果兩層都用 <code>i</code>，內圈會一直改掉外圈的 <code>i</code>，迴圈就亂掉了。</div>
+
+  <h3>🏆 挑戰 1：自訂大小的長方形</h3>
+  <p>讓使用者輸入「列數」和「行數」，印出對應大小的星星長方形。</p>
+  <div class="pg" data-id="star_box"></div>
+  <h3>🏆 挑戰 2：直角三角形</h3>
+  <p>輸入 4 時要印：<br><code>*</code>　<code>**</code>　<code>***</code>　<code>****</code>（各自一行）。<br>想一想：第 1 行印 1 顆、第 2 行印 2 顆…，<b>第 i 行要印幾顆？</b>內圈的條件就用外圈的 <code>i</code> 來決定。</p>
+  <div class="pg" data-id="star_tri"></div>
+  <details class="fold"><summary>提示</summary>
+    <p>內圈條件改成 <code>j&lt;=i</code>：第 1 行 j 只跑到 1，第 2 行 j 跑到 2…。</p></details>
+
+  <div class="note good"><b class="t">🎉 迴圈小結</b>
+    <code>for(初始化; 條件; 更新)</code> ── 三段用分號隔開<br>
+    累加：撲滿先歸零，迴圈裡 <code>sum=sum+x;</code><br>
+    離開迴圈時，變數停在「第一個不成立的值」<br>
+    巢狀迴圈：內圈次數固定時，總次數 = 外圈 × 內圈；<code>endl</code> 放在內圈外面</div>
+</section>
+
 <!-- ===================== L11 ===================== -->
-<section class="lesson" id="L15" data-title="總複習" data-src="綜合測驗">
-  <span class="tag">第 15 課</span>
+<section class="lesson" id="L19" data-title="總複習" data-src="綜合測驗">
+  <span class="tag">第 19 課</span>
   <h2>總複習測驗 🎓</h2>
-  <p class="lead">十題選擇題加一題小實作，看看你學會多少。<b>第一次就答對</b>才計分哦！</p>
-  <div class="score" id="finalScore">目前答對 0 / 10</div>
+  <p class="lead">十三題選擇題加一題小實作，看看你學會多少。<b>第一次就答對</b>才計分哦！</p>
+  <div class="score" id="finalScore">目前答對 0 / 13</div>
 
   <div class="quiz final" data-ans="2"><div class="q"><code>cout&lt;&lt;"5+3";</code> 印出？</div>
     <ol><li>8</li><li>5 + 3</li><li>5+3</li></ol><div class="exp">雙引號內是文字，原樣印出。</div></div>
@@ -993,6 +1220,15 @@ else cout&lt;&lt;"D";</pre>印出？</div>
   <div class="quiz final" data-ans="0"><div class="q">程式裡，被 <code>//</code> 或 <code>/* */</code> 包住的文字，電腦會？</div>
     <ol><li>完全略過</li><li>當成要印出的文字</li><li>當成錯誤</li></ol><div class="exp">註解是寫給人看的，編譯時會被忽略。</div></div>
 
+  <div class="quiz final" data-ans="1"><div class="q"><code>for(i=1; i&lt;=5; i++) cout&lt;&lt;i&lt;&lt;" ";</code> 印出？</div>
+    <ol><li>1 2 3 4</li><li>1 2 3 4 5</li><li>0 1 2 3 4</li><li>2 3 4 5</li></ol><div class="exp">i 從 1 開始，1~5 條件都成立，共 5 輪。</div></div>
+  <div class="quiz final" data-ans="2"><div class="q"><pre class="code">int i,sum=0;
+for(i=1; i&lt;=4; i++){ sum=sum+i; }
+cout&lt;&lt;sum&lt;&lt;" "&lt;&lt;i;</pre>印出？</div>
+    <ol><li>10 4</li><li>6 5</li><li>10 5</li><li>10 10</li></ol><div class="exp">sum = 1+2+3+4 = 10；迴圈結束時 i 停在第一個讓條件不成立的值 5。</div></div>
+  <div class="quiz final" data-ans="0"><div class="q">外圈 <code>i</code> 跑 3 輪、內圈 <code>j</code> 跑 5 輪，內圈裡的 <code>cout&lt;&lt;"*";</code> 總共執行幾次？</div>
+    <ol><li>15 次</li><li>8 次</li><li>5 次</li></ol><div class="exp">巢狀迴圈的次數是相乘：3 × 5 = 15。</div></div>
+
   <h3>✍️ 小實作：兩數比大小</h3>
   <p>輸入兩個整數，印出較大的那個。<b>請特別測試兩個數相等的情況。</b>按 ✔ 會用 4 組資料幫你檢查。</p>
   <div class="pg" data-id="cmp2"></div>
@@ -1007,9 +1243,12 @@ else cout&lt;&lt;"D";</pre>印出？</div>
     <tr><td>全形符號</td><td>用了中文輸入法的 ； （ ） ，，程式只認半形</td></tr>
     <tr><td>(警告) 整數除法</td><td>想要小數結果時，要有一邊是小數</td></tr>
     <tr><td>(警告) if 裡的 =</td><td>比較要用 <code>==</code></td></tr>
+    <tr><td>for 的括號少分號 / 用逗號</td><td><code>for(i=1; i&lt;=10; i++)</code>：三段之間是<b>兩個分號</b></td></tr>
+    <tr><td>(警告) for 後面的分號</td><td><code>for(...);</code> 讓迴圈本體變成空的</td></tr>
+    <tr><td>程式停不下來 / 無窮迴圈</td><td>條件永遠成立；檢查「更新」有沒有讓變數往結束的方向走</td></tr>
     <tr><td>英文訊息 <code>was not declared</code></td><td>真正編譯器的「變數沒宣告」，見第 1 課的對照表</td></tr>
   </table>
-  <div class="note good"><b class="t">🎉 恭喜你完成整份教材！</b>你已經學會輸出入、變數、運算、判斷式 —— 這些就是所有程式的基本積木。繼續加油！</div>
+  <div class="note good"><b class="t">🎉 恭喜你完成整份教材！</b>你已經學會輸出入、變數、運算、判斷式和迴圈 —— 這些就是所有程式的基本積木。繼續加油！</div>
 </section>
 
     </div></main>
@@ -1073,7 +1312,7 @@ function compile(src){
   const toks=tokenize(src);
   let p=0;const warns=[];let hasIo=false,usingStd=false,hasMain=false;const incs=new Set();
   const have=h=>incs.has(h)||incs.has('bits/stdc++.h');
-  const scopes=[new Map()];let main=null;
+  const scopes=[new Map()];let main=null,pendingAlias=null;
   const EOF=()=>({t:'eof',v:'結尾',line:toks.length?toks[toks.length-1].line:1});
   const peek=(k=0)=>toks[p+k]||EOF();
   const prevLine=()=>p>0?toks[p-1].line:1;
@@ -1098,7 +1337,7 @@ function compile(src){
   const declare=(t,type)=>{
     if(RESERVED.has(t.v))err(t.line,`「${t.v}」是 C++ 保留字，不能拿來當變數名稱。`);
     const top=scopes[scopes.length-1];
-    if(top.has(t.v))err(t.line,`變數「${t.v}」已經宣告過了，不用重複宣告。`);
+    if(top.has(t.v)||(top.alias&&top.alias.has(t.v)))err(t.line,`變數「${t.v}」已經宣告過了，不用重複宣告。`+(top.alias&&top.alias.has(t.v)?'（它已經在 for 的小括號裡宣告了；for 的大括號裡面是同一層，不能再宣告一次）':''));
     top.set(t.v,type)};
 
   // ---- expressions ----
@@ -1244,8 +1483,37 @@ function compile(src){
     if(peek().t==='id'&&peek().v==='else'){p++;scopes.push(new Map());els=stmt();scopes.pop()}
     return {k:'if',cond,text,then,els,line:t.line};
   }
+  function forStmt(){
+    const t=toks[p++];
+    if(!isOp('('))err(t.line,'for 後面要接小括號 ( )，例如 for(i=1; i<=10; i++)');
+    p++;scopes.push(new Map());
+    const MULTI='這個練習器還沒支援在 for 的同一段裡放多個運算式（用逗號隔開，例如 i=0, j=0）。請先改成每一段只放一個。';
+    const semiAhead=()=>{let d=0;for(let k=p;k<toks.length;k++){const x=toks[k];if(x.t!=='op')continue;
+      if(x.v==='(')d++;else if(x.v===')'){if(d===0)return false;d--}else if(x.v===';'&&d===0)return true}return false};
+    const semi=()=>{
+      if(isOp(';')){p++;return}
+      if(isOp(','))err(peek().line,semiAhead()?MULTI:'for 的小括號裡要用「分號 ;」把它分成三段（初始化; 條件; 更新），不是逗號 ,');
+      err(prevLine(),'for 的小括號裡少了分號 ;（要有兩個分號，分成三段：初始化; 條件; 更新）')};
+    const T={init:'',cond:'',upd:''};let init=null,cond=null,upd=null;
+    if(isOp(';'))p++;
+    else if(peek().t==='id'&&TYPES.includes(peek().v)){const st=p;init={decl:decl()};T.init=src.slice(toks[st].pos,toks[p-2].end)}
+    else{const st=p;init={e:assign()};T.init=src.slice(toks[st].pos,toks[p-1].end);semi()}
+    if(!isOp(';')&&!isOp(')')){const st=p;cond=assign();T.cond=src.slice(toks[st].pos,toks[p-1].end)}
+    semi();
+    if(!isOp(')')&&!isOp('{')&&!isOp(';')){const st=p;upd=assign();T.upd=src.slice(toks[st].pos,toks[p-1].end);if(isOp(','))err(peek().line,MULTI)}
+    if(!isOp(')'))err(isOp('{')||isOp(';')||peek().t==='eof'?prevLine():peek().line,'for ( ) 的括號沒有成對，少了右括號 )；或是三段之間漏了分號 ;');
+    p++;
+    if(cond&&cond.k==='assign'&&cond.op==='='&&!cond.paren)
+      warns.push({line:t.line,msg:`for 的條件裡用的是 =（把值放進去），不是 ==（比較）。這會把「${cond.name}」改掉，並拿放進去的值來判斷。如果你想要「比較」，請改用 ==（或 <=、>= 等）。`});
+    const hdr=scopes[scopes.length-1];
+    if(isOp(';'))warns.push({line:t.line,msg:'for( ) 後面直接接了分號 ;，所以迴圈要重複做的事是「空的」。這個分號通常是多打的，請刪掉。'});
+    let body;
+    if(isOp('{')){pendingAlias=hdr;body=block()}else{scopes.push(new Map());body=stmt();scopes.pop()}
+    scopes.pop();
+    return {k:'for',init,cond,upd,body,T,line:t.line};
+  }
   function block(){
-    const open=expectOp('{');scopes.push(new Map());const body=[];
+    const open=expectOp('{');const bm=new Map();bm.alias=pendingAlias;pendingAlias=null;scopes.push(bm);const body=[];
     while(!isOp('}')){
       if(peek().t==='eof')err(open.line,'這個 { 找不到對應的 }（大括號必須成對）');
       body.push(stmt());
@@ -1261,7 +1529,8 @@ function compile(src){
       if(TYPES.includes(t.v)&&peek(1).t==='id'||TYPES.includes(t.v)&&peek(1).t==='op'&&peek(1).v===','){return decl()}
       if(t.v==='if')return ifStmt();
       if(t.v==='else')err(t.line,'這個 else 前面找不到配對的 if');
-      if(t.v==='while'||t.v==='for')err(t.line,`這個練習器還沒支援 ${t.v}（這是以後會學到的「迴圈」）`);
+      if(t.v==='for')return forStmt();
+      if(t.v==='while')err(t.line,'這個練習器還沒支援 while 迴圈（這份教材先學 for 迴圈）');
       if(t.v==='return'){p++;let e=null;if(!isOp(';'))e=assign();expectOp(';');return {k:'ret',e,line:t.line}}
       if(t.v==='cout'){p++;return readCout(t)}
       if(t.v==='cin'){p++;return readCin(t)}
@@ -1318,7 +1587,7 @@ function fmt(v,st){
 }
 
 // ---------- run ----------
-const RET={};
+const RET={};const TRACE_MAX=800,LOOP_MAX=1000000,OUT_MAX=20000;
 function run(prog,inputText){
   const segs=[],trace=[],warns=new Set(),infos=new Set();
   const inTok=(inputText||'').split(/\s+/).filter(x=>x.length);let ip=0;
@@ -1326,8 +1595,8 @@ function run(prog,inputText){
   const lookup=n=>{for(let i=scopes.length-1;i>=0;i--)if(scopes[i].has(n))return scopes[i].get(n);return null};
   const out=s=>{if(s==='')return;const l=segs[segs.length-1];if(l&&l.k==='out')l.s+=s;else segs.push({k:'out',s})};
   const snap=()=>{const r=[];scopes.forEach(m=>m.forEach((c,name)=>r.push({name,type:c.type,val:c.val?fmt(c.val):null})));return r};
-  let trunc=false;
-  const rec=(line,note)=>{if(trace.length>=400){trunc=true;return}trace.push({line,note:note||'',vars:snap(),out:segs.reduce((n,x)=>n+x.s.length,0)})};
+  let trunc=false,loops=0;
+  const rec=(line,note)=>{if(trace.length>=TRACE_MAX){trunc=true;return}trace.push({line,note:note||'',vars:snap(),out:segs.reduce((n,x)=>n+x.s.length,0)})};
   const num=(v,line)=>{if(v.t==='string')throw new RErr(line,'文字不能拿來做數學運算');
     if(v.t==='char')return v.v.codePointAt(0);if(v.t==='bool')return v.v?1:0;return v.v};
   const isF=v=>v.t==='float';
@@ -1436,6 +1705,8 @@ function run(prog,inputText){
     return used;
   }
   function condNote(text,res){
+    if(/\+\+|--|[^=!<>]=[^=]|[-+*\/%]=/.test(text))
+      return `條件 ${text}（這個條件會一邊比較、一邊改變變數，所以不做數值代入）→ ${res?'✔ 成立':'✘ 不成立'}`;
     const sub=text.replace(/[A-Za-z_]\w*/g,m=>{const c=lookup(m);return c&&c.val?fmt(c.val):m});
     return `條件 ${text}`+(sub!==text?`（代入數值：${sub}）`:'')+` → ${res?'✔ 成立':'✘ 不成立'}`;
   }
@@ -1449,10 +1720,11 @@ function run(prog,inputText){
           if(it.init)c.val=conv(ev(it.init),it.type,it.line);
           scopes[scopes.length-1].set(it.name,c);
         }
-        rec(s.line,'宣告變數'+(s.items.every(i=>i.init)?'並放進初始值':'（沒有初始值的盒子是空的 ?）'));return;
+        if(!s.quiet)rec(s.line,'宣告變數'+(s.items.every(i=>i.init)?'並放進初始值':'（沒有初始值的盒子是空的 ?）'));return;
       case 'expr':ev(s.e);rec(s.line);return;
       case 'cout':
         for(const it of s.items){if(it.k==='endl')out('\n');else if(it.k==='manip'){if(it.m==='fixed')cst.fixed=true;else cst.prec=Math.max(0,num(ev(it.e),s.line)|0)}else out(fmt(ev(it),cst))}
+        if(segs.reduce((n,x)=>x.k==='out'?n+x.s.length:n,0)>OUT_MAX)throw new RErr(s.line,'螢幕上已經印出超過 2 萬個字還沒結束，很可能是「無窮迴圈」。程式被強制停止了。');
         rec(s.line,'印到螢幕');return;
       case 'cin':{
         const used=[];for(const nme of s.names)used.push(readTok(lookup(nme),nme,s.line));
@@ -1462,6 +1734,22 @@ function run(prog,inputText){
         const r=truthy(ev(s.cond));
         rec(s.line,condNote(s.text,r));
         scopes.push(new Map());try{if(r)exec(s.then);else if(s.els)exec(s.els)}finally{scopes.pop()}return}
+      case 'for':{
+        scopes.push(new Map());
+        try{
+          if(s.init){if(s.init.decl){s.init.decl.quiet=true;exec(s.init.decl)}else ev(s.init.e);rec(s.line,`迴圈開始，先做一次「初始化」：${s.T.init}`)}
+          for(;;){
+            if(s.cond){const r=truthy(ev(s.cond));
+              rec(s.line,'檢查'+condNote(s.T.cond,r)+(r?'，進入迴圈做事':'，離開迴圈'));
+              if(!r)break}
+            if(++loops>LOOP_MAX)throw new RErr(s.line,'程式裡所有迴圈加起來已經重複超過 100 萬輪還沒結束，很可能是「無窮迴圈」（條件永遠成立）。程式被強制停止了。請檢查：條件寫對了嗎？更新那一段有讓變數往結束的方向前進嗎？');
+            exec(s.body);
+            if(s.upd){ev(s.upd);
+              const ids=[...new Set(s.T.upd.match(/[A-Za-z_]\w*/g)||[])].filter(n=>lookup(n)&&lookup(n).val);
+              rec(s.line,`做完一輪，執行「更新」：${s.T.upd}`+(ids.length?`（${ids.map(n=>n+' 變成 '+fmt(lookup(n).val)).join('、')}）`:''))}
+          }
+        }finally{scopes.pop()}
+        return}
       case 'ret':if(s.e)ev(s.e);rec(s.line,'return：程式結束');throw RET;
     }
   }
@@ -1661,6 +1949,203 @@ hdr_max:{title:'💻 <algorithm>：max 與 min',file:'標頭檔示範 3',input:'
     cout<<"最大值="<<max(max(a,b),c)<<"\n";
     cout<<"最小值="<<min(min(a,b),c);`),
  task:'試試不同的三個數字。<code>max(a,b)</code> 一次只能比兩個，所以三個要「套」兩層。'},
+
+for1:{title:'💻 第一個 for 迴圈',file:'20261019-1.cpp',
+ code:SK(String.raw`    int count;      //計數
+    for(count=1; count<=10; count++){   //count=count+1 與 count++ 同義
+        cout<<"Hello C++!"<<endl;
+    }
+    cout<<count;    //檢查迴圈結束後，count 是多少`),
+ task:'按 👣 觀察 <code>count</code>，數數看 for 那一行被「看到」幾次。然後試著把 10 改成 3 再執行。'},
+
+for_show:{title:'💻 迴圈變數可以拿來用',
+ code:SK(String.raw`    int i;
+    for(i=1; i<=5; i++){
+        cout<<i<<" 的平方是 "<<i*i<<endl;
+    }`),
+ task:'先猜輸出，再執行。然後把 <code>i++</code> 改成 <code>i+=2</code>，輸出會變成什麼？'},
+
+for_inf:{title:'🐞 停不下來',
+ code:SK(String.raw`    int i;
+    for(i=1; i>=1; i++){
+        cout<<i<<" ";
+    }`),
+ task:'按 ▶ 看看發生什麼事（這個練習器會幫你強制停止）。修好條件，讓它只印出 <code>1 2 3</code>。',
+ tests:[{input:'',expected:'1 2 3'}]},
+
+for_cnt:{title:'🏆 挑戰：印 5 次',
+ code:SK(String.raw`    int count;
+    for(count=1; count<=10; count++){
+        cout<<"Hello C++!"<<endl;
+    }`),
+ task:'改成印出 5 行「我愛程式」（每句一行）。需要改兩個地方。',
+ tests:[{input:'',expected:'我愛程式\n我愛程式\n我愛程式\n我愛程式\n我愛程式'}]},
+
+for_down:{title:'🏆 挑戰：倒數計時',
+ code:SK(String.raw`    int i;
+    //請用 for 迴圈印出倒數：5 4 3 2 1（數字之間用空白隔開）
+    `),
+ task:'目標輸出：<code>5 4 3 2 1</code>。起點是 5，更新用 <code>i--</code>，條件想一想。',
+ tests:[{input:'',expected:'5 4 3 2 1'}]},
+
+sum100:{title:'💻 1 加到 100',file:'20261019-2.cpp',
+ code:SK(String.raw`    int x,sum=0;    //sum 是撲滿，一開始是 0
+    for(x=1; x<=100; x++){    //x=x+1 與 x++ 同義
+        sum=sum+x;
+    }
+    cout<<"1+2+3+...+100的總和="<<sum<<endl;
+    cout<<"最終x="<<x;`),
+ task:'按 👣 再按「⏵ 自動播放」，看 sum 的變化。再試試：把 100 改成 10，總和應該是 55。'},
+
+odd_sum:{title:'💻 奇數的總和（每次跳 2 格）',file:'20261019-3.cpp',input:'9',
+ code:SK(String.raw`    int x,n,sum=0;
+    cout<<"請輸入一個整數(奇數):";
+    cin>>n;
+
+    for(x=1; x<=n; x+=2){   //x+=2 就是 x=x+2，每次往前跳 2 格
+        sum=sum+x;
+    }
+
+    cout<<"1+3+5...+n的總和="<<sum<<endl;
+    cout<<"最終x="<<x;       //n 是奇數時，最終 x=n+2（因為每次更新值為2）`),
+ task:'輸入區現在是 <code>9</code>（1+3+5+7+9=25）。再試試 7、10，看「最終 x」。'},
+
+loop_bug:{title:'🐞 差一錯誤',
+ code:SK(String.raw`    int x,sum=0;
+    for(x=1; x<100; x++){
+        sum=sum+x;
+    }
+    cout<<"1加到100="<<sum;`),
+ task:'目標輸出 <code>1加到100=5050</code>。現在印出的是多少？為什麼？',
+ tests:[{input:'',expected:'1加到100=5050'}]},
+
+sum_n:{title:'🏆 挑戰：1 加到 n',input:'10',
+ code:SK(String.raw`    int n,x,sum=0;
+    cout<<"請輸入n:";
+    cin>>n;
+    //請用 for 迴圈算出 1+2+...+n，放進 sum
+    cout<<"總和="<<sum;`),
+ task:'輸入 10 要得到 <code>總和=55</code>。按 ✔ 會測試 n=10、1、100 三組。',
+ tests:[{input:'10',expected:'請輸入n:總和=55'},{input:'1',expected:'請輸入n:總和=1'},{input:'100',expected:'請輸入n:總和=5050'}]},
+
+sum_even:{title:'🏆 挑戰：只加偶數',input:'10',
+ code:SK(String.raw`    int n,x,sum=0;
+    cout<<"請輸入n:";
+    cin>>n;
+    //請算出 1~n 之中所有偶數的總和：2+4+6+...
+    cout<<"偶數總和="<<sum;`),
+ task:'輸入 10 要得到 <code>偶數總和=30</code>。注意 n 是奇數（7）或很小（1）的情況。',
+ tests:[{input:'10',expected:'請輸入n:偶數總和=30'},{input:'7',expected:'請輸入n:偶數總和=12'},{input:'1',expected:'請輸入n:偶數總和=0'}]},
+
+grades:{title:'💻 算多科成績',file:'20261019-4.cpp',input:'3 80 55 90',
+ code:SK(String.raw`    int i, n, s, j;    //i是計算到第幾科，n是有幾門科目，s科目成績，j不及格的科目數
+    float sum=0, ave;
+
+    cout<<"請輸入修習科目數:";
+    cin>>n;
+
+    for(i=1; i<=n; i++){
+        cout<<"請輸入第"<<i<<"科成績:";
+        cin>>s;
+
+        sum=sum+s;    //計算總分(將舊的總和加入新輸入科目的分數)
+    }
+    ave=sum/n;
+    cout<<"總分="<<sum<<endl;
+    cout<<"平均="<<ave<<endl;
+    cout<<"不及格科目數="<<j<<"科"<<endl;`),
+ task:'按 👣，觀察 <code>s</code> 與 <code>sum</code>。最後一行的 <code>j</code> 還沒寫完（橘色警告），下一題再補。'},
+
+grade_cnt:{title:'🏆 挑戰：不及格科目數',input:'3 80 55 90',
+ code:SK(String.raw`    int i, n, s, j;
+    float sum=0, ave;
+
+    cout<<"請輸入修習科目數:";
+    cin>>n;
+
+    for(i=1; i<=n; i++){
+        cout<<"請輸入第"<<i<<"科成績:";
+        cin>>s;
+
+        sum=sum+s;
+    }
+    ave=sum/n;
+    cout<<"總分="<<sum<<endl;
+    cout<<"平均="<<ave<<endl;
+    cout<<"不及格科目數="<<j<<"科"<<endl;`),
+ task:'不及格 = 低於 60 分。輸入 <code>3 80 55 90</code> 時，最後一行要印 <code>不及格科目數=1科</code>。',
+ tests:[
+  {input:'3 80 55 90',expected:'請輸入修習科目數:請輸入第1科成績:請輸入第2科成績:請輸入第3科成績:總分=225\n平均=75\n不及格科目數=1科'},
+  {input:'2 60 59',expected:'請輸入修習科目數:請輸入第1科成績:請輸入第2科成績:總分=119\n平均=59.5\n不及格科目數=1科'},
+  {input:'4 100 90 80 70',expected:'請輸入修習科目數:請輸入第1科成績:請輸入第2科成績:請輸入第3科成績:請輸入第4科成績:總分=340\n平均=85\n不及格科目數=0科'},
+  {input:'3 10 20 30',expected:'請輸入修習科目數:請輸入第1科成績:請輸入第2科成績:請輸入第3科成績:總分=60\n平均=20\n不及格科目數=3科'},
+  {input:'4 0 59 60 100',expected:'請輸入修習科目數:請輸入第1科成績:請輸入第2科成績:請輸入第3科成績:請輸入第4科成績:總分=219\n平均=54.75\n不及格科目數=2科'},
+  {input:'1 0',expected:'請輸入修習科目數:請輸入第1科成績:總分=0\n平均=0\n不及格科目數=1科'}]},
+
+loop_max:{title:'🏆 挑戰：迴圈找最高分',input:'4 70 95 80 60',
+ code:SK(String.raw`    int n,i,s,max=0;
+    cout<<"請輸入人數:";
+    cin>>n;
+    for(i=1; i<=n; i++){
+        cout<<"請輸入第"<<i<<"位分數:";
+        cin>>s;
+        //請在這裡用 if 更新 max
+    }
+    cout<<"最高分="<<max;`),
+ task:'輸入 <code>4 70 95 80 60</code>（4 位同學），最高分應該是 95。最高分出現在第一位、最後一位也要測試。',
+ tests:[
+  {input:'4 70 95 80 60',expected:'請輸入人數:請輸入第1位分數:請輸入第2位分數:請輸入第3位分數:請輸入第4位分數:最高分=95'},
+  {input:'3 100 20 30',expected:'請輸入人數:請輸入第1位分數:請輸入第2位分數:請輸入第3位分數:最高分=100'},
+  {input:'2 5 88',expected:'請輸入人數:請輸入第1位分數:請輸入第2位分數:最高分=88'},
+  {input:'2 10 20',expected:'請輸入人數:請輸入第1位分數:請輸入第2位分數:最高分=20'},
+  {input:'1 0',expected:'請輸入人數:請輸入第1位分數:最高分=0'}]},
+
+star_hand:{title:'💻 最笨的方法',file:'20261019-5.cpp',
+ code:SK(String.raw`    cout<<"******"<<endl;
+    cout<<"******"<<endl;
+    cout<<"******"<<endl;
+    cout<<"******"<<endl;`),
+ task:'先執行看看。這樣寫有幾行 cout？如果要 100 行呢？'},
+
+star_bug:{title:'🐞 用 for 印四行（有錯）',file:'20261019-6.cpp',
+ code:`#include <iostream>
+using namespace std;
+
+int main(){
+    int i;
+
+    for( i=1; i<=4; i++){
+        cout<<"******"
+}`,
+ task:'目標輸出 4 行 <code>******</code>。依序處理：紅字（編譯錯誤）→ 再紅字 → 執行後的邏輯錯誤。',
+ tests:[{input:'',expected:'******\n******\n******\n******'}]},
+
+star_nested:{title:'💻 巢狀 for',file:'20261019-7.cpp',
+ code:SK(String.raw`    int i,j;
+
+    for( i=1; i<=4; i++){          //外圈：第幾行
+        for( j=1; j<=6; j++){      //內圈：這行的第幾顆
+            cout<<"*";
+        }
+        cout<<endl;                //內圈跑完才換行
+    }`),
+ task:'按 👣 看 <code>i</code>、<code>j</code>。然後把 4 改成 2、6 改成 10，圖形會怎麼變？'},
+
+star_box:{title:'🏆 挑戰：長方形',input:'2 3',
+ code:SK(String.raw`    int r,c,i,j;
+    cout<<"請輸入列數和行數:"<<endl;
+    cin>>r>>c;
+    //請用巢狀 for 印出 r 列，每列 c 顆星`),
+ task:'輸入 <code>2 3</code> 要印出 2 列、每列 3 顆。（第一行固定是提示文字）',
+ tests:[{input:'2 3',expected:'請輸入列數和行數:\n***\n***'},{input:'1 5',expected:'請輸入列數和行數:\n*****'},{input:'3 1',expected:'請輸入列數和行數:\n*\n*\n*'}]},
+
+star_tri:{title:'🏆 挑戰：直角三角形',input:'4',
+ code:SK(String.raw`    int n,i,j;
+    cout<<"請輸入層數:"<<endl;
+    cin>>n;
+    //請用巢狀 for 印出直角三角形：第 1 行 1 顆、第 2 行 2 顆…`),
+ task:'輸入 4 要印出 4 行，分別是 1、2、3、4 顆星（星星總共 1+2+3+4 = 10 顆，不是 4×4，因為每一行的顆數不一樣）。',
+ tests:[{input:'4',expected:'請輸入層數:\n*\n**\n***\n****'},{input:'1',expected:'請輸入層數:\n*'},{input:'3',expected:'請輸入層數:\n*\n**\n***'}]},
 
 hello0:{title:'🧪 第一個程式',code:SK(String.raw`    cout<<"Hello, Hello!"<<endl;
     cout<<"我正在學程式";`),task:'把雙引號裡的文字改成別的，按 ▶ 執行。'},
@@ -1980,7 +2465,7 @@ let store={};try{store=JSON.parse(localStorage.getItem('cpp-lab')||'{}')}catch(e
 const save=()=>{try{localStorage.setItem('cpp-lab',JSON.stringify(store))}catch(e){}};
 
 /* ---- syntax highlight ---- */
-const HL=/(\/\/.*$)|("(?:\\.|[^"\\\n])*")|('(?:\\.|[^'\\\n])*')|(#\s*include\s*<[^>]*>)|\b(int|float|double|char|bool|string|long|short|if|else|return|using|namespace)\b|\b(cout|cin|endl|std)\b|\b(\d+\.?\d*)\b/gm;
+const HL=/(\/\/.*$)|("(?:\\.|[^"\\\n])*")|('(?:\\.|[^'\\\n])*')|(#\s*include\s*<[^>]*>)|\b(int|float|double|char|bool|string|long|short|if|else|for|return|using|namespace)\b|\b(cout|cin|endl|std)\b|\b(\d+\.?\d*)\b/gm;
 function hl(text){
   let out='',last=0,m;HL.lastIndex=0;
   while((m=HL.exec(text))){
@@ -2140,9 +2625,10 @@ function mountPG(root){
     cfg.tests.forEach((t,i)=>{
       const r=Engine.run(c.prog,t.input);
       const got=r.error?r.output+'\n[執行錯誤：'+r.error.message+']':r.output;
-      const ok=!r.error&&normalize(got)===normalize(t.expected);if(ok)pass++;
+      const uninit=r.warns.some(w=>/還沒有放進任何值/.test(w));
+      const ok=!r.error&&!uninit&&normalize(got)===normalize(t.expected);if(ok)pass++;
       tests.appendChild(el(`<div class="tcase ${ok?'pass':'fail'}"><b>${ok?'✅':'❌'} 測試 ${i+1}</b>　輸入：<code>${esc(t.input||'（無）')}</code>
-        ${ok?'':`<pre>期望輸出：\n${vis(t.expected)}\n\n你的輸出：\n${vis(got)}</pre>`}</div>`));
+        ${ok?'':`${uninit?'<div class="msg warn">⚠ 程式讀取了「還沒有放進任何值」的變數。真正的電腦裡那個值是不確定的，就算這次碰巧對了也不算過關：請先給它初始值（例如 <code>j=0;</code>）。</div>':''}<pre>期望輸出：\n${vis(t.expected)}\n\n你的輸出：\n${vis(got)}</pre>`}</div>`));
     });
     if(pass===cfg.tests.length)tests.prepend(el('<div class="msg ok">🎉 <b>全部通過！</b>太棒了，你完成這個挑戰了。</div>'));
     else tests.prepend(el(`<div class="msg err">通過 ${pass} / ${cfg.tests.length} 組測試，再檢查一下～</div>`));
@@ -2167,7 +2653,7 @@ function mountPG(root){
   $('.b-step',root).onclick=()=>{
     const res=doRun();if(!res)return;
     tr=res.r;idx=0;stp.hidden=false;term.innerHTML='<span class="ph">（逐步執行中：螢幕輸出請看下方右側的黑色視窗）</span>';
-    if(tr.trunc)note('info','ℹ 程式步驟太多，逐步模式只顯示前 400 步。');
+    if(tr.trunc)note('info','ℹ 程式步驟太多，逐步模式只顯示前 800 步。');
     sc.innerHTML=ta.value.split('\n').map((l,i)=>`<div class="sl"><i>${i+1}</i><span>${hl(l)||' '}</span></div>`).join('');
     draw();stp.scrollIntoView({block:'nearest',behavior:'smooth'});
   };
@@ -2476,6 +2962,67 @@ W.flow=function(w){
     if(a==='run'){const t=run();return draw(t,t.startsWith('🖥 黑色視窗顯示')?'ok':'warn')}
     if(a==='both'){S.saved=S.src;S.exe=S.saved;return draw(`⚡ 一次完成：存檔 → 編譯 → 執行。黑色視窗顯示<b>第 ${S.exe} 版</b>（最新）的結果 ✔`,'ok')}
   });
+};
+W.forviz=function(w){
+  w.insertAdjacentHTML('beforeend',`<div class="row"><label>起點 x = <input type="number" class="a" value="1"></label>
+      <label>條件 x <select class="op"><option>&lt;=</option><option>&lt;</option><option>&gt;=</option><option>&gt;</option></select> <input type="number" class="b" value="10" aria-label="終點"> <span class="cap">（終點）</span></label>
+      <label>每輪增加 <input type="number" class="c" value="1"></label></div>
+    <div class="row"><code class="pv" style="font-size:1rem"></code></div>
+    <div class="row"><span>快速範例：</span><button class="btn p1">1 到 10</button><button class="btn p2">奇數 1,3,5…</button><button class="btn p3">倒數 5 到 1</button><button class="btn p4">❗ 無窮迴圈</button></div>
+    <div class="sum msg info" aria-live="polite"></div><div class="tb"></div>`);
+  const $a=$('.a',w),$b=$('.b',w),$c=$('.c',w),$o=$('.op',w);
+  const set=(a,o,b,c)=>{$a.value=a;$o.value=o;$b.value=b;$c.value=c;draw()};
+  $('.p1',w).onclick=()=>set(1,'<=',10,1);$('.p2',w).onclick=()=>set(1,'<=',9,2);
+  $('.p3',w).onclick=()=>set(5,'>=',1,-1);$('.p4',w).onclick=()=>set(1,'>=',1,1);
+  const test={'<=':(x,y)=>x<=y,'<':(x,y)=>x<y,'>=':(x,y)=>x>=y,'>':(x,y)=>x>y};
+  const LIMIT=1000000;
+  function draw(){
+    const a=parseInt($a.value)||0,b=parseInt($b.value)||0,c=parseInt($c.value)||0,op=$o.value,ops=op.replace('<','&lt;').replace('>','&gt;');
+    $('.pv',w).innerHTML=`for ( x=${a}; x${ops}${b}; x${c<0?'-='+(-c):'+='+c} )`;
+    let x=a,n=0,inf=false;const head=[],tail=[];
+    while(test[op](x,b)){
+      if(n<6)head.push(x);else{tail.push(x);if(tail.length>3)tail.shift()}
+      n++;x+=c;if(n>=LIMIT||c===0){inf=true;break}}
+    const cond=v=>`<code>${v}${ops}${b}</code>`;
+    const row=(k,v,ok)=>`<tr><td>${k}</td><td><b>${v}</b></td><td>${cond(v)} → ${ok?'<b style="color:var(--good)">✔ 成立，做事</b>':'<b style="color:var(--bad)">✘ 不成立，離開</b>'}</td></tr>`;
+    const S=$('.sum',w);
+    if(inf){S.className='sum msg err';S.innerHTML=`❗ <b>無窮迴圈！</b>x 一直變，但 ${cond('x')} 永遠成立，永遠離不開。<br>想一想：x 往哪個方向走？條件需要它往哪個方向走？`;$('.tb',w).innerHTML='';return}
+    S.className='sum msg info';
+    S.innerHTML=n?`做事 <b>${n}</b> 次；離開迴圈時 <code>x = ${x}</code>（這是第一個讓條件不成立的值）`:`一次都沒有做事！起點 ${a} 一開始就讓 ${cond(a)} 不成立。`;
+    let rows=head.map((v,i)=>row('第 '+(i+1)+' 輪',v,true)).join('');
+    if(n>6+tail.length)rows+=`<tr><td colspan="3" style="text-align:center">⋮ 中間省略 ${n-6-tail.length} 輪 ⋮</td></tr>`;
+    rows+=tail.map((v,i)=>row('第 '+(n-tail.length+1+i)+' 輪',v,true)).join('');
+    $('.tb',w).innerHTML=`<table class="t"><tr><th>輪</th><th>x</th><th>檢查條件</th></tr>${rows}${row('離開時',x,false)}</table>`;
+  }
+  $$('input,select',w).forEach(i=>i.addEventListener('input',draw));draw();
+};
+W.nest=function(w){
+  w.insertAdjacentHTML('beforeend',`<div class="row"><label>行數（外圈 i）<input type="range" class="r" min="1" max="6" value="4"></label><b class="rv"></b>
+      <label>每行顆數（內圈 j）<input type="range" class="c" min="1" max="8" value="6"></label><b class="cv"></b></div>
+    <div class="grid" style="display:grid;gap:5px;margin:10px 0"></div>
+    <div class="msg info info1" aria-live="polite"></div>
+    <div class="cmds"><button class="btn primary n1">下一顆 ▶</button><button class="btn n2">跑完這一行</button><button class="btn n3">全部跑完</button><button class="btn n0">↺ 重來</button></div>`);
+  const R=$('.r',w),C=$('.c',w);let k=0;
+  const rows=()=>+R.value,cols=()=>+C.value;
+  function draw(){
+    const r=rows(),c=cols(),tot=r*c;$('.rv',w).textContent=r;$('.cv',w).textContent=c;
+    const g=$('.grid',w);g.style.gridTemplateColumns=`repeat(${c},34px)`;
+    g.innerHTML=Array.from({length:tot},(_,n)=>{
+      const on=n<k,cur=n===k-1;
+      return `<div style="width:34px;height:34px;display:grid;place-items:center;border-radius:8px;font-weight:800;font-size:1.2rem;border:2px solid ${cur?'var(--warn)':on?'var(--accent)':'var(--line)'};background:${on?'var(--accent-soft)':'transparent'}">${on?'*':''}</div>`}).join('');
+    let t;
+    if(k===0)t=`還沒開始。外圈 <code>i</code> 要跑 ${r} 輪，每輪內圈 <code>j</code> 跑 ${c} 次，所以 <code>cout&lt;&lt;"*"</code> 總共會執行 <b>${r} × ${c} = ${tot}</b> 次。`;
+    else{const i=Math.floor((k-1)/c)+1,j=(k-1)%c+1;
+      t=`已經印了 <b>${k}</b> 顆星　目前：<code>i = ${i}</code>（第 ${i} 行）、<code>j = ${j}</code>（這行的第 ${j} 顆）`;
+      if(j===c)t+=k===tot?`<br>✅ 全部完成！`:`<br>↩ 內圈 j 跑完一圈了 → 執行 <code>cout&lt;&lt;endl;</code> 換行 → 外圈 <code>i</code> 變成 ${i+1}，內圈 j 重新從 1 開始。`}
+    $('.info1',w).innerHTML=t;
+    $('.n1',w).disabled=$('.n2',w).disabled=$('.n3',w).disabled=k>=tot;
+  }
+  $('.n1',w).onclick=()=>{k++;draw()};
+  $('.n2',w).onclick=()=>{const c=cols();k=Math.min(rows()*c,(Math.floor(k/c)+1)*c);draw()};
+  $('.n3',w).onclick=()=>{k=rows()*cols();draw()};
+  $('.n0',w).onclick=()=>{k=0;draw()};
+  R.oninput=C.oninput=()=>{k=0;draw()};draw();
 };
 W.tester=function(w){
   const PR={pass:{name:'及格判斷：60 分以上及格',good:'score>=60',bad:'score>60',a:'及格',b:'不及格',def:'80, 30'},
