@@ -100,6 +100,7 @@ pre.code{background:var(--code-bg);border:1px solid var(--line);border-radius:12
 .pg-edit .gut{padding:10px 8px 10px 10px;text-align:right;color:var(--cm);user-select:none;font-size:.9rem;line-height:1.55;white-space:pre;overflow:hidden;border-right:1px solid var(--line)}
 .pg-edit textarea{flex:1;border:0;background:transparent;color:var(--text);padding:10px 12px;font-size:.9rem;line-height:1.55;resize:vertical;min-height:120px;white-space:pre;overflow:auto;tab-size:4}
 .pg-in{margin:10px 16px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:.9rem;color:var(--muted)}
+.pg-in[hidden]{display:none}
 .pg-in input{flex:1;min-width:160px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);font-family:inherit;font-size:.95rem}
 .pg-btns{display:flex;gap:8px;padding:12px 16px;flex-wrap:wrap}
 .pg-btns .btn{padding:7px 14px;font-size:.92rem}
@@ -109,7 +110,7 @@ pre.code{background:var(--code-bg);border:1px solid var(--line);border-radius:12
 .msg.warn{background:var(--warn-soft);color:var(--warn)}
 .msg.info{background:var(--accent-soft);color:var(--accent)}
 .msg.ok{background:var(--good-soft);color:var(--good);border:1px solid var(--good)}
-.term{margin:0 16px 14px;background:var(--term-bg);color:var(--term-text);border-radius:10px;padding:12px 14px;min-height:54px;font-size:.92rem;line-height:1.55;white-space:pre-wrap;word-break:break-all}
+.term{margin:0 16px 14px;background:var(--term-bg);color:var(--term-text);border-radius:10px;padding:12px 14px;min-height:54px;font-size:.92rem;line-height:1.55;white-space:pre-wrap;word-break:break-all;tab-size:8}
 .term .in{color:var(--term-in)}
 .term .ph{color:#7a8296}
 .term.mini{margin:8px 0 0;min-height:40px;font-size:.85rem}
@@ -135,6 +136,14 @@ pre.code{background:var(--code-bg);border:1px solid var(--line);border-radius:12
 .vbox .vn{font-size:.82rem;background:var(--accent-soft);color:var(--accent);font-weight:700;font-family:"Cascadia Mono",Consolas,monospace}
 .vbox.chg{border-color:var(--warn);animation:pop .5s}
 .vbox .vv.q{color:var(--muted)}
+.abox{max-width:100%;overflow-x:auto;border:2px solid var(--line);border-radius:10px;background:var(--surface)}
+.abox .vn{display:flex;gap:8px;justify-content:space-between;align-items:center;padding:2px 10px;font-size:.82rem;background:var(--accent-soft);color:var(--accent);font-weight:700;font-family:"Cascadia Mono",Consolas,monospace}
+.abox .vn small{color:var(--muted);font-weight:400}
+.abox table{border-collapse:collapse;margin:6px 8px 8px;font-family:"Cascadia Mono",Consolas,monospace}
+.abox td,.abox th{border:1px solid var(--line);min-width:2.6em;padding:1px 6px;text-align:center;font-size:.92rem}
+.abox th{font-size:.7rem;color:var(--muted);font-weight:400;background:var(--code-bg)}
+.abox td.q{color:var(--muted)}
+.abox td.chg{background:var(--warn-soft);outline:2px solid var(--warn);outline-offset:-2px}
 @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.15)}100%{transform:scale(1)}}
 .stp-ctl{display:flex;gap:8px;align-items:center;padding:8px 12px;border-top:1px solid var(--line);flex-wrap:wrap;background:var(--surface)}
 .stp-ctl .btn{padding:4px 12px}
@@ -1106,7 +1115,7 @@ else{
   <div class="quiz" data-ans="2">
     <div class="q">輸入 <code>3 80 55 90</code>，迴圈結束後 <code>s</code> 盒子裡面是？</div>
     <ol><li>80</li><li>55</li><li>90</li></ol>
-    <div class="exp"><code>s</code> 每一輪都被蓋掉，只剩最後一次讀進來的 90。想保留每一科成績要用「陣列」（以後會學到），目前只能邊讀邊處理。</div>
+    <div class="exp"><code>s</code> 每一輪都被蓋掉，只剩最後一次讀進來的 90。想保留每一科成績要用「陣列」（第 20、21 課），目前只能邊讀邊處理。</div>
   </div>
 
   <h3>🏆 挑戰 1：數出不及格科目</h3>
@@ -1187,12 +1196,368 @@ else{
     巢狀迴圈：內圈次數固定時，總次數 = 外圈 × 內圈；<code>endl</code> 放在內圈外面</div>
 </section>
 
-<!-- ===================== L11 ===================== -->
-<section class="lesson" id="L19" data-title="總複習" data-src="綜合測驗">
-  <span class="tag">第 19 課</span>
+<!-- ===================== L19 TIMES TABLE (1102) ===================== -->
+<section class="lesson" id="L19" data-title="巢狀迴圈：九九乘法表" data-src="1102">
+  <span class="tag">第 19 課 · 1102</span>
+  <h2>巢狀迴圈的經典作品：九九乘法表 ✖️</h2>
+  <p class="lead">上一課用巢狀迴圈印星星。把「印一顆星」換成「印一道乘法算式」，就能做出小學背過的九九乘法表！</p>
+
+  <h3>① 先學一個排版小幫手：<code>\t</code>（Tab 鍵）</h3>
+  <p>字串裡的 <code>\t</code> 代表「按一下 Tab 鍵」：游標會跳到下一個「欄位」的開頭（黑色視窗每 8 格一欄）。用它分隔資料，上下就能自動<b>對齊</b>，像表格一樣。</p>
+  <div class="pg" data-id="tab_demo"></div>
+  <div class="quiz" data-ans="1">
+    <div class="q">把 <code>"\t"</code> 換成 <code>" "</code>（一個空白）後，差別是？</div>
+    <ol><li>沒有差別</li><li>數字之間只隔一格，比較擠；遇到位數不同的數字時，上下就對不齊</li><li>編譯錯誤</li></ol>
+    <div class="exp">空白永遠只佔 1 格；<code>\t</code> 則會「跳到下一欄」，前面的字長一點、短一點都會跳到同一個位置，所以表格才會對齊。（第 2 課學過的 <code>\n</code> 也是這種「跳脫字元」。）</div>
+  </div>
+
+  <h3>② 九九乘法表</h3>
+  <div class="card">
+    <b>🗓 想成一張表</b>：外圈 <code>i</code> 管「第幾列」（2～9，被乘數），內圈 <code>j</code> 管「這一列的第幾個」（1～9，乘數）。<br>
+    內圈每做一次，就印一道 <code>i*j=答案</code>，後面接 <code>\t</code>；內圈跑完 9 個，<code>cout&lt;&lt;endl;</code> 換到下一列。
+  </div>
+  <div class="pg" data-id="times_tbl"></div>
+  <div class="note"><b class="t">🔍 看懂這一行</b><code>cout&lt;&lt;i&lt;&lt;"*"&lt;&lt;j&lt;&lt;"="&lt;&lt;(i*j)&lt;&lt;"\t";</code><br>
+    <code>i</code>、<code>j</code>、<code>(i*j)</code> 沒有引號 → 印出<b>數值</b>；<code>"*"</code>、<code>"="</code> 有引號 → 原樣印出<b>符號</b>。所以 i=3、j=4 時印出 <code>3*4=12</code>。</div>
+  <div class="quiz" data-ans="2">
+    <div class="q">這份九九乘法表（i 從 2 到 9、j 從 1 到 9），一共印出幾道算式？</div>
+    <ol><li>81 道</li><li>17 道</li><li>72 道</li><li>64 道</li></ol>
+    <div class="exp">外圈 i=2～9 是 <b>8 輪</b>，每輪內圈 9 次 → 8 × 9 = 72。（如果外圈從 1 開始才是 81。數「從幾到幾有幾個」：9−2+1 = 8。）</div>
+  </div>
+  <div class="quiz" data-ans="0">
+    <div class="q">想讓表格「轉 90 度」，變成每一<b>列</b>是同一個乘數（第一列 2*1、3*1、4*1…），最簡單的改法是？</div>
+    <ol><li>把 cout 裡的 <code>i</code> 和 <code>j</code> 互換位置：<code>cout&lt;&lt;j&lt;&lt;"*"&lt;&lt;i…</code>，並讓外圈跑 1～9、內圈跑 2～9</li><li>把 <code>endl</code> 刪掉</li><li>把 <code>\t</code> 改成 <code>\n</code></li></ol>
+    <div class="exp">外圈決定「每一列是誰固定不變」。讓外圈跑乘數、內圈跑被乘數，每一列就是同一個乘數。動手到上面的程式改改看！</div>
+  </div>
+
+  <h3>🏆 挑戰 1：只印某一個數字的乘法</h3>
+  <p>輸入一個數字 <code>n</code>，印出 <code>n*1</code> 到 <code>n*9</code>（一列，每道後面接 <code>\t</code>）。只需要<b>一層</b>迴圈：外圈的 i 已經被你輸入的 n 取代了。</p>
+  <div class="pg" data-id="times_one"></div>
+  <details class="fold"><summary>提示</summary>
+    <p><code>for(j=1; j&lt;=9; j++){ cout&lt;&lt;n&lt;&lt;"*"&lt;&lt;j&lt;&lt;"="&lt;&lt;(n*j)&lt;&lt;"\t"; }</code> ── 注意是 <code>j&lt;=9</code>，寫成 <code>j&lt;9</code> 會少了最後一道。</p></details>
+
+  <h3>🏆 挑戰 2：三角形乘法表</h3>
+  <p>還記得 <code>20261102-1.cpp</code>（和第 18 課挑戰 2）的星星三角形嗎？內圈條件寫 <code>j&lt;=i</code>，第 i 列就只印 i 個。把星星換成算式：輸入 3 要印出</p>
+<pre class="code">1*1=1
+2*1=2   2*2=4
+3*1=3   3*2=6   3*3=9</pre>
+  <p>（每道算式後面都接 <code>\t</code>，每列結尾 <code>endl</code>。）</p>
+  <div class="pg" data-id="times_tri"></div>
+  <details class="fold"><summary>提示</summary>
+    <p>外圈 <code>for(i=1; i&lt;=n; i++)</code>，內圈 <code>for(j=1; j&lt;=i; j++)</code>，內圈裡面印 <code>i*j=…\t</code>，內圈外面 <code>cout&lt;&lt;endl;</code>。</p></details>
+
+  <div class="note good"><b class="t">🎉 小結</b><code>\t</code> 讓輸出對齊成表格；外圈管「列」、內圈管「這一列的每一格」；內圈條件用到外圈的 <code>i</code>，就能做出三角形。</div>
+</section>
+
+<!-- ===================== L20 ARRAY BASICS (1109, 1123) ===================== -->
+<section class="lesson" id="L20" data-title="陣列：一排有編號的盒子" data-src="1109">
+  <span class="tag">第 20 課 · 1109</span>
+  <h2>陣列：一次準備一整排盒子 🗄️</h2>
+  <p class="lead">全班 30 位同學的成績，要宣告 <code>s1, s2, s3, … s30</code> 三十個變數嗎？第 17 課的程式只能「邊讀邊處理」，讀完就忘了。<b>陣列</b>讓我們用<b>一個名字</b>，存下一整排資料。</p>
+
+  <div class="card">
+    <b>🗄️ 想像學校的置物櫃</b>：一整排櫃子共用一個名字 <code>st</code>，每一格貼了<b>編號</b>。<br>
+    要拿第幾格的東西，就說 <code>st[編號]</code>。這個編號叫做<b>索引（index）</b>。<br>
+    ⚠ 最重要的一件事：<b>編號從 0 開始！</b> 5 格的櫃子，編號是 0、1、2、3、4（沒有 5）。
+  </div>
+<pre class="code">int st[5]={80,75,90,100,50};
+//  型態 名稱[幾格] = {初始值, 用逗號隔開};</pre>
+  <table class="t">
+    <tr><th>寫法</th><th>意思</th></tr>
+    <tr><td><code>int st[5];</code></td><td>做出 5 格、每格放 int 的陣列（每一格都還是空的 ?）</td></tr>
+    <tr><td><code>int st[5]={80,75,90,100,50};</code></td><td>做出 5 格，並依序放進初始值</td></tr>
+    <tr><td><code>int st[5]={80,75};</code></td><td>只給 2 個 → 沒寫到的 st[2]～st[4] <b>自動補 0</b></td></tr>
+    <tr><td><code>int st[5]={};</code></td><td>全部都是 0</td></tr>
+    <tr><td><code>st[0]</code>、<code>st[4]</code></td><td>第 1 格、第 5 格（最後一格）── 第 k 個同學是 <code>st[k-1]</code></td></tr>
+  </table>
+
+  <div class="wd" data-widget="arr"><h4>🗄️ 置物櫃實驗：輸入編號，拿出那一格</h4></div>
+
+  <h3>① 老師的第一個陣列程式（有錯）</h3>
+  <p>這是 <code>20261109-1.cpp</code> 原封不動。按 ▶，讀紅字，把它修好。</p>
+  <div class="pg" data-id="arr_bug"></div>
+  <details class="fold"><summary>提示</summary>
+    <p>看第 4 行 <code>int main({</code>：小括號 <code>(</code> 打開了卻沒有關起來。應該是 <code>int main(){</code>。這種「少一個括號」的小錯，真正的 Dev-C++ 會噴出好幾行英文錯誤（例如 <code>expected primary-expression before 'int'</code>），其實只要修第一個就好。</p></details>
+
+  <h3>② 陣列搭配 for：印出每一位</h3>
+  <p><code>20261109-2.cpp</code>（同樣的 <code>main({</code> 已經修好）：讓迴圈的 <code>i</code> 從 0 跑到 4，正好就是 5 格的索引。按 👣，觀察右邊的櫃子和 <code>i</code>。</p>
+  <div class="pg" data-id="arr_loop"></div>
+  <div class="quiz" data-ans="1">
+    <div class="q">為什麼 cout 裡寫 <code>"第"&lt;&lt;i+1&lt;&lt;"個"</code>，而不是 <code>i</code>？</div>
+    <ol><li>寫錯了，應該寫 i</li><li>索引從 0 開始，但人類習慣從 1 開始數，所以「給人看」的編號要 +1</li><li>因為 i+1 才能取出陣列的值</li></ol>
+    <div class="exp">電腦裡的第 0 格，就是人說的「第 1 位」。<b>索引（給電腦）用 i，顯示（給人看）用 i+1</b>，這是陣列最常見的寫法。</div>
+  </div>
+
+  <h3>③ 陣列的格子也能拿來計算</h3>
+  <div class="quiz" data-ans="2">
+    <div class="q"><code>int a[5]={1,2,3,4,5}, b;</code>　<code>b=a[2]+a[4];</code>　b 是多少？（先猜再執行下面的程式）</div>
+    <ol><li>6（2+4）</li><li>7（3+4）</li><li>8（3+5）</li></ol>
+    <div class="exp">從 0 開始數：a[0]=1、a[1]=2、<b>a[2]=3</b>、a[3]=4、<b>a[4]=5</b> → 3+5 = 8。選 6 的同學，就是把索引當成「值」了。</div>
+  </div>
+  <div class="pg" data-id="arr_add"></div>
+
+  <h3>🐞 最常見的陣列錯誤：超出範圍</h3>
+  <p>下面的程式想印出 5 位同學的分數，但迴圈「從 1 數到 5」── 這是人類的數法，不是陣列的數法。</p>
+  <div class="pg" data-id="arr_oob"></div>
+  <div class="note warn"><b class="t">⚠ 練習器會擋，真正的電腦不會</b>這個練習器發現 <code>st[5]</code> 不存在，會停下來告訴你。但<b>真正的 C++ 不檢查</b>：它會讀到「隔壁別人的記憶體」，印出奇怪的數字，甚至改壞其他變數，而且<b>不會有任何錯誤訊息</b>。所以寫陣列迴圈時，一定要自己檢查：5 格的陣列，索引只能是 0～4，迴圈要寫 <code>i=0; i&lt;5</code>（或 <code>i&lt;=4</code>）。</div>
+
+  <h3>🏆 挑戰：倒過來印</h3>
+  <p>把 5 位同學的分數從<b>最後一位印到第一位</b>：<code>50 100 90 75 80</code>（每個數字後面接一個空白）。想一想：倒數的迴圈，i 從幾開始？到幾結束？（第 15 課學過 <code>i--</code>）</p>
+  <div class="pg" data-id="arr_rev"></div>
+  <details class="fold"><summary>提示</summary>
+    <p>最後一格是 <code>st[4]</code>，第一格是 <code>st[0]</code>：<code>for(i=4; i&gt;=0; i--)</code>。寫成 <code>i=5</code> 會超出範圍，寫成 <code>i&gt;0</code> 會漏掉 st[0]。</p></details>
+
+  <div class="note good"><b class="t">🎉 小結</b>陣列 = 一個名字 + 一排有編號的格子；<b>索引從 0 開始</b>，n 格的陣列索引是 0～n−1；只給部分初始值，其餘自動補 0；迴圈寫 <code>for(i=0; i&lt;n; i++)</code> 正好走過每一格。</div>
+</section>
+
+<!-- ===================== L21 ARRAY + LOOP (1109) ===================== -->
+<section class="lesson" id="L21" data-title="陣列 + 迴圈：輸入與統計" data-src="1109">
+  <span class="tag">第 21 課 · 1109</span>
+  <h2>陣列 + 迴圈：先存起來，再慢慢算 📊</h2>
+  <p class="lead">第 17 課讀進來的成績，下一輪就被蓋掉了。有了陣列，可以<b>先把全部成績存好</b>，之後想算總分、找最高分、或拿每個人跟平均比，都沒問題。</p>
+
+  <h3>① 用迴圈把成績讀進陣列（有錯）</h3>
+  <p><code>20261109-3.cpp</code> 原檔：有<b>兩個</b>錯誤，一次修一個。輸入區已經填好 5 個成績。</p>
+  <div class="pg" data-id="arr_cin_bug"></div>
+  <details class="fold"><summary>提示 1</summary><p>第一個錯誤和上一課一樣：<code>int main({</code>。</p></details>
+  <details class="fold"><summary>提示 2</summary><p><code>cin&gt;&gt;st[];</code> 沒有說要放進「第幾格」。這一輪是第 i 格，所以要寫 <code>cin&gt;&gt;st[i];</code>。</p></details>
+  <div class="quiz" data-ans="0">
+    <div class="q">修好之後輸入 <code>80 75 90 100 50</code>，讀完時 <code>st[3]</code> 是？</div>
+    <ol><li>100</li><li>90</li><li>50</li></ol>
+    <div class="exp">第 1 個讀進 st[0]、第 2 個讀進 st[1]…，第 4 個（100）放在 <b>st[3]</b>。</div>
+  </div>
+
+  <h3>② 統計：總分、平均、最高分</h3>
+  <div class="card">
+    <b>🧰 三個老朋友，現在都搬進陣列迴圈</b><br>
+    <b>撲滿</b>（第 16 課）：<code>sum=0;</code> 然後 <code>sum=sum+score[i];</code><br>
+    <b>擂台</b>（第 14、17 課）：<code>max=score[0];</code> 然後 <code>if(score[i]&gt;max) max=score[i];</code><br>
+    <b>計數器</b>（第 17 課）：<code>cnt=0;</code> 然後 <code>if(score[i]&lt;60) cnt++;</code>
+  </div>
+  <div class="note"><b class="t">💡 擂台主為什麼用 score[0]？</b>以前用 <code>max=0</code>，萬一資料都是負數就錯了。有了陣列，可以讓<b>第一個人先上台</b>：<code>max=score[0];</code>，之後再一個一個挑戰，永遠不會錯。</div>
+
+  <h3>🏆 挑戰 1：完成老師的 20261109-4.cpp</h3>
+  <p>老師只寫了宣告（<code>main({</code> 已經修好；成績改成用 <code>cin</code> 讀入，預設輸入就是老師的資料），請算出：總分、平均、最高分、不及格（低於 60）人數。輸出格式（四行）：</p>
+<pre class="code">總分=372
+平均=74.4
+最高分=91
+不及格人數=2</pre>
+  <div class="pg" data-id="arr_stat"></div>
+  <details class="fold"><summary>提示</summary>
+    <p>平均要有小數：<code>ave=(float)sum/5;</code>（第 8 課的強制轉型）。三件事可以放在<b>同一個</b> <code>for(i=0; i&lt;5; i++)</code> 迴圈裡一起做。</p></details>
+
+  <h3>🏆 挑戰 2：誰高於平均？（陣列大顯身手）</h3>
+  <p>輸入 5 位同學的成績，先印出平均，再印出<b>所有高於平均的成績</b>（每個後面接一個空白）。<br>
+  想一想為什麼陣列特別好用：要知道平均，得先讀完<b>全部</b>；讀完之後，還要<b>回頭</b>一個一個比較 ── 所以每個成績都必須先存起來。只有 5 人時，用 5 個變數加 5 個 if 也做得到；但 30 人、300 人呢？陣列讓我們用<b>一個迴圈</b>就處理完。</p>
+  <div class="pg" data-id="arr_above"></div>
+  <details class="fold"><summary>提示</summary>
+    <p>需要<b>兩個</b>迴圈：第 1 個迴圈讀入並加總；算出平均；第 2 個迴圈 <code>if(st[i]&gt;ave) cout&lt;&lt;st[i]&lt;&lt;" ";</code>。全部一樣高時，沒有人「高於」平均，那一行就是空的。</p></details>
+
+  <div class="note good"><b class="t">🎉 小結</b>「讀入」和「處理」可以分成兩個迴圈；撲滿、擂台、計數器都能搭配陣列使用；擂台主可以直接用第一格 <code>a[0]</code> 當起點。</div>
+</section>
+
+<!-- ===================== L22 ARRAY TRACE (1123) ===================== -->
+<section class="lesson" id="L22" data-title="陣列追蹤題：倒著填格子" data-src="1123">
+  <span class="tag">第 22 課 · 1123</span>
+  <h2>陣列追蹤題：一格一格算出答案 🕵️</h2>
+  <p class="lead">考試很愛出這種題目：給你一段迴圈，問最後某一格是多少。祕訣只有一個 ── <b>拿紙筆畫出格子，一輪一輪填</b>。</p>
+
+  <h3>① 先自己算，再執行</h3>
+  <p><code>20261123-3.cpp</code>：陣列 <code>a</code> 有 6 格，先放好 <code>a[5]=0</code>、<code>a[4]=2</code>，然後 k 從 5 倒數，每一輪用「後面兩格相加」填進前面的格子。</p>
+<pre class="code">int a[6], k;
+a[5]=0;
+a[4]=2;
+for(k=5;k&gt;1; k--){
+    a[k-2]=a[k]+a[k-1];
+}
+cout&lt;&lt;"a[0]="&lt;&lt;a[0];</pre>
+  <div class="quiz" data-ans="3">
+    <div class="q">不要執行，先在紙上算：印出的 <code>a[0]</code> 是多少？</div>
+    <ol><li>2</li><li>4</li><li>6</li><li>10</li></ol>
+    <div class="exp">k=5：a[3]=a[5]+a[4]=0+2=<b>2</b>；k=4：a[2]=a[4]+a[3]=2+2=<b>4</b>；k=3：a[1]=a[3]+a[2]=2+4=<b>6</b>；k=2：a[0]=a[2]+a[1]=4+6=<b>10</b>；k=1：1&gt;1 不成立，離開。</div>
+  </div>
+  <details class="fold"><summary>📝 對答案：追蹤表</summary>
+    <table class="t">
+      <tr><th>k</th><th>k&gt;1？</th><th>這一輪做的事</th><th>a[0]</th><th>a[1]</th><th>a[2]</th><th>a[3]</th><th>a[4]</th><th>a[5]</th></tr>
+      <tr><td>開始</td><td></td><td>a[5]=0、a[4]=2</td><td>?</td><td>?</td><td>?</td><td>?</td><td>2</td><td>0</td></tr>
+      <tr><td>5</td><td>✔</td><td>a[3]=a[5]+a[4]</td><td>?</td><td>?</td><td>?</td><td><b>2</b></td><td>2</td><td>0</td></tr>
+      <tr><td>4</td><td>✔</td><td>a[2]=a[4]+a[3]</td><td>?</td><td>?</td><td><b>4</b></td><td>2</td><td>2</td><td>0</td></tr>
+      <tr><td>3</td><td>✔</td><td>a[1]=a[3]+a[2]</td><td>?</td><td><b>6</b></td><td>4</td><td>2</td><td>2</td><td>0</td></tr>
+      <tr><td>2</td><td>✔</td><td>a[0]=a[2]+a[1]</td><td><b>10</b></td><td>6</td><td>4</td><td>2</td><td>2</td><td>0</td></tr>
+      <tr><td>1</td><td>✘</td><td>離開迴圈</td><td>10</td><td>6</td><td>4</td><td>2</td><td>2</td><td>0</td></tr>
+    </table></details>
+  <p>現在用 👣 驗證你的追蹤表：右邊的陣列格子，<b>剛被改到的那一格會亮起來</b>。</p>
+  <div class="pg" data-id="arr_trace"></div>
+  <div class="note"><b class="t">🔍 沒有初始值也沒關係？</b><code>int a[6];</code> 沒給初始值，a[0]～a[3] 一開始都是「不確定的值」（?）。但這個程式在<b>讀取</b>每一格之前，都已經先<b>寫入</b>了，所以結果是對的。追蹤時可以檢查：每一輪右邊用到的格子，是不是都已經有值了？</div>
+
+  <div class="quiz" data-ans="1">
+    <div class="q">迴圈 <code>for(k=5;k&gt;1;k--)</code> 裡面的 <code>a[k-2]=…</code> 一共執行幾次？</div>
+    <ol><li>5 次</li><li>4 次（k=5,4,3,2）</li><li>3 次</li></ol>
+    <div class="exp">k=5、4、3、2 時條件成立，共 4 次；k 變成 1 時 <code>1&gt;1</code> 不成立就離開了。</div>
+  </div>
+  <div class="quiz" data-ans="2">
+    <div class="q">如果把條件改成 <code>k&gt;0</code>，會發生什麼事？</div>
+    <ol><li>多算一格，a[0] 變得更大</li><li>完全一樣</li><li>k=1 時要寫入 <code>a[-1]</code>，<b>超出範圍</b>了</li></ol>
+    <div class="exp">k=1 時 k-2 = −1，陣列沒有第 −1 格。練習器會擋下來；真正的 C++ 會偷偷改到別的記憶體。到上面的程式改成 <code>k&gt;0</code> 試試看。</div>
+  </div>
+
+  <h3>🏆 挑戰：費氏數列</h3>
+  <p>同樣是「前兩格相加」，換成往後填：<code>f[0]=1</code>、<code>f[1]=1</code>，之後每一格都是前兩格的和（1, 1, 2, 3, 5, 8, 13…）。輸入 n（1～20），印出前 n 項，每項後面接一個空白。</p>
+  <div class="pg" data-id="arr_fib"></div>
+  <details class="fold"><summary>提示</summary>
+    <p>填格子：<code>for(i=2; i&lt;n; i++){ f[i]=f[i-1]+f[i-2]; }</code>；印出：<code>for(i=0; i&lt;n; i++){ cout&lt;&lt;f[i]&lt;&lt;" "; }</code>。記得測 n=1、n=2 這種邊界！</p></details>
+</section>
+
+<!-- ===================== L23 2D ARRAY (1109-6) ===================== -->
+<section class="lesson" id="L23" data-title="二維陣列：成績表" data-src="1109">
+  <span class="tag">第 23 課 · 1109</span>
+  <h2>二維陣列：把資料排成一張表 📋</h2>
+  <p class="lead">6 位同學、每人 5 科成績，就是一張 6 列 × 5 行的表。一維陣列是「一排」櫃子；<b>二維陣列</b>是「好幾排」櫃子疊起來 ── 要用<b>兩個</b>編號才找得到一格。</p>
+
+  <div class="card">
+    <b>🎬 想像電影院座位</b>：要說「第幾排、第幾個位子」才找得到人。<br>
+    <code>score[r][c]</code>：<code>r</code> 是<b>列（row，第幾排）</b>、<code>c</code> 是<b>行（column，第幾個）</b>，兩個都<b>從 0 開始</b>。<br>
+    宣告 <code>float score[6][7];</code> → 6 列 × 7 行 = <b>42 格</b>。
+  </div>
+<pre class="code">float score[6][7]={
+    {86,92,57,81,65},   //第 0 列：1 號的 5 科（第 5、6 格沒寫 → 自動補 0）
+    {96,98,81,67,74},   //第 1 列：2 號
+    …
+};                      //注意：最後有分號</pre>
+
+  <div class="wd" data-widget="grid2d"><h4>📋 點一格看看它叫什麼名字</h4></div>
+
+  <h3>① 老師的成績表程式</h3>
+  <p><code>20261109-6.cpp</code>：先用巢狀迴圈算出每個人的總分（放在第 5 行）和平均（放在第 6 行），再整張表印出來。這就是為什麼宣告成 <code>sub+2</code> 行：多 2 格放總分和平均。</p>
+  <div class="pg" data-id="grade2d"></div>
+  <div class="note"><b class="t">⚠ 關於那個黃色警告</b>老師的程式用變數 <code>st</code>、<code>sub</code> 當陣列大小。學校的 Dev-C++（舊版 g++ 4.9.2）可以接受，實測結果也完全正確；但這不是標準 C++，<b>換到比較新的編譯器可能會編譯失敗</b>。比較安全的寫法是在前面加 <code>const</code>（常數，宣告後不能再改）：<code>const int st=6, sub=5;</code>，到上面的程式改改看，警告就會消失。</div>
+  <div class="quiz" data-ans="1">
+    <div class="q"><code>score[2][1]</code> 是誰的哪一科？（表頭順序：國文、英文、數學、社會、自然）</div>
+    <ol><li>2 號的國文</li><li>3 號的英文（40 分）</li><li>2 號的英文（98 分）</li></ol>
+    <div class="exp">列 r=2 是第 3 列 → 3 號；行 c=1 是第 2 行 → 英文。兩個索引都從 0 開始，「給人看的號碼」都要 +1。</div>
+  </div>
+  <div class="quiz" data-ans="0">
+    <div class="q">外圈 <code>for(r=0;r&lt;st;r++)</code> 一開始就寫 <code>sum=0;</code>，為什麼要放在<b>外圈裡面</b>、內圈前面？</div>
+    <ol><li>每個人的總分要重新從 0 開始算，不然會把上一個人的分數也加進來</li><li>放在哪裡都一樣</li><li>因為 sum 是 int</li></ol>
+    <div class="exp">撲滿要在「每次開始存一個人的錢」之前清空。如果只在最外面歸零一次，2 號的總分就會變成 1 號 + 2 號。到程式裡把 <code>sum=0;</code> 搬到外圈上面試試看。</div>
+  </div>
+  <div class="quiz" data-ans="2">
+    <div class="q"><code>score[r][sub+1]=(float)sum/sub;</code> 為什麼要寫 <code>(float)</code>？</div>
+    <ol><li>因為陣列一定要寫</li><li>為了讓總分變成小數</li><li>sum 和 sub 都是 int，不轉型的話整數 ÷ 整數會把小數捨去（381/5 會變成 76）</li></ol>
+    <div class="exp">第 8 課的整數除法！轉成 float 之後 381/5 = 76.2。</div>
+  </div>
+
+  <h3>🏆 挑戰 1：每一科的平均（換成「直的」加）</h3>
+  <p>老師的程式是「橫的」加（每個人的總分）。現在要「直的」加：每一<b>科</b>全班的平均。外圈換成管「行 c」、內圈管「列 r」。輸出 5 行，例如第一行是 <code>第1科平均=85.3333</code>。</p>
+  <div class="pg" data-id="col_avg"></div>
+  <details class="fold"><summary>提示</summary>
+    <p><code>for(c=0;c&lt;5;c++){ sum=0; for(r=0;r&lt;6;r++){ sum=sum+score[r][c]; } cout&lt;&lt;"第"&lt;&lt;c+1&lt;&lt;"科平均="&lt;&lt;sum/6&lt;&lt;endl; }</code>（sum 是 float，所以 sum/6 會保留小數）</p></details>
+
+  <h3>🏆 挑戰 2：總分第一名</h3>
+  <p>延續上一題的成績表（成績用 <code>cin</code> 讀入，預設輸入就是老師的資料；總分已經算好放在 <code>score[r][5]</code>），找出總分最高的是<b>幾號</b>，印出 <code>第一名是2號，總分416</code>。擂台主除了記「最高分」，還要記「是第幾列」。</p>
+  <div class="pg" data-id="top_total"></div>
+  <details class="fold"><summary>提示</summary>
+    <p>先讓第 0 列上台：<code>best=0;</code>（記索引）。然後 <code>for(r=1;r&lt;6;r++) if(score[r][5]&gt;score[best][5]) best=r;</code>。印的時候號碼是 <code>best+1</code>。</p></details>
+</section>
+
+<!-- ===================== L24 BMI 2D (1123-1) ===================== -->
+<section class="lesson" id="L24" data-title="二維陣列應用：BMI 健康表" data-src="1123">
+  <span class="tag">第 24 課 · 1123</span>
+  <h2>二維陣列應用：全班的 BMI 健康表 ⚖️</h2>
+  <p class="lead">把身高、體重存進表格，用公式算出 BMI，再用 <code>if…else if</code> 判斷過輕、正常或過重 ── 這一課把陣列、迴圈和判斷式全部用上。</p>
+
+  <div class="card">
+    <b>⚖️ BMI 公式</b>：BMI = 體重(kg) ÷ 身高(m)²　（身高要先從公分換成公尺：÷ 100）<br>
+    <b>📋 每一列的 4 格分工</b>：<code>data[r][0]</code> 身高、<code>data[r][1]</code> 體重、<code>data[r][2]</code> BMI（算出來放）、<code>data[r][3]</code> 狀態代碼（1 過輕、2 正常、3 過重）<br>
+    宣告 <code>float data[5][4]={{166,66},{175,68},…};</code>：每列只給 2 個值，後面兩格自動補 0，等程式算好再填進去。
+  </div>
+
+  <h3>① 老師的 BMI 程式</h3>
+  <div class="pg" data-id="bmi2d"></div>
+  <div class="quiz" data-ans="1">
+    <div class="q">為什麼寫 <code>h = data[r][0] / 100.0;</code> 而不是 <code>/ 100</code>？</div>
+    <ol><li>100.0 比較大</li><li>保險起見讓它是「小數除法」：166/100.0 = 1.66（如果兩邊都是整數，166/100 會變成 1）</li><li>沒有差別，只是習慣</li></ol>
+    <div class="exp">這裡的 data 是 float，其實寫 /100 也會得到 1.66；但養成寫 <code>100.0</code> 的習慣，就算資料是 int 也不會掉進第 4 課的「整數除法」陷阱。</div>
+  </div>
+  <div class="quiz" data-ans="0">
+    <div class="q">為什麼狀態要存成「代碼」1、2、3，而不是直接存「過輕」這兩個字？</div>
+    <ol><li>data 是 float 陣列，每一格只能放數字；文字要在印出時再用 if 翻譯</li><li>中文太長放不下</li><li>這是 C++ 的規定，狀態一定要用數字</li></ol>
+    <div class="exp">一個陣列的所有格子型態都一樣。這張表是 float，所以用數字代表狀態，印出時 <code>if(data[r][3]==1) cout&lt;&lt;"過輕";</code>。</div>
+  </div>
+  <div class="quiz" data-ans="2">
+    <div class="q">判斷寫成 <code>if(bmi&lt;18.5) … else if(bmi&lt;24) … else …</code>。BMI 剛好是 <b>24</b> 時，會被判成？</div>
+    <ol><li>過輕</li><li>正常</li><li>過重</li></ol>
+    <div class="exp">24&lt;18.5 不成立，24&lt;24 也不成立（沒有等號！），所以落到 else → 過重。<b>邊界值</b>（第 13 課）永遠要特別檢查。</div>
+  </div>
+  <div class="note"><b class="t">🔍 為什麼 BMI 印出 23.9512？</b><code>cout</code> 印小數時，預設最多顯示 <b>6 位有效數字</b>（23.9512 剛好 6 位）。想固定印到小數點後 1 位，可以用第 9 課的 <code>fixed&lt;&lt;setprecision(1)</code>。</div>
+  <div class="note warn"><b class="t">⚠ 如果中文變成亂碼</b>這兩份老師的檔案（1109-6、1123-1）是用 <b>UTF-8</b> 編碼存的，其他檔案是 Big5。學校電腦的黑色視窗用 Big5 顯示，所以 UTF-8 檔案裡的中文<b>印出來可能變成亂碼</b>（程式本身沒有錯）。遇到這種情況，請老師協助把檔案改存成 Big5（ANSI）編碼。</div>
+
+  <h3>🏆 挑戰：自己判斷狀態，並統計人數</h3>
+  <p>輸入人數 n（最多 10 人），再輸入每個人的身高、體重。BMI 已經幫你算好放在 <code>data[r][2]</code>，請：① 在 <code>data[r][3]</code> 填入狀態代碼（BMI &lt; 18.5 過輕＝1、18.5 ≤ BMI &lt; 24 正常＝2、BMI ≥ 24 過重＝3）；② 統計三種人數，印出 <code>過輕1人 正常4人 過重0人</code>。測資含 BMI <b>剛好 18.5</b> 和<b>剛好 24</b> 的人！</p>
+  <div class="pg" data-id="bmi_cnt"></div>
+  <details class="fold"><summary>提示</summary>
+    <p>在第一個迴圈裡，照老師的寫法 <code>if(bmi&lt;18.5) data[r][3]=1; else if(bmi&lt;24) data[r][3]=2; else data[r][3]=3;</code>。統計時再跑一個迴圈：<code>if(data[r][3]==1) a++;</code>…（a、b、c 要先歸零）。</p></details>
+</section>
+
+<!-- ===================== L25 FUNCTION (1102-5) ===================== -->
+<section class="lesson" id="L25" data-title="函式入門：自己做一台機器" data-src="1102">
+  <span class="tag">第 25 課 · 1102</span>
+  <h2>函式：把常用的步驟包成一台機器 🏭</h2>
+  <p class="lead"><code>sqrt()</code>、<code>max()</code> 都是別人寫好的「函式」：丟數字進去，它就算好還給你。現在，我們要<b>自己做一台</b>。</p>
+
+  <div class="card">
+    <b>🧃 想像一台果汁機</b>：放進<b>材料</b>（參數）→ 機器照步驟處理 → 倒出<b>果汁</b>（回傳值）。<br>
+    <code>int add(int x, int y){ return x+y; }</code><br>
+    ① 第一個 <code>int</code>：倒出來的是整數（<b>回傳型態</b>）　② <code>add</code>：機器的名字<br>
+    ③ <code>(int x, int y)</code>：要放進兩個整數，進去之後叫 x 和 y（<b>參數</b>）　④ <code>return x+y;</code>：把結果倒出來
+  </div>
+
+  <h3>① 老師的函式（只有機器，沒有開關）</h3>
+  <p><code>20261102-5.cpp</code> 只寫了 <code>add</code> 函式。按 ▶ 看看會怎樣，然後依任務把它補完整。</p>
+  <div class="pg" data-id="fn_bug"></div>
+  <details class="fold"><summary>提示</summary>
+    <p>程式一定從 <code>main</code> 開始跑；函式只是「做好放著」，要有人<b>呼叫</b>它才會動。在 add 的下面加上：<br>
+    <code>int main(){ cout&lt;&lt;add(3,5)&lt;&lt;endl; cout&lt;&lt;add(100,-1); return 0; }</code></p></details>
+
+  <h3>② 看函式怎麼「跳過去、再跳回來」</h3>
+  <p>按 👣：執行到 <code>add(a,b)</code> 時，會<b>跳進函式</b>（a 的值複製給 x、b 的值複製給 y），算完 <code>return</code> 再<b>帶著答案跳回來</b>。注意右邊：在函式裡面時，只看得到 x、y。</p>
+  <div class="pg" data-id="fn_demo"></div>
+  <div class="quiz" data-ans="2">
+    <div class="q"><code>cout&lt;&lt;add(add(1,2),10);</code> 印出？</div>
+    <ol><li>3</li><li>12</li><li>13</li></ol>
+    <div class="exp">先算裡面的 add(1,2)=3，再算 add(3,10)=13。就像數學的 f(f(x))。</div>
+  </div>
+  <div class="quiz" data-ans="0">
+    <div class="q">函式要寫在哪裡？</div>
+    <ol><li><code>int main()</code> 的<b>上面</b>（先做好機器，main 才能用）</li><li>main 的大括號裡面</li><li>哪裡都可以</li></ol>
+    <div class="exp">C++ 由上往下讀程式，main 用到 add 時，必須已經「看過」add。（進階寫法可以先在上面寫一行「函式原型」，以後再學。）函式也<b>不能</b>寫在 main 的大括號裡。</div>
+  </div>
+
+  <h3>③ 不回傳東西的函式：void</h3>
+  <p>有些機器只「做事」，不倒出東西，例如印一排星星。回傳型態寫 <code>void</code>（空的），裡面不用 return 值。</p>
+  <div class="pg" data-id="fn_void"></div>
+
+  <h3>🏆 挑戰 1：比大小機器</h3>
+  <p>完成函式 <code>max2(a,b)</code>：回傳 a、b 中比較大的那個。main 已經寫好了。</p>
+  <div class="pg" data-id="fn_max"></div>
+  <details class="fold"><summary>提示</summary>
+    <p><code>if(a&gt;=b) return a; else return b;</code> ── 函式執行到 return 就立刻結束並交出答案。兩數相等時回傳哪個都對。</p></details>
+
+  <h3>🏆 挑戰 2：BMI 計算機</h3>
+  <p>把上一課的公式包成函式：<code>float bmi(float h, float w)</code>，h 是公分、w 是公斤。main 會讀入身高體重並印出你的回傳值。</p>
+  <div class="pg" data-id="fn_bmi"></div>
+  <details class="fold"><summary>提示</summary>
+    <p>先把 h 換成公尺：<code>h=h/100.0;</code>，再 <code>return w/(h*h);</code></p></details>
+
+  <div class="note good"><b class="t">🎉 小結</b>函式 = 回傳型態 + 名字 + (參數) + { 步驟 + return }；寫在 main 上面；呼叫時參數的值會「複製」進去；<code>void</code> 函式只做事、不回傳。</div>
+</section>
+
+<!-- ===================== FINAL ===================== -->
+<section class="lesson" id="L26" data-title="總複習" data-src="綜合測驗">
+  <span class="tag">第 26 課</span>
   <h2>總複習測驗 🎓</h2>
-  <p class="lead">十三題選擇題加一題小實作，看看你學會多少。<b>第一次就答對</b>才計分哦！</p>
-  <div class="score" id="finalScore">目前答對 0 / 13</div>
+  <p class="lead">十八題選擇題加一題小實作，看看你學會多少。<b>第一次就答對</b>才計分哦！</p>
+  <div class="score" id="finalScore">目前答對 0 / 18</div>
 
   <div class="quiz final" data-ans="2"><div class="q"><code>cout&lt;&lt;"5+3";</code> 印出？</div>
     <ol><li>8</li><li>5 + 3</li><li>5+3</li></ol><div class="exp">雙引號內是文字，原樣印出。</div></div>
@@ -1229,6 +1594,18 @@ cout&lt;&lt;sum&lt;&lt;" "&lt;&lt;i;</pre>印出？</div>
   <div class="quiz final" data-ans="0"><div class="q">外圈 <code>i</code> 跑 3 輪、內圈 <code>j</code> 跑 5 輪，內圈裡的 <code>cout&lt;&lt;"*";</code> 總共執行幾次？</div>
     <ol><li>15 次</li><li>8 次</li><li>5 次</li></ol><div class="exp">巢狀迴圈的次數是相乘：3 × 5 = 15。</div></div>
 
+  <div class="quiz final" data-ans="2"><div class="q"><code>cout&lt;&lt;3&lt;&lt;"*"&lt;&lt;4&lt;&lt;"="&lt;&lt;(3*4);</code> 印出？</div>
+    <ol><li>3*4=3*4</li><li>12=12</li><li>3*4=12</li></ol><div class="exp">有引號的 <code>"*"</code>、<code>"="</code> 原樣印出；沒有引號的 <code>(3*4)</code> 會先算成 12。這就是九九乘法表那一行的寫法。</div></div>
+  <div class="quiz final" data-ans="1"><div class="q"><code>int a[5]={3,6,9,12,15};</code>，<code>cout&lt;&lt;a[1]+a[3];</code> 印出？</div>
+    <ol><li>15</li><li>18</li><li>4</li><li>21</li></ol><div class="exp">索引從 0 開始：a[1]=6、a[3]=12，6+12 = 18。</div></div>
+  <div class="quiz final" data-ans="0"><div class="q">宣告 <code>int st[30];</code>，下面哪一個<b>超出範圍</b>？</div>
+    <ol><li><code>st[30]</code></li><li><code>st[0]</code></li><li><code>st[29]</code></li></ol><div class="exp">30 格的陣列，索引是 0～29。<code>st[30]</code> 是「第 31 格」，不存在；真正的 C++ 還不會報錯，所以更要小心。</div></div>
+  <div class="quiz final" data-ans="3"><div class="q"><code>float s[6][7];</code> 中，<code>s[1][4]</code> 指的是？</div>
+    <ol><li>第 1 列第 4 行</li><li>第 4 列第 1 行</li><li>第 2 行第 5 列</li><li>第 2 列第 5 行</li></ol><div class="exp">第一個索引是「列」、第二個是「行」，兩個都從 0 開始，所以 [1][4] 是第 2 列、第 5 行。</div></div>
+  <div class="quiz final" data-ans="2"><div class="q"><pre class="code">int add(int x,int y){ return x+y; }
+int main(){ cout&lt;&lt;add(2,add(3,4)); }</pre>印出？</div>
+    <ol><li>5</li><li>7</li><li>9</li><li>234</li></ol><div class="exp">先算裡面的 add(3,4)=7，再算 add(2,7)=9。</div></div>
+
   <h3>✍️ 小實作：兩數比大小</h3>
   <p>輸入兩個整數，印出較大的那個。<b>請特別測試兩個數相等的情況。</b>按 ✔ 會用 4 組資料幫你檢查。</p>
   <div class="pg" data-id="cmp2"></div>
@@ -1246,9 +1623,14 @@ cout&lt;&lt;sum&lt;&lt;" "&lt;&lt;i;</pre>印出？</div>
     <tr><td>for 的括號少分號 / 用逗號</td><td><code>for(i=1; i&lt;=10; i++)</code>：三段之間是<b>兩個分號</b></td></tr>
     <tr><td>(警告) for 後面的分號</td><td><code>for(...);</code> 讓迴圈本體變成空的</td></tr>
     <tr><td>程式停不下來 / 無窮迴圈</td><td>條件永遠成立；檢查「更新」有沒有讓變數往結束的方向走</td></tr>
+    <tr><td>索引超出範圍</td><td>n 格的陣列索引只有 0～n−1；迴圈寫 <code>i=0; i&lt;n</code>（真正的 C++ 不會提醒你！）</td></tr>
+    <tr><td>陣列要用 [ ] 指定格子</td><td>不能直接用陣列名稱，要寫 <code>st[i]</code>；<code>st[]</code> 中括號也不能空著</td></tr>
+    <tr><td>main 的小括號沒有成對</td><td><code>int main({</code> 要改成 <code>int main(){</code></td></tr>
+    <tr><td>找不到 main／<code>undefined reference to `WinMain'</code></td><td>只寫了函式，沒有寫 <code>int main(){ }</code></td></tr>
+    <tr><td>找不到函式</td><td>函式要寫在 main 的<b>上面</b>，或名字拼錯了</td></tr>
     <tr><td>英文訊息 <code>was not declared</code></td><td>真正編譯器的「變數沒宣告」，見第 1 課的對照表</td></tr>
   </table>
-  <div class="note good"><b class="t">🎉 恭喜你完成整份教材！</b>你已經學會輸出入、變數、運算、判斷式和迴圈 —— 這些就是所有程式的基本積木。繼續加油！</div>
+  <div class="note good"><b class="t">🎉 恭喜你完成整份教材！</b>你已經學會輸出入、變數、運算、判斷式、迴圈、陣列，還做出了自己的第一個函式 —— 這些就是所有程式的基本積木。繼續加油！</div>
 </section>
 
     </div></main>
@@ -1263,9 +1645,9 @@ const Engine=(()=>{
 class CErr extends Error{constructor(line,msg){super(msg);this.line=line;this.kind='compile'}}
 class RErr extends Error{constructor(line,msg){super(msg);this.line=line;this.kind='runtime'}}
 const TYPES=['int','float','double','char','bool','long','short','string'];
-const RESERVED=new Set([...TYPES,'if','else','return','while','for','using','namespace','cout','cin','endl','true','false','main']);
+const RESERVED=new Set([...TYPES,'if','else','return','while','for','using','namespace','cout','cin','endl','true','false','main','void','const']);
 const TWO=['<<','>>','<=','>=','==','!=','&&','||','++','--','+=','-=','*=','/=','%='];
-const ONE='+-*/%=<>!(){};,';
+const ONE='+-*/%=<>!(){};,[]';
 const KNOWN=['iostream','cmath','math.h','cstdlib','stdlib.h','algorithm','string','iomanip','bits/stdc++.h'];
 const FUNCS={sqrt:{h:['cmath','math.h'],n:1},pow:{h:['cmath','math.h'],n:2},abs:{h:['cmath','cstdlib','math.h','stdlib.h'],n:1},
   fabs:{h:['cmath','math.h'],n:1},floor:{h:['cmath','math.h'],n:1},ceil:{h:['cmath','math.h'],n:1},round:{h:['cmath','math.h'],n:1},
@@ -1308,11 +1690,26 @@ function tokenize(src){
   return toks;
 }
 
+// 陣列初始值的擺放位置（支援 C++ 的大括號省略）：回傳 {pos:[[平坦位置, 運算式]...], used:用到的格數}
+function layoutInit(list,cols,nd,line,E=CErr){
+  const pos=[];let k=0;
+  if(nd===1){
+    list.items.forEach(e=>{if(e.k==='list')throw new E(line,'一維陣列的初始值只要一層大括號，例如 {1,2,3}。');pos.push([k++,e])});
+    return {pos,used:k}}
+  for(const e of list.items){
+    if(e.k==='list'){
+      if(k%cols!==0)throw new E(line,'這種「數字和 { } 混在同一列」的初始值寫法，這個練習器還沒支援。請改成每一列一組大括號，例如 {{1,2},{3,4}}。');
+      if(e.items.length>cols)throw new E(line,`初始值太多了：每一列只有 ${cols} 格，這一組 { } 卻給了 ${e.items.length} 個值。`);
+      e.items.forEach((x,j)=>{if(x.k==='list')throw new E(line,'大括號的層數太多了。');pos.push([k+j,x])});k+=cols}
+    else pos.push([k++,e]);
+  }
+  return {pos,used:k};
+}
 function compile(src){
   const toks=tokenize(src);
   let p=0;const warns=[];let hasIo=false,usingStd=false,hasMain=false;const incs=new Set();
   const have=h=>incs.has(h)||incs.has('bits/stdc++.h');
-  const scopes=[new Map()];let main=null,pendingAlias=null;
+  let scopes=[new Map()];let main=null,pendingAlias=null,curFn=null;const funcs=new Map();
   const EOF=()=>({t:'eof',v:'結尾',line:toks.length?toks[toks.length-1].line:1});
   const peek=(k=0)=>toks[p+k]||EOF();
   const prevLine=()=>p>0?toks[p-1].line:1;
@@ -1326,7 +1723,7 @@ function compile(src){
   };
   const declared=name=>{for(let i=scopes.length-1;i>=0;i--)if(scopes[i].has(name))return scopes[i].get(name);return null};
   const suggest=name=>{
-    const c=['endl','cout','cin','return'];scopes.forEach(s=>s.forEach((_,k)=>c.push(k)));
+    const c=['endl','cout','cin','return',...funcs.keys()];scopes.forEach(s=>s.forEach((_,k)=>c.push(k)));
     return c.find(x=>x!==name&&name.length>=3&&lev(x,name)<=1)};
   const checkVar=t=>{
     if(declared(t.v))return;
@@ -1334,26 +1731,52 @@ function compile(src){
     const s=suggest(t.v);
     err(t.line,`「${t.v}」還沒有宣告。變數要先用像 int ${t.v}; 的方式做出來才能用。`+(s?`（你是不是想寫「${s}」？）`:''));
   };
-  const declare=(t,type)=>{
+  const declare=(t,type,dims=0,cst=false)=>{
     if(RESERVED.has(t.v))err(t.line,`「${t.v}」是 C++ 保留字，不能拿來當變數名稱。`);
     const top=scopes[scopes.length-1];
-    if(top.has(t.v)||(top.alias&&top.alias.has(t.v)))err(t.line,`變數「${t.v}」已經宣告過了，不用重複宣告。`+(top.alias&&top.alias.has(t.v)?'（它已經在 for 的小括號裡宣告了；for 的大括號裡面是同一層，不能再宣告一次）':''));
-    top.set(t.v,type)};
+    if(top.has(t.v)||(top.alias&&top.alias.has(t.v)))err(t.line,`變數「${t.v}」已經宣告過了，不用重複宣告。`+(top.alias&&top.alias.has(t.v)?(top.alias.param?'（它是這個函式的參數，函式的大括號裡不能再宣告一個同名的變數）':'（它已經在 for 的小括號裡宣告了；for 的大括號裡面是同一層，不能再宣告一次）'):''));
+    top.set(t.v,{type,dims,cst})};
+  // 讀取「變數名稱 + 可能的 [索引]」；回傳 var 或 idx 節點
+  function readIdx(t){
+    const info=declared(t.v);const idx=[];
+    while(isOp('[')){
+      const ob=toks[p++];
+      if(isOp(']'))err(ob.line,`中括號 [ ] 裡面要寫「第幾格」（索引），例如 ${t.v}[0] 或 ${t.v}[i]；不能空著。`);
+      const ie=val();
+      if(ie.k==='num'&&ie.f||ie.k==='var'&&['float','double'].includes(declared(ie.name).type)&&!declared(ie.name).dims)err(ob.line,`陣列的索引（第幾格）必須是整數，不能是小數（float / double）。`);
+      if(ie.k==='str')err(ob.line,'陣列的索引（第幾格）必須是整數，不能是文字。');
+      idx.push(ie);
+      if(!isOp(']'))err(isOp(';')||peek().t==='eof'?prevLine():peek().line,'中括號 [ ] 沒有成對，少了右中括號 ]');
+      p++;
+    }
+    if(idx.length&&!info.dims)err(t.line,`「${t.v}」是一般變數，不是陣列，後面不能加 [ ]。`);
+    if(!idx.length&&info.dims)err(t.line,`「${t.v}」是陣列（一整排盒子），使用時要用中括號指定是哪一格，例如 ${t.v}${info.dims===2?'[0][0] 或 '+t.v+'[r][c]':'[0] 或 '+t.v+'[i]'}。`+'（真正的 C++ 直接 cout 陣列名稱，只會印出一串看不懂的記憶體位址）');
+    if(idx.length&&idx.length!==info.dims)err(t.line,info.dims===2?`「${t.v}」是二維陣列，要寫兩個索引：${t.v}[列][行]，例如 ${t.v}[0][1]。`:`「${t.v}」是一維陣列，只要寫一個索引，例如 ${t.v}[0]。`);
+    return idx.length?{k:'idx',name:t.v,idx,line:t.line}:{k:'var',name:t.v,line:t.line};
+  }
+  const isVoid=e=>!!e&&e.k==='ucall'&&funcs.get(e.name).ret==='void';
+  const noVoid=e=>{if(isVoid(e))err(e.line,`${e.name}() 是 void 函式，沒有回傳值，不能拿來計算、比較、印出或放進變數。要用它，請單獨寫一行 ${e.name}(…);`);return e};
+  const val=()=>noVoid(assign());
+  // 整數常數運算式（數字、const 變數、以及它們的 + - * / % 組合）
+  const isConstExpr=e=>!!e&&(e.k==='num'&&!e.f||e.k==='var'&&!!declared(e.name)&&declared(e.name).cst&&['int','long','short','char','bool'].includes(declared(e.name).type)||e.k==='bin'&&['+','-','*','/','%'].includes(e.op)&&isConstExpr(e.l)&&isConstExpr(e.r)||e.k==='un'&&e.op!=='!'&&isConstExpr(e.e));
+  const constVal=e=>e.k==='num'?e.v:e.k==='var'?declared(e.name).cv:e.k==='un'?(e.op==='-'?-constVal(e.e):constVal(e.e)):(x=>x)(((a,b,o)=>o==='+'?a+b:o==='-'?a-b:o==='*'?a*b:o==='/'?(b?Math.trunc(a/b):NaN):(b?a%b:NaN))(constVal(e.l),constVal(e.r),e.op));
+  const chkConst=(n,line)=>{const i=declared(n.name);if(i&&i.cst)err(line,`「${n.name}」是 const 常數，宣告之後就不能再改它的值。`)};
 
   // ---- expressions ----
   function assign(){
     const left=orE();const t=peek();
     if(t.t==='op'&&['=','+=','-=','*=','/=','%='].includes(t.v)){
       p++;
-      if(left.k!=='var')err(t.line,`「${t.v}」的左邊必須是變數（例如 x = 5; ），不能是別的東西`);
-      const right=assign();
-      return {k:'assign',op:t.v,name:left.name,right,line:t.line};
+      if(left.k!=='var'&&left.k!=='idx')err(t.line,`「${t.v}」的左邊必須是變數（例如 x = 5; 或 a[0] = 5; ），不能是別的東西`);
+      chkConst(left,t.line);
+      const right=val();
+      return {k:'assign',op:t.v,name:left.name,tgt:left,right,line:t.line};
     }
     return left;
   }
   function binLeft(next,ops,kind){
     let l=next();
-    while(peek().t==='op'&&ops.includes(peek().v)){const t=toks[p++];const r=next();l={k:kind,op:t.v,l,r,line:t.line}}
+    while(peek().t==='op'&&ops.includes(peek().v)){noVoid(l);const t=toks[p++];const r=noVoid(next());l={k:kind,op:t.v,l,r,line:t.line}}
     return l;
   }
   const orE=()=>binLeft(andE,['||'],'logic');
@@ -1362,7 +1785,7 @@ function compile(src){
   function relE(){
     let l=addE();
     while(peek().t==='op'&&['<','>','<=','>='].includes(peek().v)){
-      const t=toks[p++];const r=addE();
+      noVoid(l);const t=toks[p++];const r=noVoid(addE());
       if(l.k==='bin'&&['<','>','<=','>='].includes(l.op)&&!l.paren)
         warns.push({line:t.line,msg:'連續比較（例如 80<=s<=89）在 C++ 不會像數學那樣運作：它會先算出 0 或 1，再拿去跟下一個數字比。請改用 && 連接兩個條件。'});
       l={k:'bin',op:t.v,l,r,line:t.line};
@@ -1374,19 +1797,19 @@ function compile(src){
   function unary(){
     const t=peek();
     if(t.t==='op'){
-      if(t.v==='!'||t.v==='-'||t.v==='+'){p++;return {k:'un',op:t.v,e:unary(),line:t.line}}
+      if(t.v==='!'||t.v==='-'||t.v==='+'){p++;return {k:'un',op:t.v,e:noVoid(unary()),line:t.line}}
       if(t.v==='++'||t.v==='--'){p++;const v=peek();
-        if(v.t!=='id')err(t.line,`${t.v} 後面要接變數`);checkVar(v);p++;
-        return {k:'incdec',name:v.v,delta:t.v==='++'?1:-1,post:false,line:t.line}}
+        if(v.t!=='id')err(t.line,`${t.v} 後面要接變數`);checkVar(v);p++;const tg=readIdx(v);chkConst(tg,t.line);
+        return {k:'incdec',name:v.v,tgt:tg,delta:t.v==='++'?1:-1,post:false,line:t.line}}
       if(t.v==='('&&peek(1).t==='id'&&TYPES.includes(peek(1).v)&&isOp(')',2)){
-        const type=peek(1).v;p+=3;return {k:'cast',type,e:unary(),line:t.line}}
+        const type=peek(1).v;p+=3;return {k:'cast',type,e:noVoid(unary()),line:t.line}}
     }
     return postfix();
   }
   function postfix(){
     const n=primary();
-    if(n.k==='var'&&!n.paren&&peek().t==='op'&&(peek().v==='++'||peek().v==='--')){
-      const t=toks[p++];return {k:'incdec',name:n.name,delta:t.v==='++'?1:-1,post:true,line:t.line}}
+    if((n.k==='var'||n.k==='idx')&&!n.paren&&peek().t==='op'&&(peek().v==='++'||peek().v==='--')){
+      const t=toks[p++];chkConst(n,t.line);return {k:'incdec',name:n.name,tgt:n,delta:t.v==='++'?1:-1,post:true,line:t.line}}
     return n;
   }
   function primary(){
@@ -1397,16 +1820,27 @@ function compile(src){
     if(t.t==='id'){
       if(t.v==='true'||t.v==='false'){p++;return {k:'bool',v:t.v==='true',line:t.line}}
       if(TYPES.includes(t.v)||RESERVED.has(t.v))err(t.line,`這裡不該出現「${t.v}」（它是 C++ 的保留字）`);
-      if(FUNCS[t.v]&&isOp('(',1)&&!declared(t.v)){
+      if(FUNCS[t.v]&&isOp('(',1)&&!declared(t.v)&&!funcs.has(t.v)){
         const f=FUNCS[t.v];
         if(!f.h.some(h=>have(h)))err(t.line,`要使用 ${t.v}()，程式最前面要加上 #include <${f.h[0]}>（它住在 <${f.h[0]}> 這個標頭檔裡）`);
         p+=2;const args=[];
-        if(!isOp(')')){do{args.push(assign())}while(isOp(',')&&(p++,true))}
+        if(!isOp(')')){do{args.push(val())}while(isOp(',')&&(p++,true))}
         if(!isOp(')'))err(t.line,`${t.v}( ) 的括號沒有成對`);p++;
         if(args.length!==f.n)err(t.line,`${t.v}() 需要 ${f.n} 個數字，你給了 ${args.length} 個`);
         return {k:'call',name:t.v,args,line:t.line};
       }
-      checkVar(t);p++;return {k:'var',name:t.v,line:t.line};
+      if(isOp('(',1)&&declared(t.v))err(t.line,`「${t.v}」在這裡是變數，不是函式，後面不能接 ( )。（如果有同名的函式，被這個變數「擋住」了，請把變數換個名字）`);
+      if(isOp('(',1)&&!declared(t.v)){
+        const f=funcs.get(t.v);
+        if(!f){const s=suggest(t.v);
+          err(t.line,`找不到函式「${t.v}」。自己寫的函式要放在 main 的「上面」（先寫好，才能叫它來用）；也可能是名字拼錯了。`+(s?`（你是不是想寫「${s}」？）`:''))}
+        p+=2;const args=[];
+        if(!isOp(')')){do{args.push(val())}while(isOp(',')&&(p++,true))}
+        if(!isOp(')'))err(t.line,`呼叫 ${t.v}( ) 的括號沒有成對`);p++;
+        if(args.length!==f.params.length)err(t.line,`函式 ${t.v}() 需要 ${f.params.length} 個參數（${f.params.map(x=>x.type+' '+x.name).join(', ')||'不用參數'}），你給了 ${args.length} 個。`);
+        return {k:'ucall',name:t.v,args,line:t.line};
+      }
+      checkVar(t);p++;return readIdx(t);
     }
     if(t.t==='op'&&t.v==='('){
       p++;const e=assign();
@@ -1431,9 +1865,9 @@ function compile(src){
       else if(peek().t==='id'&&peek().v==='setprecision'&&isOp('(',1)){
         const sp=peek();
         if(!have('iomanip'))err(sp.line,'要使用 setprecision()，程式最前面要加上 #include <iomanip>');
-        p+=2;const e=assign();if(!isOp(')'))err(sp.line,'setprecision( ) 的括號沒有成對');p++;
+        p+=2;const e=val();if(!isOp(')'))err(sp.line,'setprecision( ) 的括號沒有成對');p++;
         items.push({k:'manip',m:'prec',e})}
-      else items.push(assign());
+      else items.push(val());
     }
     if(!isOp(';')){
       const n=peek(),last=toks[p-1];
@@ -1448,22 +1882,57 @@ function compile(src){
     if(!usingStd)err(t.line,'找不到 cin。是不是漏了 using namespace std; ？');
     if(isOp('<<'))err(t.line,'cin 要搭配 >> ，不是 <<。（cin >> 變數：資料從鍵盤流進變數）');
     if(!isOp('>>'))err(t.line,'cin 後面要接 >>，例如 cin>>x;');
-    const names=[];
+    const tgts=[];
     while(isOp('>>')){p++;const v=peek();
       if(v.t!=='id'){err(v.line,'cin >> 後面要放「變數」');}
-      checkVar(v);p++;names.push(v.v)}
+      checkVar(v);p++;const tg=readIdx(v);chkConst(tg,v.line);tgts.push(tg)}
     expectOp(';');
-    return {k:'cin',names,line:t.line};
+    return {k:'cin',tgts,line:t.line};
   }
-  function decl(){
+  function initList(){
+    const open=expectOp('{');const items=[];
+    while(!isOp('}')){
+      if(peek().t==='eof')err(open.line,'陣列初始值的大括號 { } 沒有成對，少了 }');
+      items.push(isOp('{')?initList():val());
+      if(isOp(','))p++;
+      else if(!isOp('}'))err(peek().line,'陣列初始值之間要用逗號 , 隔開，例如 {80,75,90}；最後要用 } 結束。');
+    }
+    p++;return {k:'list',items,line:open.line};
+  }
+  function decl(cst=false){
     const t=toks[p++];const type=t.v;const items=[];
     do{
       const nt=peek();
       if(nt.t!=='id')err(nt.t==='eof'?prevLine():nt.line,
         items.length?'宣告變數時，逗號 , 後面少了變數名稱（最後一個變數後面不能再接逗號）':`${type} 後面要接變數名稱`);
-      p++;let init=null;
-      if(isOp('=')){p++;init=assign()}
-      declare(nt,type);items.push({name:nt.v,type,init,line:nt.line});
+      p++;let init=null;const dims=[],dimText=[];
+      while(isOp('[')){
+        p++;
+        if(isOp(']')){dims.push(null);dimText.push('');p++;continue}
+        const st=p;const e=val();dims.push(e);dimText.push(src.slice(toks[st].pos,toks[p-1].end));
+        if(e.k==='num'&&e.f||e.k==='str')err(nt.line,'陣列的大小（有幾格）必須是整數。');
+        if(!isOp(']'))err(prevLine(),'陣列大小的中括號 [ ] 沒有成對，少了 ]');
+        p++;
+      }
+      if(dims.length>2)err(nt.line,'這個練習器只支援一維和二維陣列。');
+      if(dims.length&&dims.some((d,i)=>d===null&&i>0))err(nt.line,`陣列的大小沒寫：要在 [ ] 裡寫有幾格，例如 ${type} ${nt.v}[5];（只有第一個 [ ] 在有初始值時可以省略）`);
+      if(dims.length)declare(nt,type,dims.length,cst);   // 陣列名稱在初始值裡就能使用（和 g++ 一樣）
+      if(isOp('=')){p++;
+        if(dims.length){if(!isOp('{'))err(nt.line,`陣列的初始值要用大括號 { } 包起來，例如 ${type} ${nt.v}[3]={1,2,3};`);init=initList();
+          const cd=dims.map(d=>d===null?null:isConstExpr(d)?constVal(d):undefined);
+          const lay=dims.length===1||cd[1]>0?layoutInit(init,dims.length===2?cd[1]:1,dims.length,nt.line):{used:0};
+          if(dims.length===1&&cd[0]>0&&lay.used>cd[0])err(nt.line,`初始值太多了：${nt.v} 只有 ${cd[0]} 格，卻給了 ${lay.used} 個值。`);
+          if(dims.length===2&&cd[0]>0&&cd[1]>0&&lay.used>cd[0]*cd[1])err(nt.line,`初始值太多了：${nt.v} 只有 ${cd[0]} 列，放不下這麼多初始值。`)}
+        else{if(isOp('{'))err(nt.line,'大括號 { } 的初始值是給「陣列」用的；一般變數直接寫 = 值 就好，例如 int x=5;');init=val()}}
+      else if(dims.length&&isOp('{'))err(nt.line,`陣列名稱的後面少了等號 =，應該寫成 ${nt.v}[…]={…};`);
+      if(dims.some((d,i)=>d===null&&(i>0||!init)))err(nt.line,`陣列的大小沒寫：要在 [ ] 裡寫有幾格，例如 ${type} ${nt.v}[5];（只有第一個 [ ] 在有初始值時可以省略）`);
+      if(cst&&!init)err(nt.line,`const 常數在宣告時一定要給初始值，例如 const int ${nt.v}=5;`);
+      if(cst&&dims.length)err(nt.line,'這個練習器還沒支援 const 陣列。');
+      const vla=dims.map((d,i)=>d&&!isConstExpr(d)?dimText[i]:null).filter(x=>x);
+      if(vla.length)warns.push({line:nt.line,msg:`陣列大小 [${vla.join('][')}] 用的是「一般變數」。Dev-C++（舊版 g++）可以接受，但這不是標準 C++；比較新的編譯器遇到「用變數當大小、又給初始值」會直接報錯。建議把大小變數改成 const（例如 const int st=6;），或直接寫數字。`});
+      if(!dims.length)declare(nt,type,0,cst);
+      if(cst&&init&&isConstExpr(init))declared(nt.v).cv=constVal(init);
+      items.push({name:nt.v,type,init,dims:dims.length?dims:null,cst,line:nt.line});
     }while(isOp(',')&&(p++,true));
     expectOp(';');
     return {k:'decl',items,line:t.line};
@@ -1472,7 +1941,7 @@ function compile(src){
     const t=toks[p++];
     if(!isOp('('))err(t.line,'if 後面的條件要放在小括號 ( ) 裡');
     p++;const st=p;
-    const cond=assign();
+    const cond=val();
     if(p===st)err(t.line,'if 的小括號裡面沒有條件');
     const text=src.slice(toks[st].pos,toks[p-1].end);
     if(!isOp(')'))err(prevLine(),'if 的條件少了右括號 )');
@@ -1498,7 +1967,7 @@ function compile(src){
     if(isOp(';'))p++;
     else if(peek().t==='id'&&TYPES.includes(peek().v)){const st=p;init={decl:decl()};T.init=src.slice(toks[st].pos,toks[p-2].end)}
     else{const st=p;init={e:assign()};T.init=src.slice(toks[st].pos,toks[p-1].end);semi()}
-    if(!isOp(';')&&!isOp(')')){const st=p;cond=assign();T.cond=src.slice(toks[st].pos,toks[p-1].end)}
+    if(!isOp(';')&&!isOp(')')){const st=p;cond=val();T.cond=src.slice(toks[st].pos,toks[p-1].end)}
     semi();
     if(!isOp(')')&&!isOp('{')&&!isOp(';')){const st=p;upd=assign();T.upd=src.slice(toks[st].pos,toks[p-1].end);if(isOp(','))err(peek().line,MULTI)}
     if(!isOp(')'))err(isOp('{')||isOp(';')||peek().t==='eof'?prevLine():peek().line,'for ( ) 的括號沒有成對，少了右括號 )；或是三段之間漏了分號 ;');
@@ -1526,12 +1995,19 @@ function compile(src){
     if(t.t==='op'&&t.v===';'){p++;return {k:'nop',line:t.line}}
     if(t.t==='pp')err(t.line,'#include 要放在程式最前面，不能放在 main 裡面');
     if(t.t==='id'){
+      if(t.v==='const'){p++;if(!(peek().t==='id'&&TYPES.includes(peek().v)))err(t.line,'const 後面要接型態，例如 const int n=5;');return decl(true)}
+      if(t.v==='void')err(t.line,'void 只能用在函式（表示「不回傳值」），不能用來宣告變數。');
+      if(TYPES.includes(t.v)&&peek(1).t==='id'&&isOp('(',2))err(t.line,`函式（${peek(1).v}）不能寫在 main 裡面。請把整個函式搬到 int main() 的「上面」。`);
       if(TYPES.includes(t.v)&&peek(1).t==='id'||TYPES.includes(t.v)&&peek(1).t==='op'&&peek(1).v===','){return decl()}
       if(t.v==='if')return ifStmt();
       if(t.v==='else')err(t.line,'這個 else 前面找不到配對的 if');
       if(t.v==='for')return forStmt();
       if(t.v==='while')err(t.line,'這個練習器還沒支援 while 迴圈（這份教材先學 for 迴圈）');
-      if(t.v==='return'){p++;let e=null;if(!isOp(';'))e=assign();expectOp(';');return {k:'ret',e,line:t.line}}
+      if(t.v==='return'){p++;let e=null;if(!isOp(';'))e=assign();expectOp(';');
+        if(curFn&&curFn.ret==='void'&&e&&!isVoid(e))err(t.line,`${curFn.name}() 是 void 函式（不回傳值），return 後面不能接值；只寫 return; 就好。`);
+        if((!curFn||curFn.ret!=='void')&&e)noVoid(e);
+        if(curFn&&curFn.ret!=='void'&&!e)err(t.line,`${curFn.name}() 要回傳一個 ${curFn.ret}，return 後面要接值，例如 return x+y;`);
+        return {k:'ret',e,fn:curFn?curFn.name:null,line:t.line}}
       if(t.v==='cout'){p++;return readCout(t)}
       if(t.v==='cin'){p++;return readCin(t)}
     }
@@ -1556,16 +2032,47 @@ function compile(src){
       if(b.v!=='std')err(t.line,`應該是 using namespace std;，你寫的是「${b.v}」`);
       p++;expectOp(';');usingStd=true;continue}
     if(t.t==='id'&&t.v==='int'&&peek(1).v==='main'){
-      p+=2;expectOp('(');expectOp(')');
+      p+=2;
+      if(isOp('(')&&isOp('{',1))err(t.line,'main 的小括號沒有成對：應該寫成 int main(){ ，這裡寫成了 int main({（少了右括號 )）。');
+      expectOp('(');expectOp(')');
+      if(hasMain)err(t.line,'程式裡只能有一個 main。');
       main=block();hasMain=true;continue}
+    if(t.t==='id'&&(TYPES.includes(t.v)||t.v==='void')&&peek(1).t==='id'&&isOp('(',2)){
+      const nm=peek(1);
+      if(RESERVED.has(nm.v))err(nm.line,`「${nm.v}」是 C++ 保留字，不能拿來當函式名稱。`);
+      if(funcs.has(nm.v))err(nm.line,`函式「${nm.v}」已經寫過了，不能有兩個同名的函式（這個練習器不支援多載）。`);
+      if(FUNCS[nm.v])warns.push({line:nm.line,msg:`「${nm.v}」和內建的 ${nm.v}() 同名，容易搞混，建議換個名字（例如 my${nm.v}）。`});
+      p+=3;const params=[];const pm=new Map();pm.param=true;
+      if(peek().v==='void'&&isOp(')',1))p++;
+      else if(!isOp(')'))do{
+        const ty=peek();
+        if(ty.t!=='id'||!TYPES.includes(ty.v))err(ty.line,`函式的參數要寫「型態 名稱」，例如 int ${nm.v}(int x, int y)。`);
+        p++;const pn=peek();
+        if(pn.t!=='id')err(pn.line,`參數的型態 ${ty.v} 後面要接名稱，例如 ${ty.v} x`);
+        if(RESERVED.has(pn.v))err(pn.line,`「${pn.v}」是保留字，不能當參數名稱。`);
+        if(pm.has(pn.v))err(pn.line,`參數「${pn.v}」重複了。`);
+        p++;if(isOp('['))err(pn.line,'這個練習器還沒支援把陣列傳進函式。');
+        params.push({type:ty.v,name:pn.v});pm.set(pn.v,{type:ty.v,dims:0,cst:false});
+      }while(isOp(',')&&(p++,true));
+      if(!isOp(')'))err(peek().line,`函式 ${nm.v}( ) 的小括號沒有成對，少了 )`);p++;
+      if(isOp(';'))err(nm.line,'這個練習器還沒支援「函式原型宣告」（只寫標頭加分號）。請把整個函式（含大括號裡的內容）直接寫在 main 的上面。');
+      if(!isOp('{'))err(nm.line,`函式 ${nm.v}(…) 後面要接大括號 { }，裡面寫它要做的事。`);
+      const fn={name:nm.v,ret:t.v,params,body:null,line:t.line};funcs.set(nm.v,fn);
+      const saved=scopes;scopes=[pm];curFn=fn;pendingAlias=pm;
+      fn.body=block();scopes=saved;curFn=null;
+      fn.hasRet=JSON.stringify(fn.body,(k,v)=>k==='right'||k==='args'?undefined:v).includes('"k":"ret"');
+      continue}
     let hint='';
     if(t.v==='include')hint='（#include 前面少了 # 符號）';
     else if(t.t==='id'&&lev(t.v,'using')<=1)hint='（是不是想寫 using？）';
     else if(t.t==='id'&&lev(t.v,'namespace')<=2)hint='（namespace 是不是拼錯了？）';
     err(t.line,`這裡的「${t.v}」看不懂${hint}`);
   }
-  if(!hasMain)err(1,'找不到主程式 int main() { ... }');
-  return {main,warns,src};
+  if(!hasMain){
+    if(funcs.size)err(1,`這個檔案只寫了函式（${[...funcs.keys()].join('、')}），還沒有主程式 int main(){ ... }。程式一定從 main 開始執行；函式要等 main 去「呼叫」它才會做事。（真正的 Dev-C++ 會出現英文錯誤 undefined reference to \`WinMain\`，意思一樣：找不到 main）`);
+    err(1,'找不到主程式 int main() { ... }')}
+  funcs.forEach(f=>{if(f.ret!=='void'&&!f.hasRet)warns.push({line:f.line,msg:`函式 ${f.name}() 說要回傳 ${f.ret}，可是裡面沒有 return。呼叫它得到的值會是不確定的。`})});
+  return {main,warns,src,funcs};
 }
 
 // ---------- format ----------
@@ -1587,14 +2094,18 @@ function fmt(v,st){
 }
 
 // ---------- run ----------
-const RET={};const TRACE_MAX=800,LOOP_MAX=1000000,OUT_MAX=20000;
+const RET={};const TRACE_MAX=800,LOOP_MAX=1000000,OUT_MAX=20000,CALL_MAX=200000;
 function run(prog,inputText){
   const segs=[],trace=[],warns=new Set(),infos=new Set();
   const inTok=(inputText||'').split(/\s+/).filter(x=>x.length);let ip=0;
-  const scopes=[new Map()];
+  let scopes=[new Map()];let depth=0;const fnStack=[];
   const lookup=n=>{for(let i=scopes.length-1;i>=0;i--)if(scopes[i].has(n))return scopes[i].get(n);return null};
   const out=s=>{if(s==='')return;const l=segs[segs.length-1];if(l&&l.k==='out')l.s+=s;else segs.push({k:'out',s})};
-  const snap=()=>{const r=[];scopes.forEach(m=>m.forEach((c,name)=>r.push({name,type:c.type,val:c.val?fmt(c.val):null})));return r};
+  const snap=()=>{const r=[];scopes.forEach(m=>m.forEach((c,name)=>{
+    if(c.arr){const cells=c.arr.v.map(x=>x?fmt(x):null);
+      r.push({name,type:c.type+'['+c.arr.dims.join('][')+']',val:cells.map(x=>x===null?'?':x).join(','),arr:{dims:c.arr.dims,cells}})}
+    else r.push({name,type:c.type,val:c.val?fmt(c.val):null})}));
+    return fnStack.length?r.map(v=>Object.assign(v,{fn:fnStack[fnStack.length-1].name})):r};
   let trunc=false,loops=0;
   const rec=(line,note)=>{if(trace.length>=TRACE_MAX){trunc=true;return}trace.push({line,note:note||'',vars:snap(),out:segs.reduce((n,x)=>n+x.s.length,0)})};
   const num=(v,line)=>{if(v.t==='string')throw new RErr(line,'文字不能拿來做數學運算');
@@ -1616,6 +2127,32 @@ function run(prog,inputText){
     if(!c.val){warns.add(`變數「${n.name}」還沒有放進任何值就被拿來用了（真正的電腦裡這個值不確定，不能依賴它）。這個練習器先當成 0。`);
       return conv({t:'int',v:0},c.type,n.line)}
     return c.val;
+  }
+  // 陣列元素：回傳 {type,label,get(),set(v)}
+  function elem(n){
+    const c=lookup(n.name);const dims=c.arr.dims;let flat=0;const ix=[];
+    n.idx.forEach(e=>{const v=ev(e);
+      if(v.t==='float')throw new RErr(n.line,`陣列的索引（第幾格）必須是整數，不能是小數 ${fmt(v)}。`);
+      if(v.t==='string')throw new RErr(n.line,'陣列的索引（第幾格）必須是整數，不能是文字。');
+      ix.push(num(v,n.line))});
+    const label=n.name+ix.map(i=>'['+i+']').join('');
+    ix.forEach((i,k)=>{
+      if(i<0||i>=dims[k]){
+        const which=dims.length>1?(k===0?'第 1 個索引（列）':'第 2 個索引（行）'):'索引';
+        throw new RErr(n.line,`索引超出範圍！陣列 ${n.name} 的${which}只能是 0 ～ ${dims[k]-1}（共 ${dims[k]} 格），但程式要用 ${label}。⚠ 真正的 C++ 不會擋下來：它會偷偷讀到或改到「別人的記憶體」，結果錯了卻不報錯，是很難找的 bug。最常見的原因：索引從 1 開始數，或迴圈條件寫成 i<=${dims[k]}。`)}
+      flat=flat*dims[k]+i});
+    return {type:c.type,label,
+      get(){const v=c.arr.v[flat];
+        if(!v){warns.add(`陣列格子 ${label} 還沒有放進任何值就被拿來用了（真正的電腦裡這一格的值不確定，不能依賴它）。這個練習器先當成 0。`);return conv({t:'int',v:0},c.type,n.line)}
+        return v},
+      set(v){c.arr.v[flat]=v},
+      get val(){return c.arr.v[flat]},set val(v){c.arr.v[flat]=v}};
+  }
+  // 可以被指定的對象（一般變數或陣列格子）
+  function lval(t){
+    if(t.k==='idx')return elem(t);
+    const c=lookup(t.name);
+    return {type:c.type,label:t.name,get(){return readVar(t)},set(v){c.val=v},get val(){return c.val},set val(v){c.val=v}};
   }
   function arith(op,a,b,line){
     if(a.t==='string'&&b.t==='string'&&op==='+')return {t:'string',v:a.v+b.v};
@@ -1642,6 +2179,8 @@ function run(prog,inputText){
       case 'chr':return {t:'char',v:n.v};
       case 'bool':return {t:'bool',v:n.v};
       case 'var':return readVar(n);
+      case 'idx':return elem(n).get();
+      case 'ucall':return callFn(n);
       case 'un':{const v=ev(n.e);
         if(n.op==='!')return {t:'bool',v:num(v,n.line)===0};
         if(n.op==='-')return isF(v)?{t:'float',v:-v.v}:{t:'int',v:-num(v,n.line)};
@@ -1670,14 +2209,36 @@ function run(prog,inputText){
         const r={'<':x<y,'>':x>y,'<=':x<=y,'>=':x>=y,'==':x===y,'!=':x!==y}[n.op];
         return {t:'bool',v:r}}
       case 'assign':{
-        const c=lookup(n.name);let rhs=ev(n.right);
-        if(n.op!=='='){rhs=arith(n.op[0],readVar({name:n.name,line:n.line}),rhs,n.line)}
-        c.val=conv(rhs,c.type,n.line);return c.val}
+        const L=lval(n.tgt||{k:'var',name:n.name,line:n.line});let rhs=ev(n.right);
+        if(n.op!=='='){rhs=arith(n.op[0],L.get(),rhs,n.line)}
+        const v=conv(rhs,L.type,n.line);L.set(v);return v}
       case 'incdec':{
-        const c=lookup(n.name);const old=readVar(n);
-        const nv=conv(isF(old)?{t:'float',v:old.v+n.delta}:{t:'int',v:num(old,n.line)+n.delta},c.type,n.line);
-        c.val=nv;return n.post?old:nv}
+        const L=lval(n.tgt||{k:'var',name:n.name,line:n.line});const old=L.get();
+        const nv=conv(isF(old)?{t:'float',v:old.v+n.delta}:{t:'int',v:num(old,n.line)+n.delta},L.type,n.line);
+        L.set(nv);return n.post?old:nv}
     }
+  }
+  function callFn(n){
+    const f=prog.funcs.get(n.name);const args=n.args.map(ev);
+    if(++calls>CALL_MAX)throw new RErr(n.line,TOO_MANY);
+    if(depth>=200)throw new RErr(n.line,`函式 ${n.name}() 一層一層呼叫超過 200 層還沒結束（可能是函式一直呼叫自己，停不下來）。程式被強制停止了。`);
+    const m=new Map();f.params.forEach((pp,i)=>m.set(pp.name,{type:pp.type,val:conv(args[i],pp.type,n.line)}));
+    const saved=scopes;scopes=[m];depth++;fnStack.push(f);let rv=null;
+    rec(f.line,`呼叫函式 ${n.name}(${args.map(a=>fmt(a)).join(', ')})，跳進函式`+(f.params.length?`：${f.params.map(pp=>pp.name+' = '+fmt(m.get(pp.name).val)).join('、')}`:'')+'（main 的變數暫時看不到）');
+    try{exec(f.body)}catch(e){if(e&&e.fnret)rv=e.v;else throw e}
+    finally{scopes=saved;depth--;fnStack.pop()}
+    if(f.ret==='void'){rec(n.line,`函式 ${n.name}() 做完了，回到原本呼叫它的地方`);return {t:'int',v:0}}
+    if(!rv){warns.add(`函式 ${n.name}() 沒有執行到 return 就結束了，回傳值不確定。這個練習器先當成 0。`);rv=conv({t:'int',v:0},f.ret,n.line)}
+    rec(n.line,`函式 ${n.name}() 回傳 ${fmt(rv)}，回到原本呼叫它的地方`);
+    return rv;
+  }
+  const TOO_MANY='函式總共被呼叫了超過 20 萬次還沒結束（通常是函式一直呼叫自己，次數多到算不完）。程式被強制停止了。';
+  function fillArr(c,lay,line){
+    const total=c.arr.v.length;
+    const zero=c.type==='string'?{t:'string',v:''}:conv({t:'int',v:0},c.type,line);
+    for(let i=0;i<total;i++)c.arr.v[i]=zero;
+    if(lay.used>total)throw new RErr(line,`初始值太多了：這裡只有 ${total} 格，卻給了 ${lay.used} 格的初始值。（真正的編譯器會報錯 too many initializers）`);
+    for(const [k,e] of lay.pos)c.arr.v[k]=conv(ev(e),c.type,line);
   }
   const truthy=v=>num(v,0)!==0;
   const cst={fixed:false,prec:6};
@@ -1710,6 +2271,7 @@ function run(prog,inputText){
     const sub=text.replace(/[A-Za-z_]\w*/g,m=>{const c=lookup(m);return c&&c.val?fmt(c.val):m});
     return `條件 ${text}`+(sub!==text?`（代入數值：${sub}）`:'')+` → ${res?'✔ 成立':'✘ 不成立'}`;
   }
+  let calls=0;
   function exec(s){
     switch(s.k){
       case 'block':scopes.push(new Map());try{for(const x of s.body)exec(x)}finally{scopes.pop()}return;
@@ -1717,17 +2279,39 @@ function run(prog,inputText){
       case 'decl':
         for(const it of s.items){
           const c={type:it.type,val:null};
-          if(it.init)c.val=conv(ev(it.init),it.type,it.line);
+          if(it.dims){
+            const dims=it.dims.map(d=>{
+              if(d===null)return null;
+              const v=ev(d);if(v.t==='float'||v.t==='string')throw new RErr(it.line,'陣列的大小（有幾格）必須是整數。');
+              const k=num(v,it.line);
+              if(k<=0)throw new RErr(it.line,`陣列的大小必須大於 0（這裡算出來是 ${k}）。`);
+              return k});
+            let L=null;
+            if(it.init)L=dims.length===2?layoutInit(it.init,dims[1],2,it.line,RErr):layoutInit(it.init,1,1,it.line,RErr);
+            if(dims[0]===null)dims[0]=Math.max(1,dims.length===2?Math.ceil(L.used/dims[1]):L.used);
+            const total=dims.reduce((a,b)=>a*b,1);
+            if(total>100000)throw new RErr(it.line,'陣列太大了（這個練習器最多 10 萬格）。');
+            c.arr={dims,v:new Array(total).fill(null)};delete c.val;
+            if(it.cst)c.cst=true;
+            scopes[scopes.length-1].set(it.name,c);   // 先登記，初始值裡就能用到自己
+            if(it.init)fillArr(c,L,it.line);
+          }
+          else if(it.init)c.val=conv(ev(it.init),it.type,it.line);
+          if(it.cst)c.cst=true;
           scopes[scopes.length-1].set(it.name,c);
         }
-        if(!s.quiet)rec(s.line,'宣告變數'+(s.items.every(i=>i.init)?'並放進初始值':'（沒有初始值的盒子是空的 ?）'));return;
+        if(!s.quiet){
+          const ar=s.items.filter(i=>i.dims);
+          rec(s.line,ar.length?'宣告'+(ar.length<s.items.length?'變數和':'')+'陣列 '+ar.map(i=>{const c=lookup(i.name);return `${i.name}（${c.arr.dims.join(' × ')} 格）`}).join('、')+(ar.every(i=>i.init)?'，沒寫到的格子自動補 0':'，沒有初始值的格子是空的 ?')
+            :'宣告變數'+(s.items.every(i=>i.init)?'並放進初始值':'（沒有初始值的盒子是空的 ?）'))}
+        return;
       case 'expr':ev(s.e);rec(s.line);return;
       case 'cout':
         for(const it of s.items){if(it.k==='endl')out('\n');else if(it.k==='manip'){if(it.m==='fixed')cst.fixed=true;else cst.prec=Math.max(0,num(ev(it.e),s.line)|0)}else out(fmt(ev(it),cst))}
         if(segs.reduce((n,x)=>x.k==='out'?n+x.s.length:n,0)>OUT_MAX)throw new RErr(s.line,'螢幕上已經印出超過 2 萬個字還沒結束，很可能是「無窮迴圈」。程式被強制停止了。');
         rec(s.line,'印到螢幕');return;
       case 'cin':{
-        const used=[];for(const nme of s.names)used.push(readTok(lookup(nme),nme,s.line));
+        const used=[];for(const tg of s.tgts){const L=lval(tg);used.push(readTok(L,L.label,s.line))}
         segs.push({k:'in',s:used.join(' ')+'\n'});
         rec(s.line,`從鍵盤讀入：${used.join('、')}`);return}
       case 'if':{
@@ -1750,7 +2334,10 @@ function run(prog,inputText){
           }
         }finally{scopes.pop()}
         return}
-      case 'ret':if(s.e)ev(s.e);rec(s.line,'return：程式結束');throw RET;
+      case 'ret':
+        if(s.fn){const f=fnStack[fnStack.length-1];let v=null;if(s.e){const x=ev(s.e);if(f.ret!=='void')v=conv(x,f.ret,s.line)}
+          rec(s.line,v?`return：把 ${fmt(v)} 交回給呼叫的地方`:'return：離開函式');throw {fnret:true,v}}
+        if(s.e)ev(s.e);rec(s.line,'return：程式結束');throw RET;
     }
   }
   let error=null;
@@ -2147,6 +2734,363 @@ star_tri:{title:'🏆 挑戰：直角三角形',input:'4',
  task:'輸入 4 要印出 4 行，分別是 1、2、3、4 顆星（星星總共 1+2+3+4 = 10 顆，不是 4×4，因為每一行的顆數不一樣）。',
  tests:[{input:'4',expected:'請輸入層數:\n*\n**\n***\n****'},{input:'1',expected:'請輸入層數:\n*'},{input:'3',expected:'請輸入層數:\n*\n**\n***'}]},
 
+// ---- 20261102 乘法表 ----
+tab_demo:{title:'💻 \\t 對齊實驗',file:'20261102-3.cpp',
+ code:SK(String.raw`    int i,j;
+    for(i=1;i<=9;i++){
+        cout<<i<<"\t";
+    }`),
+ task:'① 執行看看。② 把 <code>"\\t"</code> 改成 <code>" "</code> 再執行，比較兩次的間距。③ 把 <code>cout&lt;&lt;i</code> 改成 <code>cout&lt;&lt;i*100</code>，數字變長了，<code>\\t</code> 版本還對齊嗎？'},
+
+times_tbl:{title:'💻 九九乘法表',file:'20261102-2.cpp',
+ code:SK(String.raw`    int i,j;
+    for(i=2;i<=9;i++){//外迴圈
+        for(j=1;j<=9;j++){//內迴圈
+            cout<<i<<"*"<<j<<"="<<(i*j)<<"\t";
+        }
+        cout<<endl;
+    }`),
+ task:'先 ▶ 執行看整張表（畫面太窄時一列會折成兩行，Dev-C++ 的黑色視窗比較寬）。再把外圈的 <code>i=2</code> 改成 <code>i=1</code>、內圈的 <code>j&lt;=9</code> 改成 <code>j&lt;=5</code>，猜猜看會變成幾列幾行？'},
+
+times_one:{title:'🏆 挑戰：n 的乘法',input:'7',
+ code:SK(String.raw`    int n,j;
+    cin>>n;
+    //請用 for 印出 n*1= 到 n*9=，每道算式後面接 "\t"`),
+ task:'輸入 7 要印出 <code>7*1=7	7*2=14	…	7*9=63</code>（一列，共 9 道）。',
+ tests:[{input:'7',expected:'7*1=7\t7*2=14\t7*3=21\t7*4=28\t7*5=35\t7*6=42\t7*7=49\t7*8=56\t7*9=63\t'},
+  {input:'1',expected:'1*1=1\t1*2=2\t1*3=3\t1*4=4\t1*5=5\t1*6=6\t1*7=7\t1*8=8\t1*9=9\t'},
+  {input:'9',expected:'9*1=9\t9*2=18\t9*3=27\t9*4=36\t9*5=45\t9*6=54\t9*7=63\t9*8=72\t9*9=81\t'}]},
+
+times_tri:{title:'🏆 挑戰：三角形乘法表',input:'3',
+ code:SK(String.raw`    int n,i,j;
+    cin>>n;
+    //請用巢狀 for 印出三角形乘法表：第 i 列印 i*1 到 i*i`),
+ task:'輸入 3 要印出 3 列（第 1 列 1 道、第 2 列 2 道、第 3 列 3 道）。每道算式後面接 <code>"\\t"</code>，每列結尾 <code>endl</code>。',
+ tests:[{input:'3',expected:'1*1=1\t\n2*1=2\t2*2=4\t\n3*1=3\t3*2=6\t3*3=9\t'},
+  {input:'1',expected:'1*1=1\t'},
+  {input:'4',expected:'1*1=1\t\n2*1=2\t2*2=4\t\n3*1=3\t3*2=6\t3*3=9\t\n4*1=4\t4*2=8\t4*3=12\t4*4=16\t'}]},
+
+// ---- 20261109 / 20261123 一維陣列 ----
+arr_bug:{title:'🐞 第一個陣列（有錯）',file:'20261109-1.cpp',
+ code:`#include<iostream>
+using namespace std;
+
+int main({
+	int st[5]={80,75,90,100,50};
+	cout<<"請印出第0學生分數:"<<st[0]<<endl;
+
+}`,
+ task:'修好編譯錯誤，讓程式印出 <code>請印出第0學生分數:80</code>。然後把 <code>st[0]</code> 改成 <code>st[3]</code>，會印出誰的分數？',
+ tests:[{input:'',expected:'請印出第0學生分數:80'}]},
+
+arr_loop:{title:'💻 用迴圈印出全部',file:'20261109-2.cpp',
+ code:SK(String.raw`    int i, st[5]={80,75,90,100,50};
+
+    cout<<"請印出第0學生分數:"<<st[0]<<endl;
+
+    for(i=0; i<=4; i++){
+        cout<<"請印出第"<<i+1<<"個學生分數:"<<st[i]<<endl;
+    }`),
+ task:'按 👣 觀察：每一輪 <code>i</code> 是多少、印出的是哪一格。試著把 <code>i&lt;=4</code> 改成 <code>i&lt;5</code>，結果一樣嗎？'},
+
+arr_add:{title:'💻 陣列格子相加',file:'20261123-2.cpp',
+ code:SK(String.raw`    int a[5]={1,2,3,4,5}, b;//a[0]=1......a[4]=5
+
+    b=a[2]+a[4];// 3+ 5
+
+    cout<<"b="<<b;`),
+ task:'執行看答案和你猜的一樣嗎？再改成 <code>b=a[0]*a[1];</code> 先猜再執行。'},
+
+arr_oob:{title:'🐞 從 1 數到 5？',
+ code:SK(String.raw`    int i, st[5]={80,75,90,100,50};
+
+    for(i=1; i<=5; i++){
+        cout<<st[i]<<" ";
+    }`),
+ task:'目標：印出 <code>80 75 90 100 50 </code>。先執行看看錯誤訊息，再修改迴圈的<b>起點</b>和<b>條件</b>。',
+ tests:[{input:'',expected:'80 75 90 100 50 '}]},
+
+arr_rev:{title:'🏆 挑戰：倒過來印',
+ code:SK(String.raw`    int i, st[5]={80,75,90,100,50};
+
+    //請用 for 從最後一位印到第一位，每個數字後面接 " "`),
+ task:'要印出 <code>50 100 90 75 80 </code>。',
+ tests:[{input:'',expected:'50 100 90 75 80 '}]},
+
+// ---- 陣列 + 迴圈 ----
+arr_cin_bug:{title:'🐞 把成績讀進陣列（有兩個錯）',file:'20261109-3.cpp',input:'80 75 90 100 50',
+ code:`#include<iostream>
+using namespace std;
+
+int main({
+    int i, st[5]={};
+
+	cout<<"請依序輸入學生成績"<<endl;
+
+	for(i=0; i<=4; i++){
+	    cout<<"請輸入第"<<i+1<<"位學生成績:";
+	    cin>>st[];
+	}
+
+	for(i=0; i<=4; i++){
+		cout<<"請印出第"<<i+1<<"個學生分數:"<<st[i]<<endl;
+	}
+
+
+}`,
+ task:'修好兩個錯誤，讓程式把輸入的 5 個成績存進陣列，再全部印出來。（練習器的黑色視窗會用彩色顯示你輸入的資料，檢查答案時只比對 cout 印出的文字。）',
+ tests:[{input:'80 75 90 100 50',expected:'請依序輸入學生成績\n請輸入第1位學生成績:請輸入第2位學生成績:請輸入第3位學生成績:請輸入第4位學生成績:請輸入第5位學生成績:請印出第1個學生分數:80\n請印出第2個學生分數:75\n請印出第3個學生分數:90\n請印出第4個學生分數:100\n請印出第5個學生分數:50'},
+  {input:'1 2 3 4 5',expected:'請依序輸入學生成績\n請輸入第1位學生成績:請輸入第2位學生成績:請輸入第3位學生成績:請輸入第4位學生成績:請輸入第5位學生成績:請印出第1個學生分數:1\n請印出第2個學生分數:2\n請印出第3個學生分數:3\n請印出第4個學生分數:4\n請印出第5個學生分數:5'}]},
+
+arr_stat:{title:'🏆 挑戰：成績統計',file:'20261109-4.cpp',input:'88 51 84 58 91',
+ code:SK(String.raw`    int i, score[5];   //老師原本寫 score[5]={88,51,84,58,91};
+    int sum, max, cnt;
+    float ave;
+    for(i=0; i<5; i++){
+        cin>>score[i];
+    }
+
+    //請算出總分 sum、平均 ave、最高分 max、不及格人數 cnt
+
+    cout<<"總分="<<sum<<endl;
+    cout<<"平均="<<ave<<endl;
+    cout<<"最高分="<<max<<endl;
+    cout<<"不及格人數="<<cnt;`),
+ task:'在註解的位置寫程式。sum、max、cnt 都要記得給起始值！<br>老師的 5 個成績改成從輸入區讀進來（預設就是 <code>88 51 84 58 91</code>），這樣「✔ 檢查答案」才能換別組成績測試：剛好 60 分、最高分在最後一位…',
+ tests:[{input:'88 51 84 58 91',expected:'總分=372\n平均=74.4\n最高分=91\n不及格人數=2'},
+  {input:'60 59 100 0 95',expected:'總分=314\n平均=62.8\n最高分=100\n不及格人數=2'},
+  {input:'50 40 30 20 99',expected:'總分=239\n平均=47.8\n最高分=99\n不及格人數=4'},
+  {input:'70 70 70 70 70',expected:'總分=350\n平均=70\n最高分=70\n不及格人數=0'}]},
+
+arr_above:{title:'🏆 挑戰：高於平均的成績',input:'60 80 70 90 50',
+ code:SK(String.raw`    int i, st[5];
+    float sum=0, ave;
+
+    for(i=0; i<5; i++){
+        cin>>st[i];
+        //加總
+    }
+    //算平均
+    cout<<"平均="<<ave<<endl;
+    cout<<"高於平均：";
+    //用第二個迴圈印出高於平均的成績（每個後面接 " "）`),
+ task:'輸入 <code>60 80 70 90 50</code>：平均 70，高於平均的是 <code>80 90 </code>（70 剛好等於平均，不算「高於」）。',
+ tests:[{input:'60 80 70 90 50',expected:'平均=70\n高於平均：80 90 '},
+  {input:'100 0 0 0 0',expected:'平均=20\n高於平均：100 '},
+  {input:'75 75 75 75 75',expected:'平均=75\n高於平均：'},
+  {input:'1 2 3 4 6',expected:'平均=3.2\n高於平均：4 6 '}]},
+
+// ---- 陣列追蹤 ----
+arr_trace:{title:'💻 倒著填格子',file:'20261123-3.cpp',
+ code:SK(String.raw`    int a[6], k;//int a[6]={0,0,0,0,2,0};
+    a[5]=0;
+    a[4]=2;
+
+    for(k=5;k>1; k--){
+        a[k-2]=a[k]+a[k-1];
+    }
+    cout<<"a[0]="<<a[0];`),
+ task:'按 👣，每做完一輪就對照上面的追蹤表。最後把 <code>cout</code> 改成印出 <code>a[1]</code>，答案是多少？'},
+
+arr_fib:{title:'🏆 挑戰：費氏數列',input:'10',
+ code:SK(String.raw`    int n, i, f[20];
+    cin>>n;
+    f[0]=1;
+    f[1]=1;
+    //請用 for 填好 f[2] 到 f[n-1]，再印出前 n 項（每項後面接 " "）`),
+ task:'輸入 10 要印出 <code>1 1 2 3 5 8 13 21 34 55 </code>。',
+ tests:[{input:'10',expected:'1 1 2 3 5 8 13 21 34 55 '},{input:'1',expected:'1 '},{input:'2',expected:'1 1 '},{input:'3',expected:'1 1 2 '},
+  {input:'20',expected:'1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 6765 '}]},
+
+// ---- 二維陣列 ----
+grade2d:{title:'💻 成績表：總分與平均',file:'20261109-6.cpp',
+ code:SK(String.raw`    int r, c;
+    int sum, st=6,sub=5;//學生6位,科目5科
+    float score[st][sub+2]={ //sub+2的2含平均和總分2個參數
+    {86,92,57,81,65},//1號各科成績 ,總分和平均未設初值視為 0,等同{86,92,57,81,65,0,0},
+    {96,98,81,67,74},//2號各科成績
+    {91,40,92,78,67},//3號各科成績
+    {68,88,80,89,78},//4號各科成績
+    {87,96,70,62,68},//5號各科成績
+    {84,75,94,56,90}//6號各科成績
+    };//注意分號
+
+    for(r=0;r<st; r++){
+        sum=0;
+        for(c=0;c<sub; c++){
+            sum=sum+score[r][c];
+        }
+        score[r][sub]=sum;//總分
+        score[r][sub+1]=(float)sum/sub;//平均
+    }
+
+    //宣告2維陣列,存放學生成績總分平均,平均是浮點數,所以陣列宣告為浮點型態
+
+    cout<<"座號\t國文\t英文\t數學\t社會\t自然\t總分\t平均"<<endl;
+    for(r=0;r<st; r++){
+        cout<<r+1<<"\t";
+        for(c=0;c<sub+2; c++){
+            cout<<score[r][c]<<"\t";
+        }
+        cout<<endl;
+    }`),
+ task:'① 執行看整張表。② 按 👣，看右邊的表格：總分、平均那兩行是怎麼從 0 被填上的？（步驟很多，可以按「⏵ 自動播放」。）③ 把第 2 行改成 <code>const int st=6,sub=5;</code>（並把 sum 另外宣告），黃色警告就會消失。'},
+
+col_avg:{title:'🏆 挑戰：每一科的平均',
+ code:SK(String.raw`    int r, c;
+    float sum;
+    float score[6][5]={
+    {86,92,57,81,65},
+    {96,98,81,67,74},
+    {91,40,92,78,67},
+    {68,88,80,89,78},
+    {87,96,70,62,68},
+    {84,75,94,56,90}
+    };
+
+    //請算出每一科（每一行 c）6 位同學的平均，印出：第1科平均=…`),
+ task:'輸出 5 行：<code>第1科平均=85.3333</code>、<code>第2科平均=81.5</code>、……（每行結尾換行）。',
+ tests:[{input:'',expected:'第1科平均=85.3333\n第2科平均=81.5\n第3科平均=79\n第4科平均=72.1667\n第5科平均=73.6667'}]},
+
+top_total:{title:'🏆 挑戰：總分第一名',input:'86 92 57 81 65 96 98 81 67 74 91 40 92 78 67 68 88 80 89 78 87 96 70 62 68 84 75 94 56 90',
+ code:SK(String.raw`    int r, c, best;
+    float sum;
+    float score[6][6];
+    for(r=0;r<6;r++){
+        sum=0;
+        for(c=0;c<5;c++){
+            cin>>score[r][c];        //6 人 × 5 科，一列一列讀進來
+            sum=sum+score[r][c];
+        }
+        score[r][5]=sum;//總分放在第 5 行
+    }
+
+    //請找出總分最高的是第幾列（best），然後印出結果
+    cout<<"第一名是"<<best+1<<"號，總分"<<score[best][5];`),
+ task:'預設輸入是老師的成績表，要印出 <code>第一名是2號，總分416</code>。best 記的是「列的索引」，印的時候要 +1。檢查時也會測「第一名在第 1 位」和「第一名在最後一位」。',
+ tests:[{input:'86 92 57 81 65 96 98 81 67 74 91 40 92 78 67 68 88 80 89 78 87 96 70 62 68 84 75 94 56 90',expected:'第一名是2號，總分416'},
+  {input:'86 92 57 81 65 96 98 81 67 74 91 40 92 78 67 68 88 80 89 78 87 96 70 62 68 100 100 100 100 100',expected:'第一名是6號，總分500'},
+  {input:'100 100 100 100 99 96 98 81 67 74 91 40 92 78 67 68 88 80 89 78 87 96 70 62 68 84 75 94 56 90',expected:'第一名是1號，總分499'}]},
+
+// ---- BMI ----
+bmi2d:{title:'💻 BMI 健康表',file:'20261123-1.cpp',
+ code:SK(String.raw`    int r, c;
+    float bmi;
+    float h, w;//h身高,w體重
+    float data[5][4]={ {166,66},{175,68},{172,64},{169,58},{180,55}};
+
+    for(r=0;r<5;r++){
+        h = data[r][0] / 100.0;
+        w = data[r][1];
+        bmi = w / (h * h);
+        data[r][2] = bmi;
+        if (bmi < 18.5)
+            data[r][3] = 1; // 過輕
+        else if (bmi < 24)
+            data[r][3] = 2; // 正常
+        else
+            data[r][3] = 3; // 過重
+    }
+
+    cout<<"編號\t身高(cm)\t體重(kg)\t狀態\tBMI"<<endl;
+    for(r=0; r<5; r++){
+        cout << r+1 << "\t" << data[r][0] << "\t\t" << data[r][1] << "\t\t";
+        if (data[r][3] == 1)
+            cout << "過輕\t";
+        else if (data[r][3] == 2)
+            cout << "正常\t";
+        else
+            cout << "過重\t";
+        cout << data[r][2] << endl;
+    }`),
+ task:'① 執行看結果。② 按 👣，看右邊表格的第 2、3 行（BMI 和狀態）怎麼一列一列被填上。③ 把第 5 位的體重 55 改成 90，狀態會變成什麼？'},
+
+bmi_cnt:{title:'🏆 挑戰：判斷狀態並統計',input:'5 166 66 175 68 172 64 169 58 180 55',
+ code:SK(String.raw`    int n, r, a, b, c;
+    float h, w, bmi;
+    float data[10][4];
+
+    cin>>n;
+    for(r=0;r<n;r++){
+        cin>>data[r][0]>>data[r][1];
+        h = data[r][0] / 100.0;
+        w = data[r][1];
+        bmi = w / (h * h);
+        data[r][2] = bmi;
+        //請在這裡判斷狀態，把代碼 1/2/3 放進 data[r][3]
+    }
+
+    //請統計三種狀態各有幾人（a 過輕、b 正常、c 過重）
+    cout<<"過輕"<<a<<"人 正常"<<b<<"人 過重"<<c<<"人";`),
+ task:'輸入格式：人數，然後每人「身高 體重」。預設輸入是老師的 5 筆資料，應該印出 <code>過輕1人 正常4人 過重0人</code>。',
+ tests:[{input:'5 166 66 175 68 172 64 169 58 180 55',expected:'過輕1人 正常4人 過重0人'},
+  {input:'2 200 74 200 96',expected:'過輕0人 正常1人 過重1人'},
+  {input:'3 160 40 170 80 150 30',expected:'過輕2人 正常0人 過重1人'},
+  {input:'1 200 73',expected:'過輕1人 正常0人 過重0人'}]},
+
+// ---- 函式 ----
+fn_bug:{title:'🐞 只有函式的程式',file:'20261102-5.cpp',
+ code:`#include<iostream>
+using namespace std;
+
+int add(int x, int y){//x,y是接收參數，接收從程式來
+    return x+y;
+}
+`,
+ task:'先 ▶ 看錯誤訊息。然後在 add 的<b>下面</b>補上 main，印出 <code>add(3,5)</code> 和 <code>add(100,-1)</code> 的結果（各一行）。',
+ tests:[{input:'',expected:'8\n99'}]},
+
+fn_demo:{title:'💻 函式的呼叫與回傳',input:'3 5',
+ code:SK(String.raw`    int a, b, c;
+    cin>>a>>b;
+    c=add(a,b);          //呼叫 add，把答案放進 c
+    cout<<"a+b="<<c<<endl;
+    cout<<"再加 10："<<add(c,10);`,String.raw`int add(int x, int y){//x,y是接收參數
+    return x+y;
+}
+
+`),
+ task:'按 👣：第 6 行呼叫 add 時，看黃色的行跳到哪裡？右邊的變數盒子變成誰？'},
+
+fn_void:{title:'💻 void 函式：印一排星星',
+ code:SK(String.raw`    stars(3);
+    stars(5);
+    stars(1);`,String.raw`void stars(int n){   //void：只做事，不回傳
+    int i;
+    for(i=1; i<=n; i++){
+        cout<<"*";
+    }
+    cout<<endl;
+}
+
+`),
+ task:'在 main 裡多加一行 <code>stars(10);</code>。想一想：如果沒有函式，同樣的事要寫幾個 for？'},
+
+fn_max:{title:'🏆 挑戰：max2 函式',input:'3 8',
+ code:SK(String.raw`    int a, b;
+    cin>>a>>b;
+    cout<<"比較大的是"<<max2(a,b);`,String.raw`int max2(int a, int b){
+    //請完成：回傳 a 和 b 之中比較大的那個
+    return 0;
+}
+
+`),
+ task:'測資包含兩數相等、負數的情況。',
+ tests:[{input:'3 8',expected:'比較大的是8'},{input:'9 2',expected:'比較大的是9'},{input:'5 5',expected:'比較大的是5'},{input:'-3 -7',expected:'比較大的是-3'}]},
+
+fn_bmi:{title:'🏆 挑戰：BMI 函式',input:'166 66',
+ code:SK(String.raw`    float h, w;
+    cin>>h>>w;
+    cout<<"BMI="<<bmi(h,w);`,String.raw`float bmi(float h, float w){   //h:公分  w:公斤
+    //請完成：先把 h 換成公尺，再回傳 BMI
+    return 0;
+}
+
+`),
+ task:'輸入 <code>166 66</code> 要印出 <code>BMI=23.9512</code>。',
+ tests:[{input:'166 66',expected:'BMI=23.9512'},{input:'180 55',expected:'BMI=16.9753'},{input:'200 96',expected:'BMI=24'}]},
+
+
 hello0:{title:'🧪 第一個程式',code:SK(String.raw`    cout<<"Hello, Hello!"<<endl;
     cout<<"我正在學程式";`),task:'把雙引號裡的文字改成別的，按 ▶ 執行。'},
 
@@ -2465,7 +3409,7 @@ let store={};try{store=JSON.parse(localStorage.getItem('cpp-lab')||'{}')}catch(e
 const save=()=>{try{localStorage.setItem('cpp-lab',JSON.stringify(store))}catch(e){}};
 
 /* ---- syntax highlight ---- */
-const HL=/(\/\/.*$)|("(?:\\.|[^"\\\n])*")|('(?:\\.|[^'\\\n])*')|(#\s*include\s*<[^>]*>)|\b(int|float|double|char|bool|string|long|short|if|else|for|return|using|namespace)\b|\b(cout|cin|endl|std)\b|\b(\d+\.?\d*)\b/gm;
+const HL=/(\/\/.*$)|("(?:\\.|[^"\\\n])*")|('(?:\\.|[^'\\\n])*')|(#\s*include\s*<[^>]*>)|\b(int|float|double|char|bool|string|long|short|void|const|if|else|for|return|using|namespace)\b|\b(cout|cin|endl|std)\b|\b(\d+\.?\d*)\b/gm;
 function hl(text){
   let out='',last=0,m;HL.lastIndex=0;
   while((m=HL.exec(text))){
@@ -2643,9 +3587,15 @@ function mountPG(root){
     $$('.sl',sc).forEach((d,i)=>d.classList.toggle('cur',i+1===t.line&&idx>0));
     const cur=$('.sl.cur',sc);if(cur)cur.scrollIntoView({block:'nearest'});
     sn.innerHTML=idx===0?'🏁 '+esc(t.note):`<b>剛執行第 ${t.line} 行</b>${t.note?'：'+esc(t.note):''}`;
-    sv.innerHTML=t.vars.length?t.vars.map(v=>{
-      const was=prev&&prev.vars.find(x=>x.name===v.name);const chg=!was||was.val!==v.val;
-      return `<div class="vbox ${chg&&idx>0?'chg':''}"><div class="vt">${esc(v.type)}</div><div class="vv ${v.val===null?'q':''}">${v.val===null?'?':esc(v.val)}</div><div class="vn">${esc(v.name)}</div></div>`}).join(''):'<span style="color:var(--muted)">（還沒有任何變數）</span>';
+    sv.innerHTML=(t.vars.length&&t.vars[0].fn?`<div style="flex-basis:100%;font-size:.85rem;color:var(--muted)">📦 目前在函式 <b>${esc(t.vars[0].fn)}()</b> 裡面，只看得到它自己的變數</div>`:'')+(t.vars.length?t.vars.map(v=>{
+      const was=prev&&prev.vars.find(x=>x.name===v.name&&x.fn===v.fn);const chg=!was||was.val!==v.val;
+      if(v.arr){const [R,C]=v.arr.dims.length===2?v.arr.dims:[1,v.arr.dims[0]];const two=v.arr.dims.length===2;
+        const pc=was&&was.arr?was.arr.cells:null;
+        const cell=(k)=>{const x=v.arr.cells[k];const ch=idx>0&&(!pc||pc[k]!==x);return `<td class="${x===null?'q':''}${ch?' chg':''}">${x===null?'?':esc(x)}</td>`};
+        let h=`<tr>${two?'<th></th>':''}${Array.from({length:C},(_,c)=>`<th>${two?'['+c+']':esc(v.name)+'['+c+']'}</th>`).join('')}</tr>`;
+        for(let r=0;r<R;r++)h+=`<tr>${two?`<th>${esc(v.name)}[${r}]</th>`:''}${Array.from({length:C},(_,c)=>cell(r*C+c)).join('')}</tr>`;
+        return `<div class="abox"><div class="vn"><span>${esc(v.name)}</span><small>${esc(v.type)}</small></div><table>${h}</table></div>`}
+      return `<div class="vbox ${chg&&idx>0?'chg':''}"><div class="vt">${esc(v.type)}</div><div class="vv ${v.val===null?'q':''}">${v.val===null?'?':esc(v.val)}</div><div class="vn">${esc(v.name)}</div></div>`}).join(''):'<span style="color:var(--muted)">（還沒有任何變數）</span>');
     so.innerHTML=render(tr.segs,t.out)||'<span class="ph">（螢幕還是空的）</span>';
     pos.textContent=`第 ${idx} / ${tr.trace.length-1} 步`;
     $('.s-prev',root).disabled=$('.s-first',root).disabled=idx===0;$('.s-next',root).disabled=idx>=tr.trace.length-1;
@@ -3023,6 +3973,53 @@ W.nest=function(w){
   $('.n3',w).onclick=()=>{k=rows()*cols();draw()};
   $('.n0',w).onclick=()=>{k=0;draw()};
   R.oninput=C.oninput=()=>{k=0;draw()};draw();
+};
+W.arr=function(w){
+  const V=[80,75,90,100,50];
+  w.insertAdjacentHTML('beforeend',`<div class="row"><label>索引 i = <input type="range" class="ix" min="-1" max="5" value="2" aria-label="索引 i"></label><b class="iv" style="min-width:2em"></b>
+      <span>快速試：</span><button class="btn q0">第 1 位</button><button class="btn q4">最後一位</button><button class="btn q5">❗ st[5]</button></div>
+    <div class="lk" style="display:flex;gap:6px;flex-wrap:wrap;margin:10px 0"></div>
+    <div class="res" aria-live="polite"></div>`);
+  const R=$('.ix',w);
+  function draw(){
+    const i=+R.value;$('.iv',w).textContent=i;
+    $('.lk',w).innerHTML=V.map((v,k)=>`<div style="width:64px;text-align:center;border:2px solid ${k===i?'var(--warn)':'var(--line)'};border-radius:10px;overflow:hidden;background:${k===i?'var(--warn-soft)':'var(--surface)'}">
+        <div style="font-size:.72rem;color:var(--muted);background:var(--code-bg)">第 ${k+1} 位</div>
+        <div style="font-size:1.25rem;font-weight:800;padding:4px 0;font-family:Consolas,monospace">${v}</div>
+        <div style="font-size:.82rem;font-weight:700;color:var(--accent);background:var(--accent-soft);font-family:Consolas,monospace">st[${k}]</div></div>`).join('')
+      +`<div style="width:64px;text-align:center;border:2px dashed ${i<0||i>4?'var(--bad)':'var(--line)'};border-radius:10px;color:var(--muted);display:grid;place-items:center;font-size:.8rem">${i<0||i>4?'❓':''}櫃子<br>外面</div>`;
+    $('.res',w).innerHTML=i>=0&&i<=4
+      ?`<div class="msg ok"><code>st[${i}]</code> = <b>${V[i]}</b>　── 這是<b>第 ${i+1} 位</b>同學的分數（索引 ${i}，人類的編號 ${i+1}）。</div>`
+      :`<div class="msg err">❗ <code>st[${i}]</code> <b>超出範圍！</b>5 格的陣列，索引只有 0～4。<br>真正的 C++ 不會報錯，會拿到「櫃子外面」別人的東西（不確定的值），這種 bug 很難找。${i===5?'<br>最常見的原因：以為「第 5 位」就是 st[5]，其實是 <code>st[4]</code>。':''}</div>`;
+  }
+  R.oninput=draw;
+  $('.q0',w).onclick=()=>{R.value=0;draw()};$('.q4',w).onclick=()=>{R.value=4;draw()};$('.q5',w).onclick=()=>{R.value=5;draw()};
+  draw();
+};
+W.grid2d=function(w){
+  const S=[[86,92,57,81,65],[96,98,81,67,74],[91,40,92,78,67],[68,88,80,89,78],[87,96,70,62,68],[84,75,94,56,90]];
+  const SUB=['國文','英文','數學','社會','自然','總分','平均'];
+  const D=S.map(r=>{const t=r.reduce((a,b)=>a+b,0);return [...r,t,Engine.fmt({t:'float',v:Math.fround(t/5)})]});
+  let pr=1,pc=1,mode='cell';
+  w.insertAdjacentHTML('beforeend',`<div class="row"><span>顯示：</span><button class="btn m-cell">一格</button><button class="btn m-row">整列（一個人）</button><button class="btn m-col">整行（一科）</button></div>
+    <div style="overflow-x:auto"><table class="t g2" style="font-family:Consolas,monospace;text-align:center"></table></div>
+    <div class="res" aria-live="polite"></div>`);
+  function draw(){
+    const cls=(r,c)=>mode==='cell'?(r===pr&&c===pc):mode==='row'?r===pr:c===pc;
+    let h=`<tr><th></th>${SUB.map((s,c)=>`<th>[${c}]<br><small>${s}</small></th>`).join('')}</tr>`;
+    D.forEach((row,r)=>{h+=`<tr><th>[${r}] <small>${r+1}號</small></th>${row.map((v,c)=>`<td data-r="${r}" data-c="${c}" tabindex="0" role="button" aria-pressed="${cls(r,c)}" aria-label="score[${r}][${c}]，${r+1}號${SUB[c]}，${v}" style="cursor:pointer;${cls(r,c)?'background:var(--warn-soft);outline:2px solid var(--warn);outline-offset:-2px;font-weight:800':''}${c>=5?';color:var(--muted)':''}">${v}</td>`).join('')}</tr>`});
+    $('.g2',w).innerHTML=h;
+    $$('.m-cell,.m-row,.m-col',w).forEach(b=>b.classList.toggle('primary',b.classList.contains('m-'+mode)));
+    let t;
+    if(mode==='cell')t=`<code>score[${pr}][${pc}]</code> = <b>${D[pr][pc]}</b>　── 列 ${pr}（<b>${pr+1} 號</b>）、行 ${pc}（<b>${SUB[pc]}</b>）`+(pc>=5?'<br>（總分、平均兩行一開始是 0，是程式算出來之後才填進去的）':'');
+    else if(mode==='row')t=`第 ${pr} 列 = <b>${pr+1} 號</b>的所有成績：<code>score[${pr}][0]</code> ～ <code>score[${pr}][4]</code>。<br>程式的算法：<b>r 固定為 ${pr}，c 從 0 跑到 4</b>，加起來 = ${D[pr][5]}（放進 <code>score[${pr}][5]</code>）`;
+    else t=`第 ${pc} 行 = 全班的<b>${SUB[pc]}</b>：<code>score[0][${pc}]</code> ～ <code>score[5][${pc}]</code>。<br>要算這一科的平均：<b>c 固定為 ${pc}，r 從 0 跑到 5</b>（這就是本課挑戰 1）`;
+    $('.res',w).innerHTML=`<div class="msg info">${t}</div>`;
+  }
+  $('.g2',w).addEventListener('click',e=>{const td=e.target.closest('td[data-r]');if(!td)return;pr=+td.dataset.r;pc=+td.dataset.c;if(mode==='col'&&pc>=5)pc=0;draw()});
+  $('.g2',w).addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const td=e.target.closest('td[data-r]');if(td){e.preventDefault();const r=td.dataset.r,c=td.dataset.c;td.click();const n=$(`td[data-r="${r}"][data-c="${c}"]`,w);if(n)n.focus()}}});
+  $('.m-cell',w).onclick=()=>{mode='cell';draw()};$('.m-row',w).onclick=()=>{mode='row';draw()};$('.m-col',w).onclick=()=>{mode='col';if(pc>=5)pc=0;draw()};
+  draw();
 };
 W.tester=function(w){
   const PR={pass:{name:'及格判斷：60 分以上及格',good:'score>=60',bad:'score>60',a:'及格',b:'不及格',def:'80, 30'},
